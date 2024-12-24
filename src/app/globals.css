@@ -1,3 +1,4 @@
+@import "./fonts.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,13 +10,37 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #171717;
   }
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+}
+
+/* Swiper custom styles */
+.swiper-button-prev,
+.swiper-button-next {
+  @apply !hidden sm:!flex;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  @apply !hidden;
+}
+
+.swiper-pagination-bullet {
+  @apply !bg-white/50;
+}
+
+.swiper-pagination-bullet-active {
+  @apply !bg-white;
+}
+
+.clip-badge {
+  clip-path: polygon(0 0, 100% 0, 100% 50%, 85% 100%, 0 100%);
 }

@@ -1,0 +1,55 @@
+{
+  "navigation": {
+    "home": "Ana Sayfa",
+    "newGames": "Yeni Oyunlar",
+    "topGames": "En İyi Oyunlar",
+    "games": "Oyunlar",
+    "categories": "Kategoriler",
+    "search": "Oyun ara..."
+  },
+  "home": {
+    "hero": {
+      "featured": "Öne Çıkanlar",
+      "slideOne": {
+        "title": "Yeni Maceraya Hazır Mısın?",
+        "description": "En yeni oyunlarla heyecan dolu bir deneyime hazır ol!"
+      },
+      "slideTwo": {
+        "title": "Rekabete Katıl",
+        "description": "Dünyanın dört bir yanından oyuncularla rekabet et!"
+      },
+      "slideThree": {
+        "title": "Sınırsız Eğlence",
+        "description": "Binlerce ücretsiz oyunla eğlenceye doyacaksın!"
+      },
+      "cta": "Hemen Oyna"
+    },
+    "categories": {
+      "title": "Kategoriler",
+      "viewAll": "Tümünü Gör"
+    },
+    "popularGames": {
+      "title": "Popüler Oyunlar",
+      "viewAll": "Tümünü Gör"
+    },
+    "newGames": {
+      "title": "Yeni Eklenenler",
+      "viewAll": "Tümünü Gör"
+    },
+    "recentlyPlayed": {
+      "title": "Son Oynadıklarım",
+      "subtitle": "En son oynadığın oyunlara hızlıca eriş"
+    },
+    "gameGrid": {
+      "title": "Tüm Oyunlar",
+      "subtitle": "Keşfedilmeyi bekleyen binlerce oyun"
+    }
+  },
+  "footer": {
+    "copyright": "© 2024 Jelly Arcade. Tüm hakları saklıdır."
+  },
+  "user": {
+    "profile": "Profilim",
+    "logout": "Çıkış Yap"
+  }
+}

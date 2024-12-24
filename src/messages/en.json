@@ -1,0 +1,57 @@
+{
+  "navigation": {
+    "home": "Home",
+    "newGames": "New Games",
+    "topGames": "Top Games",
+    "games": "Games",
+    "categories": "Categories",
+    "search": "Search games..."
+  },
+  "home": {
+    "hero": {
+      "title": "Welcome to Game World",
+      "subtitle": "Thousands of free games, unlimited fun",
+      "cta": "Play Now",
+      "featured": "Featured Games",
+      "slideOne": {
+        "title": "Ready for a New Adventure?",
+        "description": "Get ready for an exciting experience with the newest games!"
+      },
+      "slideTwo": {
+        "title": "Join the Competition",
+        "description": "Compete with players from all around the world!"
+      },
+      "slideThree": {
+        "title": "Endless Fun",
+        "description": "Have endless fun with thousands of free games!"
+      }
+    },
+    "categories": {
+      "title": "Categories",
+      "viewAll": "View All"
+    },
+    "popularGames": {
+      "title": "Popular Games",
+      "viewAll": "View All"
+    },
+    "newGames": {
+      "title": "New Games",
+      "viewAll": "View All"
+    },
+    "recentlyPlayed": {
+      "title": "Recently Played",
+      "subtitle": "Quick access to your recent games"
+    },
+    "gameGrid": {
+      "title": "All Games",
+      "subtitle": "Discover thousands of games waiting to be explored"
+    }
+  },
+  "footer": {
+    "copyright": "© 2024 Jelly Arcade. All rights reserved."
+  },
+  "user": {
+    "profile": "My Profile",
+    "logout": "Logout"
+  }
+}

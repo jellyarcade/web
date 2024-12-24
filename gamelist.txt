@@ -1,0 +1,7 @@
+YATAY OYUN
+https://ud-gles3games.kvm-fsn1.k8s.n2i.io/?deeplinksApp=net.wargaming.wot.blitz&deeplinksURI=null%3A%2F%2F&naturalOrientation=landscape&forcedNaturalOrientation&autofitOnConnect&compressUp=true&quotaBytes=4000000&quotaMinSwaps=4&maxSize=1280&backOnDisconnected=true&disconnectedMessage=null&api=%7B%22back%22%3Afalse%7D&title=WoT+Blitz
+
+
+DIKEY OYUN
+
+https://ud-gles3games.kvm-fsn1.k8s.n2i.io/?deeplinksURI=null%3A%2F%2F&deeplinksApp=com.hypercarrot.giantrush&autofitOnConnect&backOnDisconnected=true&disconnectedMessage=null&api=%7B%22back%22%3Afalse%7D&title=Giant+Rush
