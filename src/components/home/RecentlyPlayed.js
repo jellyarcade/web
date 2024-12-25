@@ -113,7 +113,7 @@ const RecentlyPlayed = () => {
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={16}
-          slidesPerView={2.5}
+          slidesPerView={2}
           pagination={{
             clickable: true,
             el: ".swiper-pagination",
@@ -123,7 +123,7 @@ const RecentlyPlayed = () => {
             disableOnInteraction: false,
           }}
           loop={true}
-          className="!pb-10"
+          className="!overflow-visible !pb-10"
         >
           {recentGames.map((game) => (
             <SwiperSlide key={game.id}>

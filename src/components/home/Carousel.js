@@ -40,7 +40,7 @@ const Carousel = ({ items }) => {
         <div className="grid grid-cols-3 gap-6">
           {items.slice(0, 3).map((item, index) => (
             <Link key={item.id} href={`/games/${item.id}`}>
-              <div className="relative aspect-[16/9] shadow-lg">
+              <div className="relative aspect-[16/9] shadow-lg rounded-lg overflow-hidden">
                 <div className="rounded-lg overflow-hidden">
                   <Image
                     src={item.image}
