@@ -32,7 +32,7 @@ const UserMenu = () => {
       className="flex items-center justify-between space-x-2 md:space-x-2"
       ref={menuRef}
     >
-      <div className="flex items-center gap-6 order-first md:order-last md:ml-4">
+      <div className="flex items-center gap-4 md:gap-6 order-first md:order-last md:ml-6">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden focus:ring-2 focus:ring-[#ff4f00]"
@@ -43,9 +43,24 @@ const UserMenu = () => {
             className="w-full h-full object-cover"
           />
         </button>
+
+        <div className="flex items-center gap-4 md:hidden">
+          <Link href="/favorites" className="text-white hover:text-white/90">
+            <HiHeart className="w-8 h-8" />
+          </Link>
+          <div className="relative">
+            <Link
+              href="/notifications"
+              className="text-white hover:text-white/90"
+            >
+              <HiBell className="w-7 h-7" />
+            </Link>
+            <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full" />
+          </div>
+        </div>
       </div>
 
-      <div className="flex items-center gap-4 md:gap-4">
+      <div className="hidden md:flex items-center gap-4">
         <Link href="/favorites" className="text-white hover:text-white/90">
           <HiHeart className="w-8 h-8" />
         </Link>
