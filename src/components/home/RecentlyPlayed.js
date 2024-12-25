@@ -62,7 +62,7 @@ const RecentlyPlayed = () => {
 
   if (!isMobile) {
     return (
-      <div className="max-w-[90%] mx-auto mt-4">
+      <div className="max-w-[90%] mx-auto sm:mt-4 md:mt-8">
         {/* Title Section */}
         <div className="mb-6">
           <h2 className="text-2xl font-cocogoose font-medium uppercase mb-2 text-[#2cd284]">

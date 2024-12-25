@@ -132,7 +132,7 @@ const GameGrid = () => {
   }, [inView, hasMore, games.length]);
 
   return (
-    <section className="pt-10 pb-8">
+    <section className="md:pt-8 pb-8">
       <div className="max-w-[90%] mx-auto">
         <div className="mb-6">
           <h2 className="text-2xl font-cocogoose font-medium uppercase mb-2 text-[#2cd284]">
