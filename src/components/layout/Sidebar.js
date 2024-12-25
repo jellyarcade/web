@@ -57,21 +57,31 @@ const Sidebar = ({ isOpen, onClose }) => {
 
 const MenuItem = ({ href, icon: Icon, label, onClose }) => {
   const pathname = usePathname();
-  const isActive = pathname === href;
+
+  const isHome = href === "/" && (pathname === "/tr" || pathname === "/en");
+  const isCurrentPage = pathname.endsWith(href) && href !== "/";
+  const isActive = isHome || isCurrentPage;
 
   return (
     <li>
       <Link
         href={href}
-        className={`block text-white transition-colors w-full ${
-          isActive ? "bg-brand-green" : "hover:bg-brand-green-light"
+        className={`block text-white transition-colors relative group ${
+          isActive ? "bg-[#16bf36]" : "hover:bg-[#16bf36]/80"
         }`}
         onClick={onClose}
       >
-        <span className="flex items-center px-4 py-4 font-semibold w-full">
+        <span className="flex items-center px-4 py-4 font-semibold">
           <Icon className="w-6 h-6 mr-4" />
           <span className="text-lg">{label}</span>
         </span>
+        <div
+          className={`absolute top-0 -right-1 h-full w-1 transition-colors hidden md:block ${
+            isActive
+              ? "bg-[#16bf36]"
+              : "bg-[#16bf36]/80 opacity-0 group-hover:opacity-100"
+          }`}
+        />
       </Link>
     </li>
   );
