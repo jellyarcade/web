@@ -7,7 +7,7 @@ import { HiHome, HiStar, HiSparkles } from "react-icons/hi";
 import { HiOutlineEnvelope } from "react-icons/hi2";
 import UserMenu from "./UserMenu";
 
-const Sidebar = ({ isOpen, onClose, children }) => {
+const Sidebar = ({ isOpen, onClose }) => {
   const t = useTranslations("navigation");
 
   const menuItems = [
@@ -30,15 +30,12 @@ const Sidebar = ({ isOpen, onClose, children }) => {
         }`}
       >
         <div className="p-4 text-white">
-          {/* Mobilde UserMenu göster */}
-          <div className="md:hidden">
+          <div className="md:hidden mb-4">
             <UserMenu />
-            {/* Divider */}
             <div className="h-px bg-white/20 my-4" />
           </div>
 
-          {/* Navigation Menu */}
-          <nav className="mb-8">
+          <nav>
             <ul className="space-y-1">
               {menuItems.map((item) => (
                 <MenuItem key={item.href} {...item} onClose={onClose} />
@@ -46,7 +43,6 @@ const Sidebar = ({ isOpen, onClose, children }) => {
             </ul>
           </nav>
 
-          {/* Contact Us Button */}
           <div className="absolute bottom-8 left-0 right-0 px-6">
             <button className="w-full flex items-center justify-center gap-2 bg-[#16bf36] text-white py-4 px-6 rounded-full text-lg font-semilight hover:bg-[#16bf36]/90 transition-colors">
               <HiOutlineEnvelope className="text-2xl" />
@@ -67,14 +63,14 @@ const MenuItem = ({ href, icon: Icon, label, onClose }) => {
     <li>
       <Link
         href={href}
-        className={`block text-white transition-colors w-[calc(100%+12px)] ${
+        className={`block text-white transition-colors ${
           isActive ? "bg-brand-green" : "hover:bg-brand-green-light"
         }`}
         onClick={onClose}
       >
-        <span className="flex items-center px-8 py-3 font-semibold">
-          <Icon className="w-5 h-5 mr-3" />
-          {label}
+        <span className="flex items-center px-4 py-4 font-semibold">
+          <Icon className="w-6 h-6 mr-4" />
+          <span className="text-lg">{label}</span>
         </span>
       </Link>
     </li>
