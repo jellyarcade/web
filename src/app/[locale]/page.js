@@ -10,9 +10,7 @@ export default function Home() {
       <Header />
       <main>
         <HeroSection />
-        <div className="mt-6">
-          <RecentlyPlayed />
-        </div>
+        <RecentlyPlayed />
         <GameGrid />
       </main>
     </>

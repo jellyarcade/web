@@ -6,15 +6,20 @@ const NewsletterSignup = () => {
   const t = useTranslations("footer.newsletter");
 
   return (
-    <div>
-      <h3 className="font-bold mb-4">{t("title")}</h3>
-      <form className="flex gap-2">
+    <div className="space-y-4">
+      <p className="text-gray-400">{t("description")}</p>
+      <form className="flex flex-col gap-3">
         <input
           type="email"
-          placeholder={t("placeholder")}
-          className="px-4 py-2 rounded bg-gray-800"
+          placeholder={t("emailPlaceholder")}
+          className="px-4 py-2 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange"
         />
-        <button className="px-4 py-2 bg-primary rounded">{t("button")}</button>
+        <button
+          type="submit"
+          className="px-6 py-2 bg-brand-orange text-white rounded-lg hover:bg-brand-orange/90 transition-colors"
+        >
+          {t("subscribe")}
+        </button>
       </form>
     </div>
   );

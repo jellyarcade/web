@@ -55,7 +55,12 @@
     "description": "Binlerce ücretsiz oyunu oynayabileceğiniz oyun portalı. Yeni oyunlar, popüler oyunlar ve daha fazlası.",
     "quickLinks": "Hızlı Bağlantılar",
     "categories": "Kategoriler",
-    "newsletter": "Bülten",
+    "newsletterTitle": "Bülten",
+    "newsletter": {
+      "description": "Yeni oyunlar ve güncellemelerden haberdar olmak için bültenimize abone olun.",
+      "emailPlaceholder": "E-posta adresiniz",
+      "subscribe": "Abone Ol"
+    },
     "actionGames": "Aksiyon Oyunları",
     "adventureGames": "Macera Oyunları",
     "sportsGames": "Spor Oyunları",

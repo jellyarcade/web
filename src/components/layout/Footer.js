@@ -66,14 +66,16 @@ const Footer = () => {
 
           {/* Bülten */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">{t("newsletter")}</h3>
+            <h3 className="text-lg font-semibold mb-4">
+              {t("newsletterTitle")}
+            </h3>
             <NewsletterSignup />
           </div>
         </div>
 
         {/* Alt Bilgi */}
         <div className="mt-12 pt-8 border-t border-gray-800 text-center text-gray-400">
-          <p>© 2024 Game Portal. {t("allRightsReserved")}</p>
+          <p>{t("copyright")}</p>
         </div>
       </div>
     </footer>
