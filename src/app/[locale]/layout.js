@@ -1,6 +1,5 @@
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
-import { headers } from "next/headers";
 import { locales } from "../../../i18n/config";
 import QueryProvider from "@/providers/QueryProvider";
 import "@/app/globals.css";
@@ -12,12 +11,14 @@ export const metadata = {
   description: "Play thousands of free games",
 };
 
+export const defaultLocale = "tr";
+
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
 export default async function LocaleLayout({ children, params }) {
-  const locale = params.locale || "tr";
+  const locale = params.locale || defaultLocale;
 
   if (!locales.includes(locale)) {
     notFound();
@@ -31,13 +32,19 @@ export default async function LocaleLayout({ children, params }) {
   }
 
   return (
-    <html lang={locale} className="h-full">
-      <body className="min-h-screen flex flex-col bg-white">
+    <html lang={locale} suppressHydrationWarning>
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body suppressHydrationWarning>
         <NextIntlClientProvider messages={messages} locale={locale}>
           <QueryProvider>
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
+            <div className="min-h-screen flex flex-col bg-white">
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
           </QueryProvider>
         </NextIntlClientProvider>
       </body>

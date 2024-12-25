@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useLocale } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
 import { HiChevronDown } from "react-icons/hi";
@@ -10,7 +10,7 @@ const languages = [
   { code: "en", name: "EN" },
 ];
 
-const LanguageSwitcher = () => {
+export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef();
   const locale = useLocale();
@@ -28,10 +28,13 @@ const LanguageSwitcher = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const switchLanguage = (newLocale) => {
-    router.push(pathname.replace(`/${locale}`, `/${newLocale}`));
-    setIsOpen(false);
-  };
+  const handleLanguageChange = useCallback(
+    (newLocale) => {
+      const newPath = pathname.replace(/^\/[^\/]+/, `/${newLocale}`);
+      router.push(newPath);
+    },
+    [pathname, router]
+  );
 
   const currentLanguage = languages.find((lang) => lang.code === locale);
 
@@ -54,7 +57,7 @@ const LanguageSwitcher = () => {
           {languages.map((lang) => (
             <button
               key={lang.code}
-              onClick={() => switchLanguage(lang.code)}
+              onClick={() => handleLanguageChange(lang.code)}
               className={`w-full text-left px-4 py-2 text-lg font-light hover:bg-gray-100 dark:hover:bg-gray-700 ${
                 locale === lang.code
                   ? "text-brand-orange"
@@ -68,6 +71,4 @@ const LanguageSwitcher = () => {
       )}
     </div>
   );
-};
-
-export default LanguageSwitcher;
+}
