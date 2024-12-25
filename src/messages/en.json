@@ -5,7 +5,8 @@
     "topGames": "Top Games",
     "games": "Games",
     "categories": "Categories",
-    "search": "Search games..."
+    "search": "Search games...",
+    "contactUs": "Contact Us"
   },
   "home": {
     "hero": {
@@ -45,6 +46,10 @@
     "gameGrid": {
       "title": "All Games",
       "subtitle": "Discover thousands of games waiting to be explored"
+    },
+    "badges": {
+      "updated": "UPDATED",
+      "topRated": "TOP RATED"
     }
   },
   "footer": {

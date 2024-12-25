@@ -6,6 +6,7 @@ import { getPopularGames } from "@/services/api";
 import GameCard from "../shared/GameCard";
 import ViewAllButton from "../shared/ViewAllButton";
 import Link from "next/link";
+import Image from "next/image";
 
 const PopularGames = () => {
   const t = useTranslations("home");
@@ -23,6 +24,15 @@ const PopularGames = () => {
       </div>
 
       <div className="grid grid-cols-5 gap-2 md:gap-4">
+        <div className="relative aspect-[2/1] rounded-lg overflow-hidden shadow-lg group">
+          <Image
+            src={game.image}
+            alt={`${game.title} - ${game.category} game`}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        </div>
         <GameCard />
         <GameCard />
         <GameCard />

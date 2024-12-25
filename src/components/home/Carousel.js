@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useTranslations } from "use-intl";
 
 // Swiper styles
 import "swiper/css";
@@ -33,6 +34,22 @@ const Badge = ({ text, className }) => (
 
 const Carousel = ({ items }) => {
   const isMobile = useMediaQuery("(max-width: 1024px)");
+  const t = useTranslations("home.badges");
+
+  const renderBadges = (index) => (
+    <>
+      {index === 0 && (
+        <div className="absolute top-3 -left-2 z-10">
+          <Badge text={t("updated")} className="bg-[#7be3b2] text-white" />
+        </div>
+      )}
+      {index === 1 && (
+        <div className="absolute top-3 -left-2 z-10">
+          <Badge text={t("topRated")} className="bg-[#ffdc00] text-white" />
+        </div>
+      )}
+    </>
+  );
 
   if (!isMobile) {
     return (
@@ -49,28 +66,8 @@ const Carousel = ({ items }) => {
                     className="object-cover transition-transform duration-300 hover:scale-110"
                   />
                 </div>
-                {index === 0 && (
-                  <div className="absolute top-3 -left-2 z-10">
-                    <Badge text="UPDATED" className="bg-[#7be3b2] text-white" />
-                  </div>
-                )}
-                {index === 1 && (
-                  <div className="absolute top-3 -left-2 z-10">
-                    <Badge
-                      text="TOP RATED"
-                      className="bg-[#ffdc00] text-white"
-                    />
-                  </div>
-                )}
+                {renderBadges(index)}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg" />
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-lg sm:text-xl font-medium text-white mb-2">
-                    {item.title}
-                  </h3>
-                  <div className="flex items-center justify-between text-white text-xs font-regular">
-                    <span className="opacity-90">{item.category}</span>
-                  </div>
-                </div>
               </div>
             </Link>
           ))}
@@ -114,31 +111,8 @@ const Carousel = ({ items }) => {
                       className="object-cover transition-transform duration-300 hover:scale-110"
                     />
                   </div>
-                  {index === 0 && (
-                    <div className="absolute top-3 -left-2 z-10">
-                      <Badge
-                        text="UPDATED"
-                        className="bg-[#7be3b2] text-white"
-                      />
-                    </div>
-                  )}
-                  {index === 1 && (
-                    <div className="absolute top-3 -left-2 z-10">
-                      <Badge
-                        text="TOP RATED"
-                        className="bg-[#ffdc00] text-white"
-                      />
-                    </div>
-                  )}
+                  {renderBadges(index)}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 className="text-lg sm:text-xl font-medium text-white mb-2">
-                      {item.title}
-                    </h3>
-                    <div className="flex items-center justify-between text-white text-xs font-regular">
-                      <span className="opacity-90">{item.category}</span>
-                    </div>
-                  </div>
                 </div>
               </Link>
             </SwiperSlide>

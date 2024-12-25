@@ -5,7 +5,8 @@
     "topGames": "En İyi Oyunlar",
     "games": "Oyunlar",
     "categories": "Kategoriler",
-    "search": "Oyun ara..."
+    "search": "Oyun ara...",
+    "contactUs": "İletişim"
   },
   "home": {
     "hero": {
@@ -43,6 +44,10 @@
     "gameGrid": {
       "title": "Tüm Oyunlar",
       "subtitle": "Keşfedilmeyi bekleyen binlerce oyun"
+    },
+    "badges": {
+      "updated": "YENİLENDİ",
+      "topRated": "EN İYİLER"
     }
   },
   "footer": {

@@ -154,14 +154,6 @@ const GameGrid = () => {
                   className="object-cover transition-transform duration-300 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-3">
-                  <h3 className="text-sm font-medium text-white mb-1 truncate">
-                    {game.title}
-                  </h3>
-                  <div className="flex items-center justify-between text-white text-xs font-regular">
-                    <span className="opacity-90 truncate">{game.category}</span>
-                  </div>
-                </div>
               </div>
             </Link>
           ))}

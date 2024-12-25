@@ -29,8 +29,8 @@ const Sidebar = ({ isOpen, onClose }) => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="p-4 text-white">
-          <div className="md:hidden mb-4">
+        <div className="text-white">
+          <div className="md:hidden p-4 mb-4">
             <UserMenu />
             <div className="h-px bg-white/20 my-4" />
           </div>
@@ -43,7 +43,7 @@ const Sidebar = ({ isOpen, onClose }) => {
             </ul>
           </nav>
 
-          <div className="absolute bottom-8 left-0 right-0 px-6">
+          <div className="absolute bottom-8 left-0 right-0 p-4">
             <button className="w-full flex items-center justify-center gap-2 bg-[#16bf36] text-white py-4 px-6 rounded-full text-lg font-semilight hover:bg-[#16bf36]/90 transition-colors">
               <HiOutlineEnvelope className="text-2xl" />
               {t("contactUs")}
@@ -63,12 +63,12 @@ const MenuItem = ({ href, icon: Icon, label, onClose }) => {
     <li>
       <Link
         href={href}
-        className={`block text-white transition-colors ${
+        className={`block text-white transition-colors w-full ${
           isActive ? "bg-brand-green" : "hover:bg-brand-green-light"
         }`}
         onClick={onClose}
       >
-        <span className="flex items-center px-4 py-4 font-semibold">
+        <span className="flex items-center px-4 py-4 font-semibold w-full">
           <Icon className="w-6 h-6 mr-4" />
           <span className="text-lg">{label}</span>
         </span>
