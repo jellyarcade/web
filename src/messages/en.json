@@ -53,7 +53,15 @@
     }
   },
   "footer": {
-    "copyright": "© 2024 Jelly Arcade. All rights reserved."
+    "description": "Game portal where you can play thousands of free games. New games, popular games and more.",
+    "quickLinks": "Quick Links",
+    "categories": "Categories",
+    "newsletter": "Newsletter",
+    "actionGames": "Action Games",
+    "adventureGames": "Adventure Games",
+    "sportsGames": "Sports Games",
+    "racingGames": "Racing Games",
+    "allRightsReserved": "All rights reserved."
   },
   "user": {
     "profile": "My Profile",

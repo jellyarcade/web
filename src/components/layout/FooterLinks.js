@@ -1,21 +1,29 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
-const FooterLinks = ({ title, links }) => {
+const FooterLinks = () => {
+  const t = useTranslations("navigation");
+
+  const links = [
+    { href: "/", label: t("home") },
+    { href: "/new-games", label: t("newGames") },
+    { href: "/top-games", label: t("topGames") },
+    { href: "/games", label: t("games") },
+    { href: "/categories", label: t("categories") },
+  ];
+
   return (
-    <div>
-      <h3 className="font-bold mb-4">{title}</h3>
-      <ul className="space-y-2">
-        {links.map((link) => (
-          <li key={link.href}>
-            <Link href={link.href} className="hover:text-primary">
-              {link.text}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul className="space-y-2">
+      {links.map((link) => (
+        <li key={link.href}>
+          <Link href={link.href} className="text-gray-400 hover:text-white">
+            {link.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 };
 

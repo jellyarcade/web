@@ -51,7 +51,16 @@
     }
   },
   "footer": {
-    "copyright": "© 2024 Jelly Arcade. Tüm hakları saklıdır."
+    "copyright": "© 2024 Jelly Arcade. Tüm hakları saklıdır.",
+    "description": "Binlerce ücretsiz oyunu oynayabileceğiniz oyun portalı. Yeni oyunlar, popüler oyunlar ve daha fazlası.",
+    "quickLinks": "Hızlı Bağlantılar",
+    "categories": "Kategoriler",
+    "newsletter": "Bülten",
+    "actionGames": "Aksiyon Oyunları",
+    "adventureGames": "Macera Oyunları",
+    "sportsGames": "Spor Oyunları",
+    "racingGames": "Yarış Oyunları",
+    "allRightsReserved": "Tüm hakları saklıdır."
   },
   "user": {
     "profile": "Profilim",

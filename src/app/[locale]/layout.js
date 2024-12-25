@@ -5,6 +5,7 @@ import { locales } from "../../../i18n/config";
 import QueryProvider from "@/providers/QueryProvider";
 import "@/app/globals.css";
 import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
 
 export const metadata = {
   title: "Game Portal",
@@ -30,16 +31,15 @@ export default async function LocaleLayout({ children, params }) {
   }
 
   return (
-    <html lang={locale}>
-      <body className="flex flex-col min-h-screen">
-        <main className="flex-grow">
+    <html lang={locale} className="h-full">
+      <body className="min-h-screen flex flex-col bg-white">
+        <NextIntlClientProvider messages={messages} locale={locale}>
           <QueryProvider>
-            <NextIntlClientProvider messages={messages} locale={locale}>
-              {children}
-            </NextIntlClientProvider>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
           </QueryProvider>
-        </main>
-        <Footer />
+        </NextIntlClientProvider>
       </body>
     </html>
   );
