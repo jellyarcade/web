@@ -97,7 +97,7 @@ const Carousel = ({ items }) => {
             disableOnInteraction: false,
           }}
           loop={true}
-          className="!overflow-visible !pb-10"
+          className="!pb-10"
         >
           {items.map((item, index) => (
             <SwiperSlide key={item.id}>

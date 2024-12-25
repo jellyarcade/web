@@ -115,7 +115,7 @@ const RecentlyPlayed = () => {
             disableOnInteraction: false,
           }}
           loop={true}
-          className="!overflow-visible !pb-10"
+          className="!pb-10"
         >
           {recentGames.map((game) => (
             <SwiperSlide key={game.id}>
