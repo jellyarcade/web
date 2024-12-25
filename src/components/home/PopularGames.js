@@ -5,28 +5,29 @@ import { useTranslations } from "next-intl";
 import { getPopularGames } from "@/services/api";
 import GameCard from "../shared/GameCard";
 import ViewAllButton from "../shared/ViewAllButton";
+import Link from "next/link";
 
 const PopularGames = () => {
-  const t = useTranslations("home.popularGames");
-  const { data: games, isLoading } = useQuery({
-    queryKey: ["popularGames"],
-    queryFn: () => getPopularGames(),
-  });
-
-  if (isLoading) return <div>Loading...</div>;
+  const t = useTranslations("home");
 
   return (
-    <section className="py-12">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold">{t("title")}</h2>
-          <ViewAllButton href="/games/popular">{t("viewAll")}</ViewAllButton>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {games?.map((game) => (
-            <GameCard key={game._id} game={game} />
-          ))}
-        </div>
+    <section className="container mx-auto px-4 py-8">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold">{t("allGames")}</h2>
+        <Link
+          href="/all-games"
+          className="text-brand-orange hover:text-brand-orange/90"
+        >
+          {t("seeAll")}
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-5 gap-2 md:gap-4">
+        <GameCard />
+        <GameCard />
+        <GameCard />
+        <GameCard />
+        <GameCard />
       </div>
     </section>
   );

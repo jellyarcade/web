@@ -142,7 +142,7 @@ const GameGrid = () => {
         </div>
 
         <div
-          className={`grid ${isMobile ? "grid-cols-2" : "grid-cols-10"} gap-4`}
+          className={`grid ${isMobile ? "grid-cols-5" : "grid-cols-10"} gap-4`}
         >
           {games.map((game) => (
             <Link key={game.id} href={`/games/${game.id}`}>

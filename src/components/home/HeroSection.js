@@ -33,7 +33,7 @@ const HeroSection = () => {
   return (
     <section className="relative mt-[72px] bg-gray-50">
       <div className="py-6 sm:py-8">
-        <Carousel items={games} />
+        <Carousel items={games} className="rounded-lg overflow-hidden" />
       </div>
     </section>
   );

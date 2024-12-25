@@ -39,7 +39,7 @@ const LanguageSwitcher = () => {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 text-white hover:text-white/90 font-light text-lg"
+        className="flex items-center gap-1 text-white hover:text-white/90 font-light text-xl"
       >
         {currentLanguage.name}
         <HiChevronDown

@@ -91,10 +91,6 @@ const Carousel = ({ items }) => {
               slidesPerView: 2,
             },
           }}
-          navigation={{
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-          }}
           pagination={{
             clickable: true,
             el: ".swiper-pagination",
@@ -109,7 +105,7 @@ const Carousel = ({ items }) => {
           {items.map((item, index) => (
             <SwiperSlide key={item.id}>
               <Link href={`/games/${item.id}`}>
-                <div className="relative aspect-[16/9] shadow-lg">
+                <div className="relative aspect-[16/9] shadow-lg rounded-lg overflow-hidden">
                   <div className="rounded-lg overflow-hidden">
                     <Image
                       src={item.image}
@@ -149,12 +145,6 @@ const Carousel = ({ items }) => {
           ))}
         </Swiper>
 
-        <button className="swiper-button-prev !w-10 !h-10 !rounded-full !bg-white/20 hover:!bg-white/30 !transition-colors after:!text-lg !left-4">
-          <HiChevronLeft className="w-6 h-6 text-white" />
-        </button>
-        <button className="swiper-button-next !w-10 !h-10 !rounded-full !bg-white/20 hover:!bg-white/30 !transition-colors after:!text-lg !right-4">
-          <HiChevronRight className="w-6 h-6 text-white" />
-        </button>
         <div className="swiper-pagination !bottom-0" />
       </div>
     </div>

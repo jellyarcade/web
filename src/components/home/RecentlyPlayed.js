@@ -113,11 +113,7 @@ const RecentlyPlayed = () => {
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={16}
-          slidesPerView={1}
-          navigation={{
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-          }}
+          slidesPerView={2.5}
           pagination={{
             clickable: true,
             el: ".swiper-pagination",
@@ -154,12 +150,6 @@ const RecentlyPlayed = () => {
           ))}
         </Swiper>
 
-        <button className="swiper-button-prev !w-10 !h-10 !rounded-full !bg-white/20 hover:!bg-white/30 !transition-colors after:!text-lg !left-4">
-          <HiChevronLeft className="w-6 h-6 text-white" />
-        </button>
-        <button className="swiper-button-next !w-10 !h-10 !rounded-full !bg-white/20 hover:!bg-white/30 !transition-colors after:!text-lg !right-4">
-          <HiChevronRight className="w-6 h-6 text-white" />
-        </button>
         <div className="swiper-pagination !bottom-0" />
       </div>
     </div>

@@ -29,33 +29,20 @@ const UserMenu = () => {
 
   return (
     <div className="flex items-center space-x-6" ref={menuRef}>
-      {/* Avatar */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden focus:ring-2 focus:ring-[#ff4f00]"
-      >
-        <img
-          src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
-          alt="User avatar"
-          className="w-full h-full object-cover"
-        />
-      </button>
-
+      {/* Dil Seçimi */}
+      <LanguageSwitcher />
       {/* Favoriler */}
       <Link href="/favorites" className="text-white hover:text-white/90">
-        <HiHeart className="w-6 h-6" />
+        <HiHeart className="w-8 h-8" />
       </Link>
 
       {/* Bildirimler */}
       <div className="relative">
         <Link href="/notifications" className="text-white hover:text-white/90">
-          <HiBell className="w-6 h-6" />
+          <HiBell className="w-7 h-7" />
         </Link>
         <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full" />
       </div>
-
-      {/* Dil Seçimi */}
-      <LanguageSwitcher />
 
       {isOpen && (
         <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-1 z-50">
@@ -78,6 +65,18 @@ const UserMenu = () => {
           </button>
         </div>
       )}
+
+      {/* Avatar */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden focus:ring-2 focus:ring-[#ff4f00]"
+      >
+        <img
+          src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
+          alt="User avatar"
+          className="w-full h-full object-cover"
+        />
+      </button>
     </div>
   );
 };

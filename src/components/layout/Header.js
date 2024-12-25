@@ -43,7 +43,7 @@ const Header = ({ children }) => {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-40 transition-all duration-300">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#b6e18a] to-[#16bf36] opacity-90" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#b6e18a] to-[#16bf36]" />
 
         <div className="relative px-4 sm:px-6 py-3">
           <div className="flex items-center justify-between">
@@ -69,18 +69,18 @@ const Header = ({ children }) => {
               </button>
             </div>
 
-            {/* Desktop Icons */}
-            <div className="hidden md:flex items-center">
-              <UserMenu />
+            {/* Mobile Search Button ve Desktop UserMenu Container */}
+            <div className="flex items-center gap-4">
+              <button
+                className="md:hidden text-white hover:text-white/90"
+                onClick={() => setIsSearchOpen(true)}
+              >
+                <HiSearch className="text-2xl" />
+              </button>
+              <div className="hidden md:block">
+                <UserMenu />
+              </div>
             </div>
-
-            {/* Mobile Search Button */}
-            <button
-              className="md:hidden text-white hover:text-white/90"
-              onClick={() => setIsSearchOpen(true)}
-            >
-              <HiSearch className="text-2xl" />
-            </button>
           </div>
         </div>
       </header>

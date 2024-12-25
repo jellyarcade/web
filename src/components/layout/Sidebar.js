@@ -7,47 +7,52 @@ import { HiHome, HiStar, HiSparkles } from "react-icons/hi";
 import { HiOutlineEnvelope } from "react-icons/hi2";
 import UserMenu from "./UserMenu";
 
-const Sidebar = ({ isOpen, onClose }) => {
+const Sidebar = ({ isOpen, onClose, children }) => {
   const t = useTranslations("navigation");
 
   const menuItems = [
-    { href: "/", label: "home", icon: HiHome },
-    { href: "/new-games", label: "newGames", icon: HiSparkles },
-    { href: "/top-games", label: "topGames", icon: HiStar },
+    { href: "/", label: t("home"), icon: HiHome },
+    { href: "/new-games", label: t("newGames"), icon: HiSparkles },
+    { href: "/top-games", label: t("topGames"), icon: HiStar },
   ];
 
   return (
     <>
-      {/* Overlay */}
-      {isOpen && (
-        <div className="fixed inset-0 bg-black/50 z-40" onClick={onClose} />
-      )}
-
-      {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 w-64 bg-brand-orange transform transition-transform duration-300 z-50 ${
+        className={`fixed inset-0 bg-black/50 z-50 transition-opacity duration-300 ${
+          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={onClose}
+      />
+      <div
+        className={`fixed top-0 left-0 bottom-0 w-64 bg-brand-orange z-50 transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        {/* Profil Bölümü - Sadece Mobilde */}
-        <div className="md:hidden px-6 py-4 border-b border-gray-800">
-          <UserMenu />
-        </div>
+        <div className="p-4 text-white">
+          {/* Mobilde UserMenu göster */}
+          <div className="md:hidden">
+            <UserMenu />
+            {/* Divider */}
+            <div className="h-px bg-white/20 my-4" />
+          </div>
 
-        <nav className="h-full pt-4">
-          <ul className="space-y-1">
-            {menuItems.map((item) => (
-              <MenuItem key={item.href} {...item} onClose={onClose} />
-            ))}
-          </ul>
-        </nav>
+          {/* Navigation Menu */}
+          <nav className="mb-8">
+            <ul className="space-y-1">
+              {menuItems.map((item) => (
+                <MenuItem key={item.href} {...item} onClose={onClose} />
+              ))}
+            </ul>
+          </nav>
 
-        {/* Contact Us Button */}
-        <div className="absolute bottom-8 left-0 right-0 px-6">
-          <button className="w-full flex items-center justify-center gap-2 bg-[#16bf36] text-white py-4 px-6 rounded-full text-lg font-semilight hover:bg-[#16bf36]/90 transition-colors">
-            <HiOutlineEnvelope className="text-2xl" />
-            Contact Us
-          </button>
+          {/* Contact Us Button */}
+          <div className="absolute bottom-8 left-0 right-0 px-6">
+            <button className="w-full flex items-center justify-center gap-2 bg-[#16bf36] text-white py-4 px-6 rounded-full text-lg font-semilight hover:bg-[#16bf36]/90 transition-colors">
+              <HiOutlineEnvelope className="text-2xl" />
+              {t("contactUs")}
+            </button>
+          </div>
         </div>
       </div>
     </>
