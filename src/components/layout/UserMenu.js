@@ -28,20 +28,40 @@ const UserMenu = () => {
   }, []);
 
   return (
-    <div className="flex items-center space-x-6" ref={menuRef}>
-      {/* Dil Seçimi */}
-      <LanguageSwitcher />
-      {/* Favoriler */}
-      <Link href="/favorites" className="text-white hover:text-white/90">
-        <HiHeart className="w-8 h-8" />
-      </Link>
+    <div
+      className="flex items-center justify-between space-x-2 md:space-x-2"
+      ref={menuRef}
+    >
+      <div className="flex items-center gap-6 order-first md:order-last md:ml-4">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden focus:ring-2 focus:ring-[#ff4f00]"
+        >
+          <img
+            src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
+            alt="User avatar"
+            className="w-full h-full object-cover"
+          />
+        </button>
+      </div>
 
-      {/* Bildirimler */}
-      <div className="relative">
-        <Link href="/notifications" className="text-white hover:text-white/90">
-          <HiBell className="w-7 h-7" />
+      <div className="flex items-center gap-4 md:gap-4">
+        <Link href="/favorites" className="text-white hover:text-white/90">
+          <HiHeart className="w-8 h-8" />
         </Link>
-        <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full" />
+        <div className="relative">
+          <Link
+            href="/notifications"
+            className="text-white hover:text-white/90"
+          >
+            <HiBell className="w-7 h-7" />
+          </Link>
+          <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full" />
+        </div>
+      </div>
+
+      <div className="order-last md:order-first md:mr-4">
+        <LanguageSwitcher />
       </div>
 
       {isOpen && (
@@ -65,18 +85,6 @@ const UserMenu = () => {
           </button>
         </div>
       )}
-
-      {/* Avatar */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden focus:ring-2 focus:ring-[#ff4f00]"
-      >
-        <img
-          src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
-          alt="User avatar"
-          className="w-full h-full object-cover"
-        />
-      </button>
     </div>
   );
 };
