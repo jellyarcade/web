@@ -6,7 +6,6 @@ import { useTranslations } from 'next-intl';
 import Logo from './Logo';
 import UserMenu from './UserMenu';
 import Sidebar from './Sidebar';
-import LanguageSwitcher from './LanguageSwitcher';
 import AuthModal from '../auth/AuthModal';
 import SearchModal from '../search/SearchModal';
 

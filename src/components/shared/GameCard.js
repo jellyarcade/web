@@ -1,32 +1,70 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useLocale } from "next-intl";
+import Link from 'next/link';
+import Image from 'next/image';
+import { HiPlay, HiHeart } from 'react-icons/hi';
+import { useAuth } from '@/contexts/AuthContext';
+import { playGame } from '@/services/api';
 
-const GameCard = ({ game }) => {
-  const locale = useLocale();
+export default function GameCard({ game }) {
+  const { user } = useAuth();
+
+  const handlePlay = async e => {
+    e.preventDefault();
+    if (!user) {
+      // TODO: Show auth modal
+      return;
+    }
+
+    try {
+      await playGame(game._id);
+      window.location.href = game.url;
+    } catch (error) {
+      console.error('Error playing game:', error);
+    }
+  };
 
   return (
-    <div className="flex-shrink-0 w-1/3 bg-white rounded-lg overflow-hidden shadow-lg">
-      <div className="relative w-full h-48">
-        <Image
-          src={
-            game.image ||
-            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mN88B8AAsUB4ZtvXtIAAAAASUVORK5CYII="
-          }
-          alt={typeof game.title === "object" ? game.title[locale] : game.title}
-          fill
-          className="object-cover"
-        />
+    <Link href={`/games/${game.slug}`}>
+      <div className='group relative bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105'>
+        <div className='aspect-[4/3] relative'>
+          <Image
+            src={game.image}
+            alt={game.title}
+            fill
+            className='object-cover'
+            sizes='(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw'
+          />
+          <div className='absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-opacity'>
+            <div className='absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity'>
+              <button
+                onClick={handlePlay}
+                className='bg-orange-600 text-white p-3 rounded-full hover:bg-orange-700 transition-colors'
+              >
+                <HiPlay className='w-6 h-6' />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className='p-4'>
+          <h3 className='font-semibold text-gray-900 truncate'>{game.title}</h3>
+          <div className='flex items-center justify-between mt-2'>
+            <div className='flex items-center text-sm text-gray-600'>
+              <HiPlay className='w-4 h-4 mr-1' />
+              {game.playCount || 0}
+            </div>
+            <button
+              onClick={e => {
+                e.preventDefault();
+                // TODO: Add to favorites
+              }}
+              className='text-gray-400 hover:text-red-500 transition-colors'
+            >
+              <HiHeart className='w-5 h-5' />
+            </button>
+          </div>
+        </div>
       </div>
-      <div className="p-4">
-        <h3 className="font-bold">
-          {typeof game.title === "object" ? game.title[locale] : game.title}
-        </h3>
-        <span className="text-gray-600">{game.category}</span>
-      </div>
-    </div>
+    </Link>
   );
-};
-
-export default GameCard;
+}

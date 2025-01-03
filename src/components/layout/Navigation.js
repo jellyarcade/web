@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useTranslations } from "next-intl";
+import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 const Navigation = () => {
-  const t = useTranslations("navigation");
+  const t = useTranslations('navigation');
 
   return (
     <nav>
-      <ul className="flex gap-6">
+      <ul className='flex gap-6'>
         <li>
-          <Link href="/games" className="text-white hover:text-white/90">
-            {t("games")}
+          <Link href='/games' className='text-white hover:text-white/90'>
+            {t('games')}
           </Link>
         </li>
         <li>
-          <Link href="/categories" className="text-white hover:text-white/90">
-            {t("categories")}
+          <Link href='/categories' className='text-white hover:text-white/90'>
+            {t('categories')}
           </Link>
         </li>
       </ul>

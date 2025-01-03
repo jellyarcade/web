@@ -9,15 +9,16 @@ import {
   HiBell,
   HiHeart,
 } from 'react-icons/hi';
+import { useAuth } from '@/contexts/AuthContext';
+import AuthModal from '../auth/AuthModal';
 import LanguageSwitcher from './LanguageSwitcher';
 
-const UserMenu = ({ onAuthRequired }) => {
+const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const menuRef = useRef();
   const t = useTranslations('user');
-
-  // TODO: Replace with actual auth state
-  const isAuthenticated = false;
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleClickOutside = event => {
@@ -30,38 +31,98 @@ const UserMenu = ({ onAuthRequired }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  return (
-    <div
-      className='flex items-center justify-between space-x-2 md:space-x-2'
-      ref={menuRef}
-    >
-      <div className='flex items-center gap-4 md:gap-6 order-first md:order-last md:ml-6'>
-        <button
-          onClick={isAuthenticated ? () => setIsOpen(!isOpen) : onAuthRequired}
-          className='w-8 h-8 rounded-full bg-gray-200 overflow-hidden focus:ring-2 focus:ring-[#ff4f00]'
-        >
-          <img
-            src='https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
-            alt='User avatar'
-            className='w-full h-full object-cover'
-          />
-        </button>
+  const handleAuthAction = () => {
+    if (!user) {
+      setShowAuthModal(true);
+    } else {
+      setIsOpen(!isOpen);
+    }
+  };
 
-        <div className='flex items-center gap-4 md:hidden'>
-          {isAuthenticated ? (
+  return (
+    <>
+      <div
+        className='flex items-center justify-between space-x-2 md:space-x-2'
+        ref={menuRef}
+      >
+        <div className='order-last md:order-first md:mr-4'>
+          <LanguageSwitcher />
+        </div>
+
+        <div className='flex items-center gap-4 md:gap-6 order-first md:order-last md:ml-6'>
+          <button
+            onClick={handleAuthAction}
+            className='w-8 h-8 rounded-full bg-gray-200 overflow-hidden focus:ring-2 focus:ring-orange-500'
+          >
+            {user?.avatar ? (
+              <img
+                src={user.avatar}
+                alt={user.name}
+                className='w-full h-full object-cover'
+              />
+            ) : (
+              <img
+                src='https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
+                alt='Default avatar'
+                className='w-full h-full object-cover'
+              />
+            )}
+          </button>
+
+          <div className='flex items-center gap-4 md:hidden'>
+            {user ? (
+              <Link
+                href='/favorites'
+                className='text-white hover:text-white/90'
+              >
+                <HiHeart className='w-8 h-8' />
+              </Link>
+            ) : (
+              <button
+                onClick={() => setShowAuthModal(true)}
+                className='text-white hover:text-white/90'
+              >
+                <HiHeart className='w-8 h-8' />
+              </button>
+            )}
+            <div className='relative'>
+              {user ? (
+                <Link
+                  href='/notifications'
+                  className='text-white hover:text-white/90'
+                >
+                  <HiBell className='w-7 h-7' />
+                </Link>
+              ) : (
+                <button
+                  onClick={() => setShowAuthModal(true)}
+                  className='text-white hover:text-white/90'
+                >
+                  <HiBell className='w-7 h-7' />
+                </button>
+              )}
+              {user && (
+                <span className='absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full' />
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className='hidden md:flex items-center gap-4'>
+          {user ? (
             <Link href='/favorites' className='text-white hover:text-white/90'>
               <HiHeart className='w-8 h-8' />
             </Link>
           ) : (
             <button
-              onClick={onAuthRequired}
+              onClick={() => setShowAuthModal(true)}
               className='text-white hover:text-white/90'
             >
               <HiHeart className='w-8 h-8' />
             </button>
           )}
           <div className='relative'>
-            {isAuthenticated ? (
+            {user ? (
               <Link
                 href='/notifications'
                 className='text-white hover:text-white/90'
@@ -70,60 +131,29 @@ const UserMenu = ({ onAuthRequired }) => {
               </Link>
             ) : (
               <button
-                onClick={onAuthRequired}
+                onClick={() => setShowAuthModal(true)}
                 className='text-white hover:text-white/90'
               >
                 <HiBell className='w-7 h-7' />
               </button>
             )}
-            {isAuthenticated && (
+            {user && (
               <span className='absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full' />
             )}
           </div>
         </div>
       </div>
 
-      <div className='hidden md:flex items-center gap-4'>
-        {isAuthenticated ? (
-          <Link href='/favorites' className='text-white hover:text-white/90'>
-            <HiHeart className='w-8 h-8' />
-          </Link>
-        ) : (
-          <button
-            onClick={onAuthRequired}
-            className='text-white hover:text-white/90'
-          >
-            <HiHeart className='w-8 h-8' />
-          </button>
-        )}
-        <div className='relative'>
-          {isAuthenticated ? (
-            <Link
-              href='/notifications'
-              className='text-white hover:text-white/90'
-            >
-              <HiBell className='w-7 h-7' />
-            </Link>
-          ) : (
-            <button
-              onClick={onAuthRequired}
-              className='text-white hover:text-white/90'
-            >
-              <HiBell className='w-7 h-7' />
-            </button>
-          )}
-          {isAuthenticated && (
-            <span className='absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full' />
-          )}
-        </div>
-      </div>
-
-      <div className='order-last md:order-first md:mr-4'>
-        <LanguageSwitcher />
-      </div>
-
-      {isAuthenticated && isOpen && (
+      {user && isOpen && (
         <div className='absolute right-0 top-full mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-1 z-50'>
+          <div className='px-4 py-2 border-b border-gray-200 dark:border-gray-700'>
+            <p className='text-sm font-medium text-gray-900 dark:text-white'>
+              {user.name}
+            </p>
+            <p className='text-xs text-gray-500 dark:text-gray-400 truncate'>
+              {user.email}
+            </p>
+          </div>
           <Link
             href='/profile'
             className='flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -132,10 +162,7 @@ const UserMenu = ({ onAuthRequired }) => {
             {t('profile')}
           </Link>
           <button
-            onClick={() => {
-              // TODO: Implement logout logic
-              setIsOpen(false);
-            }}
+            onClick={logout}
             className='w-full flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700'
           >
             <HiOutlineLogout className='text-lg' />
@@ -143,7 +170,12 @@ const UserMenu = ({ onAuthRequired }) => {
           </button>
         </div>
       )}
-    </div>
+
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+      />
+    </>
   );
 };
 

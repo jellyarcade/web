@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function AuthModal({ isOpen, onClose }) {
   const [isLogin, setIsLogin] = useState(true);
@@ -11,6 +12,7 @@ export default function AuthModal({ isOpen, onClose }) {
   const [name, setName] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
 
   if (!isOpen) return null;
 
@@ -40,14 +42,9 @@ export default function AuthModal({ isOpen, onClose }) {
         throw new Error('Token alınamadı');
       }
 
-      // Token'ı localStorage'a kaydet
-      localStorage.setItem('token', data.token);
-      if (data.user) {
-        localStorage.setItem('user', JSON.stringify(data.user));
-      }
-
+      // Context üzerinden login işlemini gerçekleştir
+      await login(data.user, data.token);
       onClose();
-      window.location.reload(); // Kullanıcı durumunu yenile
     } catch (error) {
       console.error('Auth error:', error);
       setError(error.message);
@@ -71,14 +68,13 @@ export default function AuthModal({ isOpen, onClose }) {
     );
 
     // Popup'tan gelen mesajları dinle
-    window.addEventListener('message', function (event) {
+    window.addEventListener('message', async function (event) {
       if (event.origin === 'http://localhost:5001') {
         const { token, error } = event.data;
         if (token) {
-          localStorage.setItem('token', token);
+          await login(null, token); // Sadece token'ı gönder, user bilgisi backend'den alınacak
           popup.close();
           onClose();
-          window.location.reload();
         } else if (error) {
           setError(error);
           popup.close();

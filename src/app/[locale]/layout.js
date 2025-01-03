@@ -1,16 +1,17 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
-import { locales } from '../../../i18n/config';
 import QueryProvider from '@/providers/QueryProvider';
 import '@/app/globals.css';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 export const metadata = {
   title: 'Game Portal',
   description: 'Play thousands of free games',
 };
 
+const locales = ['tr', 'en'];
 export const defaultLocale = 'tr';
 
 export function generateStaticParams() {
@@ -32,22 +33,16 @@ export default async function LocaleLayout({ children, params }) {
   }
 
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <head>
-        <meta charSet='utf-8' />
-        <meta name='viewport' content='width=device-width, initial-scale=1' />
-      </head>
-      <body suppressHydrationWarning>
-        <NextIntlClientProvider messages={messages} locale={locale}>
-          <QueryProvider>
-            <div className='min-h-screen flex flex-col bg-white'>
-              <Header />
-              <main className='flex-1'>{children}</main>
-              <Footer />
-            </div>
-          </QueryProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages} locale={locale}>
+      <QueryProvider>
+        <AuthProvider>
+          <div className='min-h-screen flex flex-col bg-white'>
+            <Header />
+            <main className='flex-1'>{children}</main>
+            <Footer />
+          </div>
+        </AuthProvider>
+      </QueryProvider>
+    </NextIntlClientProvider>
   );
 }
