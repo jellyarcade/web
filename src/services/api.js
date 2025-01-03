@@ -23,9 +23,7 @@ export const getCategories = async (locale = 'tr') => {
 
 export const getAllGames = async (locale = 'tr') => {
   try {
-    console.log('Fetching games with locale:', locale);
     const { data } = await api.get(`/games?lang=${locale}`);
-    console.log('Games response:', data);
     return data;
   } catch (error) {
     console.error(

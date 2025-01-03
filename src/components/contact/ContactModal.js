@@ -20,9 +20,6 @@ const ContactModal = ({ isOpen, onClose }) => {
     // Simüle edilmiş API çağrısı
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // TODO: Form gönderimi
-    console.log('Form data:', formData);
-
     setLoading(false);
     onClose();
   };

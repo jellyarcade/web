@@ -14,21 +14,16 @@ async function getGame(slug) {
       },
     });
 
-    console.log('API Request URL:', `${API_URL}/games/by-slug/${slug}`);
-    console.log('Response status:', res.status);
-
     if (!res.ok) {
       return null;
     }
 
     const game = await res.json();
-    console.log('Response data:', game);
 
     if (!game) {
       return null;
     }
 
-    console.log('Found game:', game);
     return game;
   } catch (error) {
     console.error('Error fetching game:', error);
@@ -37,8 +32,6 @@ async function getGame(slug) {
 }
 
 export default async function GamePage({ params: { locale, slug } }) {
-  console.log('Page params:', { locale, slug });
-
   // Check if this is a game slug or a special page
   const specialPages = [
     'notifications',
@@ -64,11 +57,6 @@ export default async function GamePage({ params: { locale, slug } }) {
 
   // Eğer yanlış dildeki slug ile gelindiyse, doğru dildeki slug'a yönlendir
   if (currentSlug !== correctSlug) {
-    console.log('Redirecting to correct slug:', {
-      from: currentSlug,
-      to: correctSlug,
-      locale,
-    });
     redirect(`/${locale}/${correctSlug}`);
   }
 

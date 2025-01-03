@@ -34,7 +34,6 @@ export default function AuthModal({ isOpen, onClose }) {
       });
 
       const data = await response.json();
-      console.log('Auth response:', data);
 
       if (!response.ok) {
         throw new Error(data.message || data.msg || t('error'));

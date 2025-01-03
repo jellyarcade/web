@@ -22,13 +22,13 @@ const GameGrid = () => {
       try {
         setIsLoading(true);
         setError(null);
-        console.log('Fetching games with locale:', params.locale);
+
         const response = await fetch(
           `http://localhost:5001/api/games?lang=${params.locale}`
         );
-        console.log('Response:', response);
+
         const data = await response.json();
-        console.log('Games data:', data);
+
         if (Array.isArray(data)) {
           setGames(data);
         } else {
