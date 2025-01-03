@@ -8,20 +8,22 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
     const initAuth = async () => {
-      const token = localStorage.getItem('token');
+      const storedToken = localStorage.getItem('token');
 
-      if (token) {
+      if (storedToken) {
         try {
           // Token'dan user bilgilerini çıkar
-          const decoded = jwtDecode(token);
+          const decoded = jwtDecode(storedToken);
           const userData = {
             id: decoded.userId,
             role: decoded.role,
           };
           setUser(userData);
+          setToken(storedToken);
         } catch (error) {
           console.error('Auth init error:', error);
           localStorage.removeItem('token');
@@ -33,16 +35,17 @@ export function AuthProvider({ children }) {
     initAuth();
   }, []);
 
-  const login = async (userData, token) => {
+  const login = async (userData, newToken) => {
     try {
-      localStorage.setItem('token', token);
+      localStorage.setItem('token', newToken);
       // Token'dan user bilgilerini çıkar
-      const decoded = jwtDecode(token);
+      const decoded = jwtDecode(newToken);
       const userInfo = {
         id: decoded.userId,
         role: decoded.role,
       };
       setUser(userInfo);
+      setToken(newToken);
     } catch (error) {
       console.error('Login error:', error);
       localStorage.removeItem('token');
@@ -52,10 +55,11 @@ export function AuthProvider({ children }) {
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
+    setToken(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, token, loading, login, logout }}>
       {!loading && children}
     </AuthContext.Provider>
   );

@@ -10,6 +10,7 @@ import { useParams } from 'next/navigation';
 
 const GameGrid = ({ categorySlug }) => {
   const [games, setGames] = useState([]);
+  const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const isMobile = useMediaQuery('(max-width: 1024px)');
@@ -21,54 +22,38 @@ const GameGrid = ({ categorySlug }) => {
     triggerOnce: false,
   });
 
-  // TODO: Replace with actual API call
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        // Simüle edilmiş API çağrısı
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        setIsLoading(true);
+        const response = await fetch(
+          `http://localhost:5001/api/games?category=${categorySlug}&page=${page}&limit=20&lang=${params.locale}`
+        );
+        const data = await response.json();
 
-        // Örnek veri - 20 oyun yükle (2 satır)
-        const newGames = Array.from({ length: 20 }, (_, i) => ({
-          id: games.length + i + 1,
-          title: `Game ${games.length + i + 1}`,
-          image: `https://picsum.photos/seed/${games.length + i + 1}/800/600`,
-          slug: `game-${games.length + i + 1}`,
-          category: categorySlug,
-        }));
-
-        setGames(prev => [...prev, ...newGames]);
-        setHasMore(newGames.length === 20);
-        setIsLoading(false);
+        if (data && data.data) {
+          setGames(prev => [...prev, ...data.data]);
+          setHasMore(data.data.length === 20);
+        }
       } catch (error) {
         console.error('Error fetching games:', error);
+      } finally {
         setIsLoading(false);
       }
     };
 
     if (inView && hasMore) {
       fetchGames();
+      setPage(prev => prev + 1);
     }
-  }, [inView, hasMore, games.length, categorySlug]);
-
-  const getCategoryTitle = () => {
-    // TODO: Replace with actual category mapping
-    const categories = {
-      action: 'Action Games',
-      adventure: 'Adventure Games',
-      racing: 'Racing Games',
-      sports: 'Sports Games',
-      puzzle: 'Puzzle Games',
-    };
-    return categories[categorySlug] || categorySlug;
-  };
+  }, [inView, hasMore, categorySlug, page, params.locale]);
 
   return (
     <section className='md:pt-8 pb-8'>
       <div className='max-w-[95%] mx-auto'>
         <div className='mb-6'>
           <h2 className='text-2xl font-cocogoose font-medium uppercase mb-2 text-[#2cd284]'>
-            {getCategoryTitle()}
+            {t(`categories.${categorySlug}`)}
           </h2>
           <p className='text-gray-600'>{t('subtitle')}</p>
         </div>
@@ -80,22 +65,27 @@ const GameGrid = ({ categorySlug }) => {
         >
           {games.map(game => (
             <Link
-              key={game.id}
-              href={`/${params.locale}/${game.slug}`}
+              key={game._id}
+              href={`/${params.locale}/${game.slug[params.locale]}`}
               className='block'
             >
               <div className='relative aspect-square rounded-lg overflow-hidden shadow-lg group'>
                 <Image
-                  src={game.image}
-                  alt={game.title}
+                  src={game.image || '/images/game-placeholder.jpg'}
+                  alt={game.title[params.locale]}
                   fill
                   className='object-cover transition-transform duration-300 group-hover:scale-110'
                 />
                 <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent' />
                 <div className='absolute bottom-2 left-2 right-2'>
                   <h3 className='text-white font-medium truncate text-sm'>
-                    {game.title}
+                    {game.title[params.locale]}
                   </h3>
+                  <div className='flex items-center gap-2 mt-1'>
+                    <span className='text-xs text-gray-300'>
+                      {game.playCount || 0} oynanma
+                    </span>
+                  </div>
                 </div>
               </div>
             </Link>

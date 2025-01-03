@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
 import { useAuth } from '@/contexts/AuthContext';
@@ -13,6 +14,7 @@ export default function AuthModal({ isOpen, onClose }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
+  const t = useTranslations('auth');
 
   if (!isOpen) return null;
 
@@ -35,14 +37,13 @@ export default function AuthModal({ isOpen, onClose }) {
       console.log('Auth response:', data);
 
       if (!response.ok) {
-        throw new Error(data.message || data.msg || 'Bir hata oluştu');
+        throw new Error(data.message || data.msg || t('error'));
       }
 
       if (!data.token) {
-        throw new Error('Token alınamadı');
+        throw new Error(t('tokenError'));
       }
 
-      // Context üzerinden login işlemini gerçekleştir
       await login(data.user, data.token);
       onClose();
     } catch (error) {
@@ -54,25 +55,22 @@ export default function AuthModal({ isOpen, onClose }) {
   };
 
   const handleSocialLogin = provider => {
-    // Popup penceresi boyutları
     const width = 500;
     const height = 600;
     const left = window.screenX + (window.outerWidth - width) / 2;
     const top = window.screenY + (window.outerHeight - height) / 2;
 
-    // Popup'ı aç
     const popup = window.open(
       `http://localhost:5001/api/auth/${provider}`,
       `${provider}Login`,
       `width=${width},height=${height},left=${left},top=${top}`
     );
 
-    // Popup'tan gelen mesajları dinle
     window.addEventListener('message', async function (event) {
       if (event.origin === 'http://localhost:5001') {
         const { token, error } = event.data;
         if (token) {
-          await login(null, token); // Sadece token'ı gönder, user bilgisi backend'den alınacak
+          await login(null, token);
           popup.close();
           onClose();
         } else if (error) {
@@ -88,7 +86,7 @@ export default function AuthModal({ isOpen, onClose }) {
       <div className='bg-white rounded-lg p-8 max-w-md w-full mx-4'>
         <div className='flex justify-between items-center mb-6'>
           <h2 className='text-2xl font-bold'>
-            {isLogin ? 'Giriş Yap' : 'Kayıt Ol'}
+            {isLogin ? t('login') : t('signup')}
           </h2>
           <button
             onClick={onClose}
@@ -120,7 +118,7 @@ export default function AuthModal({ isOpen, onClose }) {
           {!isLogin && (
             <div>
               <label className='block text-sm font-medium text-gray-700'>
-                Ad Soyad
+                {t('name')}
               </label>
               <input
                 type='text'
@@ -131,9 +129,10 @@ export default function AuthModal({ isOpen, onClose }) {
               />
             </div>
           )}
+
           <div>
             <label className='block text-sm font-medium text-gray-700'>
-              Email
+              {t('email')}
             </label>
             <input
               type='email'
@@ -143,9 +142,10 @@ export default function AuthModal({ isOpen, onClose }) {
               required
             />
           </div>
+
           <div>
             <label className='block text-sm font-medium text-gray-700'>
-              Şifre
+              {t('password')}
             </label>
             <input
               type='password'
@@ -155,12 +155,13 @@ export default function AuthModal({ isOpen, onClose }) {
               required
             />
           </div>
+
           <button
             type='submit'
             disabled={loading}
             className='w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed'
           >
-            {loading ? 'İşleniyor...' : isLogin ? 'Giriş Yap' : 'Kayıt Ol'}
+            {loading ? t('processing') : isLogin ? t('login') : t('signup')}
           </button>
         </form>
 
@@ -171,7 +172,7 @@ export default function AuthModal({ isOpen, onClose }) {
             </div>
             <div className='relative flex justify-center text-sm'>
               <span className='px-2 bg-white text-gray-500'>
-                Veya şununla devam et
+                {t('continueWith')}
               </span>
             </div>
           </div>
@@ -202,9 +203,7 @@ export default function AuthModal({ isOpen, onClose }) {
             disabled={loading}
             className='text-orange-600 hover:text-orange-500 disabled:opacity-50 disabled:cursor-not-allowed'
           >
-            {isLogin
-              ? 'Hesabın yok mu? Kayıt ol'
-              : 'Zaten hesabın var mı? Giriş yap'}
+            {isLogin ? t('noAccount') : t('haveAccount')}
           </button>
         </div>
       </div>

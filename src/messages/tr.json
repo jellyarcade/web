@@ -25,7 +25,7 @@
     "startTyping": "Aramaya başlamak için yazmaya başlayın"
   },
   "category": {
-    "subtitle": "Bu kategorideki en iyi oyunları keşfedin",
+    "subtitle": "Bu kategorideki tüm oyunlar",
     "categories": {
       "action": "Aksiyon Oyunları",
       "adventure": "Macera Oyunları",
@@ -69,7 +69,7 @@
     },
     "gameGrid": {
       "title": "Tüm Oyunlar",
-      "subtitle": "Keşfedilmeyi bekleyen binlerce oyun"
+      "subtitle": "En yeni ve en popüler oyunları keşfedin"
     },
     "badges": {
       "updated": "YENİLENDİ",
@@ -102,10 +102,36 @@
     "signup": "Kayıt Ol",
     "email": "E-posta",
     "password": "Şifre",
+    "name": "Ad Soyad",
     "continueWith": "Veya şununla devam et",
     "noAccount": "Hesabın yok mu? Kayıt ol",
     "haveAccount": "Zaten hesabın var mı? Giriş yap",
     "google": "Google ile devam et",
-    "facebook": "Facebook ile devam et"
+    "facebook": "Facebook ile devam et",
+    "processing": "İşleniyor...",
+    "error": "Bir hata oluştu",
+    "tokenError": "Oturum açılamadı"
+  },
+  "profile": {
+    "title": "Profil Bilgileri",
+    "profilePicture": "Profil Fotoğrafı",
+    "role": "Rol",
+    "accountStatus": "Hesap Durumu",
+    "active": "Aktif"
+  },
+  "notifications": {
+    "title": "Bildirimler",
+    "noNotifications": "Henüz bildiriminiz yok"
+  },
+  "favorites": {
+    "title": "Favori Oyunlarım",
+    "noFavorites": "Henüz favori oyununuz yok"
+  },
+  "game": {
+    "gameDetails": "Oyun Detayları",
+    "description": "Açıklama",
+    "category": "Kategori",
+    "tags": "Etiketler",
+    "playCount": "{count} kez oynandı"
   }
 }

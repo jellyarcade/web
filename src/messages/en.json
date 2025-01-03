@@ -25,7 +25,7 @@
     "startTyping": "Start typing to search"
   },
   "category": {
-    "subtitle": "Discover the best games in this category",
+    "subtitle": "All games in this category",
     "categories": {
       "action": "Action Games",
       "adventure": "Adventure Games",
@@ -36,10 +36,7 @@
   },
   "home": {
     "hero": {
-      "title": "Welcome to Game World",
-      "subtitle": "Thousands of free games, unlimited fun",
-      "cta": "Play Now",
-      "featured": "Featured Games",
+      "featured": "Featured",
       "slideOne": {
         "title": "Ready for a New Adventure?",
         "description": "Get ready for an exciting experience with the newest games!"
@@ -51,7 +48,8 @@
       "slideThree": {
         "title": "Endless Fun",
         "description": "Have endless fun with thousands of free games!"
-      }
+      },
+      "cta": "Play Now"
     },
     "categories": {
       "title": "Categories",
@@ -71,7 +69,7 @@
     },
     "gameGrid": {
       "title": "All Games",
-      "subtitle": "Discover thousands of games waiting to be explored"
+      "subtitle": "Discover the newest and most popular games"
     },
     "badges": {
       "updated": "UPDATED",
@@ -79,6 +77,7 @@
     }
   },
   "footer": {
+    "copyright": "© 2024 Jelly Arcade. All rights reserved.",
     "description": "Game portal where you can play thousands of free games. New games, popular games and more.",
     "quickLinks": "Quick Links",
     "categories": "Categories",
@@ -92,8 +91,7 @@
     "adventureGames": "Adventure Games",
     "sportsGames": "Sports Games",
     "racingGames": "Racing Games",
-    "allRightsReserved": "All rights reserved.",
-    "copyright": "© 2024 Jelly Arcade. All rights reserved."
+    "allRightsReserved": "All rights reserved."
   },
   "user": {
     "profile": "My Profile",
@@ -104,10 +102,36 @@
     "signup": "Sign Up",
     "email": "Email",
     "password": "Password",
+    "name": "Full Name",
     "continueWith": "Or continue with",
     "noAccount": "Don't have an account? Sign up",
     "haveAccount": "Already have an account? Login",
     "google": "Continue with Google",
-    "facebook": "Continue with Facebook"
+    "facebook": "Continue with Facebook",
+    "processing": "Processing...",
+    "error": "An error occurred",
+    "tokenError": "Could not sign in"
+  },
+  "profile": {
+    "title": "Profile Information",
+    "profilePicture": "Profile Picture",
+    "role": "Role",
+    "accountStatus": "Account Status",
+    "active": "Active"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "noNotifications": "You have no notifications yet"
+  },
+  "favorites": {
+    "title": "My Favorite Games",
+    "noFavorites": "You have no favorite games yet"
+  },
+  "game": {
+    "gameDetails": "Game Details",
+    "description": "Description",
+    "category": "Category",
+    "tags": "Tags",
+    "playCount": "Played {count} times"
   }
 }

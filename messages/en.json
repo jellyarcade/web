@@ -1,0 +1,18 @@
+{
+  "home": {
+    "gameGrid": {
+      "title": "All Games",
+      "subtitle": "Discover the newest and most popular games"
+    }
+  },
+  "category": {
+    "subtitle": "All games in this category"
+  },
+  "game": {
+    "gameDetails": "Game Details",
+    "description": "Description",
+    "category": "Category",
+    "tags": "Tags",
+    "playCount": "{{count}} plays"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "home": {
+    "gameGrid": {
+      "title": "Tüm Oyunlar",
+      "subtitle": "En yeni ve en popüler oyunları keşfedin"
+    }
+  },
+  "category": {
+    "subtitle": "Bu kategorideki tüm oyunlar"
+  },
+  "game": {
+    "gameDetails": "Oyun Detayları",
+    "description": "Açıklama",
+    "category": "Kategori",
+    "tags": "Etiketler",
+    "playCount": "{{count}} oynanma"
+  }
+}

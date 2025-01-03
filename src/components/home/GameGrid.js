@@ -102,7 +102,7 @@ const GameGrid = () => {
             {games.map(game => (
               <Link
                 key={game._id}
-                href={`/${params.locale}/games/${game.slug[params.locale]}`}
+                href={`/${params.locale}/${game.slug[params.locale]}`}
                 className='block'
               >
                 <div className='relative aspect-square rounded-lg overflow-hidden shadow-lg group'>

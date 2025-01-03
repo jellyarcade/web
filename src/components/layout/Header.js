@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { HiMenu, HiSearch, HiX } from 'react-icons/hi';
 import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 import Logo from './Logo';
 import UserMenu from './UserMenu';
 import Sidebar from './Sidebar';
@@ -15,6 +16,8 @@ const Header = ({ children }) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const t = useTranslations('navigation');
+  const pathname = usePathname();
+  const locale = pathname.split('/')[1];
 
   const handleAuthModal = () => {
     setIsAuthModalOpen(true);
@@ -43,7 +46,7 @@ const Header = ({ children }) => {
               >
                 <HiMenu />
               </button>
-              <Logo />
+              <Logo locale={locale} />
             </div>
 
             {/* Desktop Search */}

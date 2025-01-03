@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
-const Logo = () => {
+const Logo = ({ locale }) => {
   return (
-    <Link href="/" className="block">
+    <Link href={`/${locale}`} className='block'>
       <Image
-        src="/images/logo.png"
-        alt="Game Portal Logo"
+        src='/images/logo.png'
+        alt='Game Portal Logo'
         width={300}
         height={100}
-        className="h-16 w-auto"
+        className='h-16 w-auto'
       />
     </Link>
   );
