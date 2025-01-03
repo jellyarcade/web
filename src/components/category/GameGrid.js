@@ -7,32 +7,34 @@ import { useInView } from 'react-intersection-observer';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
-import Container from '../layout/Container';
 
-const GameGrid = () => {
+const GameGrid = ({ categorySlug }) => {
   const [games, setGames] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const isMobile = useMediaQuery('(max-width: 1024px)');
   const params = useParams();
-  const t = useTranslations('home.gameGrid');
+  const t = useTranslations('category');
 
   const { ref, inView } = useInView({
     threshold: 0,
     triggerOnce: false,
   });
 
+  // TODO: Replace with actual API call
   useEffect(() => {
     const fetchGames = async () => {
       try {
+        // Simüle edilmiş API çağrısı
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        // 20 oyun yükle (2 tam satır)
+        // Örnek veri - 20 oyun yükle (2 satır)
         const newGames = Array.from({ length: 20 }, (_, i) => ({
           id: games.length + i + 1,
           title: `Game ${games.length + i + 1}`,
           image: `https://picsum.photos/seed/${games.length + i + 1}/800/600`,
           slug: `game-${games.length + i + 1}`,
+          category: categorySlug,
         }));
 
         setGames(prev => [...prev, ...newGames]);
@@ -47,14 +49,26 @@ const GameGrid = () => {
     if (inView && hasMore) {
       fetchGames();
     }
-  }, [inView, hasMore, games.length]);
+  }, [inView, hasMore, games.length, categorySlug]);
+
+  const getCategoryTitle = () => {
+    // TODO: Replace with actual category mapping
+    const categories = {
+      action: 'Action Games',
+      adventure: 'Adventure Games',
+      racing: 'Racing Games',
+      sports: 'Sports Games',
+      puzzle: 'Puzzle Games',
+    };
+    return categories[categorySlug] || categorySlug;
+  };
 
   return (
     <section className='md:pt-8 pb-8'>
-      <Container>
+      <div className='max-w-[95%] mx-auto'>
         <div className='mb-6'>
           <h2 className='text-2xl font-cocogoose font-medium uppercase mb-2 text-[#2cd284]'>
-            {t('title')}
+            {getCategoryTitle()}
           </h2>
           <p className='text-gray-600'>{t('subtitle')}</p>
         </div>
@@ -93,7 +107,7 @@ const GameGrid = () => {
             <div className='w-8 h-8 border-4 border-brand-orange border-t-transparent rounded-full animate-spin' />
           </div>
         )}
-      </Container>
+      </div>
     </section>
   );
 };

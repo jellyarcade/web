@@ -10,6 +10,22 @@
     "login": "Login",
     "signup": "Sign Up"
   },
+  "search": {
+    "search": "Search Games",
+    "resultsFor": "Results for '{query}'",
+    "noResults": "No results found",
+    "startTyping": "Start typing to search"
+  },
+  "category": {
+    "subtitle": "Discover the best games in this category",
+    "categories": {
+      "action": "Action Games",
+      "adventure": "Adventure Games",
+      "racing": "Racing Games",
+      "sports": "Sports Games",
+      "puzzle": "Puzzle Games"
+    }
+  },
   "home": {
     "hero": {
       "title": "Welcome to Game World",

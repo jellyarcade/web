@@ -10,11 +10,9 @@ import {
   HiHeart,
 } from 'react-icons/hi';
 import LanguageSwitcher from './LanguageSwitcher';
-import AuthModal from '../auth/AuthModal';
 
-const UserMenu = () => {
+const UserMenu = ({ onAuthRequired }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const menuRef = useRef();
   const t = useTranslations('user');
 
@@ -32,10 +30,6 @@ const UserMenu = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleAuthRequired = () => {
-    setIsAuthModalOpen(true);
-  };
-
   return (
     <div
       className='flex items-center justify-between space-x-2 md:space-x-2'
@@ -43,9 +37,7 @@ const UserMenu = () => {
     >
       <div className='flex items-center gap-4 md:gap-6 order-first md:order-last md:ml-6'>
         <button
-          onClick={
-            isAuthenticated ? () => setIsOpen(!isOpen) : handleAuthRequired
-          }
+          onClick={isAuthenticated ? () => setIsOpen(!isOpen) : onAuthRequired}
           className='w-8 h-8 rounded-full bg-gray-200 overflow-hidden focus:ring-2 focus:ring-[#ff4f00]'
         >
           <img
@@ -62,7 +54,7 @@ const UserMenu = () => {
             </Link>
           ) : (
             <button
-              onClick={handleAuthRequired}
+              onClick={onAuthRequired}
               className='text-white hover:text-white/90'
             >
               <HiHeart className='w-8 h-8' />
@@ -78,7 +70,7 @@ const UserMenu = () => {
               </Link>
             ) : (
               <button
-                onClick={handleAuthRequired}
+                onClick={onAuthRequired}
                 className='text-white hover:text-white/90'
               >
                 <HiBell className='w-7 h-7' />
@@ -98,7 +90,7 @@ const UserMenu = () => {
           </Link>
         ) : (
           <button
-            onClick={handleAuthRequired}
+            onClick={onAuthRequired}
             className='text-white hover:text-white/90'
           >
             <HiHeart className='w-8 h-8' />
@@ -114,7 +106,7 @@ const UserMenu = () => {
             </Link>
           ) : (
             <button
-              onClick={handleAuthRequired}
+              onClick={onAuthRequired}
               className='text-white hover:text-white/90'
             >
               <HiBell className='w-7 h-7' />
@@ -151,11 +143,6 @@ const UserMenu = () => {
           </button>
         </div>
       )}
-
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-      />
     </div>
   );
 };

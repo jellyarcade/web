@@ -10,6 +10,22 @@
     "login": "Giriş Yap",
     "signup": "Kayıt Ol"
   },
+  "search": {
+    "search": "Oyun Ara",
+    "resultsFor": "'{query}' için sonuçlar",
+    "noResults": "Sonuç bulunamadı",
+    "startTyping": "Aramaya başlamak için yazmaya başlayın"
+  },
+  "category": {
+    "subtitle": "Bu kategorideki en iyi oyunları keşfedin",
+    "categories": {
+      "action": "Aksiyon Oyunları",
+      "adventure": "Macera Oyunları",
+      "racing": "Yarış Oyunları",
+      "sports": "Spor Oyunları",
+      "puzzle": "Bulmaca Oyunları"
+    }
+  },
   "home": {
     "hero": {
       "featured": "Öne Çıkanlar",
