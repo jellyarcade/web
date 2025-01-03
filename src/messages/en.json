@@ -6,7 +6,9 @@
     "games": "Games",
     "categories": "Categories",
     "search": "Search games...",
-    "contactUs": "Contact Us"
+    "contactUs": "Contact Us",
+    "login": "Login",
+    "signup": "Sign Up"
   },
   "home": {
     "hero": {
@@ -72,5 +74,16 @@
   "user": {
     "profile": "My Profile",
     "logout": "Logout"
+  },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "continueWith": "Or continue with",
+    "noAccount": "Don't have an account? Sign up",
+    "haveAccount": "Already have an account? Login",
+    "google": "Continue with Google",
+    "facebook": "Continue with Facebook"
   }
 }

@@ -6,7 +6,9 @@
     "games": "Oyunlar",
     "categories": "Kategoriler",
     "search": "Oyun ara...",
-    "contactUs": "İletişim"
+    "contactUs": "İletişim",
+    "login": "Giriş Yap",
+    "signup": "Kayıt Ol"
   },
   "home": {
     "hero": {
@@ -70,5 +72,16 @@
   "user": {
     "profile": "Profilim",
     "logout": "Çıkış Yap"
+  },
+  "auth": {
+    "login": "Giriş Yap",
+    "signup": "Kayıt Ol",
+    "email": "E-posta",
+    "password": "Şifre",
+    "continueWith": "Veya şununla devam et",
+    "noAccount": "Hesabın yok mu? Kayıt ol",
+    "haveAccount": "Zaten hesabın var mı? Giriş yap",
+    "google": "Google ile devam et",
+    "facebook": "Facebook ile devam et"
   }
 }
