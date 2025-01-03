@@ -4,14 +4,19 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { IoClose } from 'react-icons/io5';
+import { IoClose, IoSearch } from 'react-icons/io5';
 import { useTranslations } from 'next-intl';
 
-const SearchModal = ({ isOpen, onClose, searchQuery }) => {
+const SearchModal = ({ isOpen, onClose, searchQuery: initialQuery = '' }) => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
   const params = useParams();
   const t = useTranslations('search');
+
+  useEffect(() => {
+    setSearchQuery(initialQuery);
+  }, [initialQuery]);
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -43,7 +48,11 @@ const SearchModal = ({ isOpen, onClose, searchQuery }) => {
       }
     };
 
-    fetchResults();
+    const timer = setTimeout(() => {
+      fetchResults();
+    }, 300);
+
+    return () => clearTimeout(timer);
   }, [searchQuery]);
 
   if (!isOpen) return null;
@@ -51,19 +60,27 @@ const SearchModal = ({ isOpen, onClose, searchQuery }) => {
   return (
     <div className='fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-20'>
       <div className='bg-white w-full max-w-3xl rounded-lg shadow-xl max-h-[80vh] overflow-hidden'>
-        {/* Header */}
-        <div className='p-4 border-b flex justify-between items-center'>
-          <h2 className='text-xl font-medium'>
-            {searchQuery
-              ? t('resultsFor', { query: searchQuery })
-              : t('search')}
-          </h2>
-          <button
-            onClick={onClose}
-            className='p-2 hover:bg-gray-100 rounded-full transition-colors'
-          >
-            <IoClose className='w-6 h-6' />
-          </button>
+        {/* Header with Search Input */}
+        <div className='p-4 border-b'>
+          <div className='flex items-center gap-3'>
+            <div className='relative flex-1'>
+              <input
+                type='text'
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder={t('search')}
+                className='w-full h-11 pl-12 pr-4 bg-gray-100 rounded-lg outline-none focus:ring-2 ring-brand-orange/50'
+                autoFocus
+              />
+              <IoSearch className='absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400' />
+            </div>
+            <button
+              onClick={onClose}
+              className='p-2 hover:bg-gray-100 rounded-full transition-colors'
+            >
+              <IoClose className='w-6 h-6' />
+            </button>
+          </div>
         </div>
 
         {/* Content */}
