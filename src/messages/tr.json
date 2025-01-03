@@ -10,6 +10,14 @@
     "login": "Giriş Yap",
     "signup": "Kayıt Ol"
   },
+  "contact": {
+    "title": "İletişim",
+    "name": "Adınız",
+    "email": "E-posta Adresiniz",
+    "message": "Mesajınız",
+    "send": "Gönder",
+    "sending": "Gönderiliyor..."
+  },
   "search": {
     "search": "Oyun Ara",
     "resultsFor": "'{query}' için sonuçlar",

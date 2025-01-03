@@ -8,20 +8,83 @@ export default function AuthModal({ isOpen, onClose }) {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
 
   const handleSubmit = async e => {
     e.preventDefault();
-    // TODO: Implement auth logic
+    setError('');
+    setLoading(true);
+
+    try {
+      const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
+      const body = isLogin ? { email, password } : { name, email, password };
+
+      const response = await fetch(`http://localhost:5001${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      const data = await response.json();
+      console.log('Auth response:', data);
+
+      if (!response.ok) {
+        throw new Error(data.message || data.msg || 'Bir hata oluştu');
+      }
+
+      if (!data.token) {
+        throw new Error('Token alınamadı');
+      }
+
+      // Token'ı localStorage'a kaydet
+      localStorage.setItem('token', data.token);
+      if (data.user) {
+        localStorage.setItem('user', JSON.stringify(data.user));
+      }
+
+      onClose();
+      window.location.reload(); // Kullanıcı durumunu yenile
+    } catch (error) {
+      console.error('Auth error:', error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleGoogleLogin = async () => {
-    // TODO: Implement Google login
-  };
+  const handleSocialLogin = provider => {
+    // Popup penceresi boyutları
+    const width = 500;
+    const height = 600;
+    const left = window.screenX + (window.outerWidth - width) / 2;
+    const top = window.screenY + (window.outerHeight - height) / 2;
 
-  const handleFacebookLogin = async () => {
-    // TODO: Implement Facebook login
+    // Popup'ı aç
+    const popup = window.open(
+      `http://localhost:5001/api/auth/${provider}`,
+      `${provider}Login`,
+      `width=${width},height=${height},left=${left},top=${top}`
+    );
+
+    // Popup'tan gelen mesajları dinle
+    window.addEventListener('message', function (event) {
+      if (event.origin === 'http://localhost:5001') {
+        const { token, error } = event.data;
+        if (token) {
+          localStorage.setItem('token', token);
+          popup.close();
+          onClose();
+          window.location.reload();
+        } else if (error) {
+          setError(error);
+          popup.close();
+        }
+      }
+    });
   };
 
   return (
@@ -51,7 +114,27 @@ export default function AuthModal({ isOpen, onClose }) {
           </button>
         </div>
 
+        {error && (
+          <div className='mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded'>
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className='space-y-4'>
+          {!isLogin && (
+            <div>
+              <label className='block text-sm font-medium text-gray-700'>
+                Ad Soyad
+              </label>
+              <input
+                type='text'
+                value={name}
+                onChange={e => setName(e.target.value)}
+                className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500'
+                required={!isLogin}
+              />
+            </div>
+          )}
           <div>
             <label className='block text-sm font-medium text-gray-700'>
               Email
@@ -60,11 +143,10 @@ export default function AuthModal({ isOpen, onClose }) {
               type='email'
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500'
+              className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500'
               required
             />
           </div>
-
           <div>
             <label className='block text-sm font-medium text-gray-700'>
               Şifre
@@ -73,16 +155,16 @@ export default function AuthModal({ isOpen, onClose }) {
               type='password'
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500'
+              className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500'
               required
             />
           </div>
-
           <button
             type='submit'
-            className='w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500'
+            disabled={loading}
+            className='w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed'
           >
-            {isLogin ? 'Giriş Yap' : 'Kayıt Ol'}
+            {loading ? 'İşleniyor...' : isLogin ? 'Giriş Yap' : 'Kayıt Ol'}
           </button>
         </form>
 
@@ -100,15 +182,17 @@ export default function AuthModal({ isOpen, onClose }) {
 
           <div className='mt-6 grid grid-cols-2 gap-3'>
             <button
-              onClick={handleGoogleLogin}
-              className='w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50'
+              onClick={() => handleSocialLogin('google')}
+              disabled={loading}
+              className='w-full inline-flex justify-center items-center py-2.5 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed'
             >
               <FcGoogle className='h-5 w-5' />
               <span className='ml-2'>Google</span>
             </button>
             <button
-              onClick={handleFacebookLogin}
-              className='w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50'
+              onClick={() => handleSocialLogin('facebook')}
+              disabled={loading}
+              className='w-full inline-flex justify-center items-center py-2.5 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed'
             >
               <FaFacebook className='h-5 w-5 text-blue-600' />
               <span className='ml-2'>Facebook</span>
@@ -119,7 +203,8 @@ export default function AuthModal({ isOpen, onClose }) {
         <div className='mt-6 text-center text-sm'>
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className='text-brand-600 hover:text-brand-500'
+            disabled={loading}
+            className='text-orange-600 hover:text-orange-500 disabled:opacity-50 disabled:cursor-not-allowed'
           >
             {isLogin
               ? 'Hesabın yok mu? Kayıt ol'

@@ -1,12 +1,15 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { HiHome, HiStar, HiSparkles } from 'react-icons/hi';
 import { HiOutlineEnvelope } from 'react-icons/hi2';
+import { useTranslations } from 'next-intl';
+import ContactModal from '../contact/ContactModal';
 
 const Sidebar = ({ isOpen, onClose, children }) => {
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const t = useTranslations('navigation');
 
   const menuItems = [
@@ -51,13 +54,21 @@ const Sidebar = ({ isOpen, onClose, children }) => {
 
           {/* İletişim Butonu */}
           <div className='p-4 pb-12'>
-            <button className='w-full flex items-center justify-center gap-2 bg-[#16bf36] text-white py-4 px-6 rounded-full text-lg font-semilight hover:bg-[#16bf36]/90 transition-colors'>
+            <button
+              onClick={() => setIsContactModalOpen(true)}
+              className='w-full flex items-center justify-center gap-2 bg-[#16bf36] text-white py-4 px-6 rounded-full text-lg font-semilight hover:bg-[#16bf36]/90 transition-colors'
+            >
               <HiOutlineEnvelope className='text-2xl' />
               {t('contactUs')}
             </button>
           </div>
         </div>
       </div>
+
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+      />
     </>
   );
 };
