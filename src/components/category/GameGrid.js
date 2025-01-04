@@ -27,7 +27,7 @@ const GameGrid = ({ categorySlug }) => {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `http://localhost:5001/api/games?category=${categorySlug}&page=${page}&limit=20&lang=${params.locale}`
+          `https://api.jellyarcade.com/api/games?category=${categorySlug}&page=${page}&limit=20&lang=${params.locale}`
         );
         const data = await response.json();
 

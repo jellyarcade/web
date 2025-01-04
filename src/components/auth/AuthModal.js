@@ -27,7 +27,7 @@ export default function AuthModal({ isOpen, onClose }) {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
       const body = isLogin ? { email, password } : { name, email, password };
 
-      const response = await fetch(`http://localhost:5001${endpoint}`, {
+      const response = await fetch(`https://api.jellyarcade.com${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -60,13 +60,13 @@ export default function AuthModal({ isOpen, onClose }) {
     const top = window.screenY + (window.outerHeight - height) / 2;
 
     const popup = window.open(
-      `http://localhost:5001/api/auth/${provider}`,
+      `https://api.jellyarcade.com/api/auth/${provider}`,
       `${provider}Login`,
       `width=${width},height=${height},left=${left},top=${top}`
     );
 
     window.addEventListener('message', async function (event) {
-      if (event.origin === 'http://localhost:5001') {
+      if (event.origin === 'https://api.jellyarcade.com') {
         const { token, error } = event.data;
         if (token) {
           await login(null, token);

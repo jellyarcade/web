@@ -15,7 +15,7 @@ export default function GameClient({ game, locale }) {
     try {
       // Önce API'ye istek at
       const response = await fetch(
-        `http://localhost:5001/api/games/${game._id}/play`,
+        `https://api.jellyarcade.com/api/games/${game._id}/play`,
         {
           method: 'POST',
           headers: {
