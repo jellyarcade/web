@@ -78,14 +78,16 @@
   },
   "footer": {
     "copyright": "© 2024 Jelly Arcade. Tüm hakları saklıdır.",
-    "description": "Binlerce ücretsiz oyunu oynayabileceğiniz oyun portalı. Yeni oyunlar, popüler oyunlar ve daha fazlası.",
+    "description": "Binlerce ücretsiz oyun oynayabileceğiniz oyun portalı. Yeni oyunlar, popüler oyunlar ve daha fazlası.",
     "quickLinks": "Hızlı Bağlantılar",
     "categories": "Kategoriler",
-    "newsletterTitle": "Bülten",
-    "newsletter": {
-      "description": "Yeni oyunlar ve güncellemelerden haberdar olmak için bültenimize abone olun.",
-      "emailPlaceholder": "E-posta adresiniz",
-      "subscribe": "Abone Ol"
+    "legal": "Yasal",
+    "termsOfService": "Kullanım Koşulları",
+    "privacyPolicy": "Gizlilik ve Çerez Politikası",
+    "locale": "tr",
+    "paths": {
+      "termsOfService": "kullanim-kosullari",
+      "privacyPolicy": "gizlilik-politikasi"
     },
     "actionGames": "Aksiyon Oyunları",
     "adventureGames": "Macera Oyunları",
@@ -133,5 +135,36 @@
     "category": "Kategori",
     "tags": "Etiketler",
     "playCount": "{count} kez oynandı"
+  },
+  "legal": {
+    "termsTitle": "Kullanım Koşulları",
+    "privacyTitle": "Gizlilik ve Çerez Politikası",
+    "lastUpdated": "Son Güncelleme",
+    "termsLastUpdated": "4 Ocak 2024",
+    "privacyLastUpdated": "4 Ocak 2024",
+    "terms": {
+      "content": "JellyArcade, Karadağ kanunlarına göre kurulmuş ve faaliyet gösteren, sicil numarası 03588360 olan, merkezi Palih Boraca 14, Tivat - Karadağ adresinde bulunan CB CONS d.o.o. şirketinin (bundan sonra \"Şirket\" olarak anılacaktır) anlık (tarayıcı) oyun projesidir. Şirket, oyunları çevrimiçi erişilebilir bir şekilde sunmayı amaçlamaktadır (bundan sonra \"Platform\" olarak anılacaktır). Oyuncular Platforma hesaplı veya hesapsız erişebilir (bundan sonra \"Hesap\" olarak anılacaktır). Platform, adres çubuğunda görülebilen JellyArcade'in Şirket sitelerinden biri aracılığıyla erişilebilir (bundan sonra \"Website\" olarak anılacaktır). Bu Kullanım Koşulları (bundan sonra \"Koşullar\" olarak anılacaktır), Karadağ kanunlarına tabi Şirket ile Kullanıcı (bundan sonra \"Kullanıcı\" olarak anılacaktır) arasında akdedilmiştir.\n\nKullanıcı, Website'yi ve/veya Platform'u ziyaret eden, anlık (tarayıcı) oyunları oynayan, Website ve/veya Platform'da mevcut herhangi bir form aracılığıyla kayıt olan, giriş oluşturan, abone olan veya Şirket ile sözleşme yapan kişidir.\n\nBU KOŞULLAR, GİZLİLİK VE ÇEREZ POLİTİKAMIZLA DESTEKLENEN SİZİNLE İLİŞKİMİZİ TANIMLAR. PLATFORMUMUZDA WEB OYUNLARI OYNAYARAK VEYA WEBSİTE'Yİ VEYA PLATFORM'U BAŞKA ŞEKİLDE KULLANARAK, AŞAĞIDAKİ KOŞULLARA VE TÜM GEÇERLİ YASA VE YÖNETMELİKLERE BAĞLI KALMAYI KABUL EDERSİNİZ.\n\n**Platform, on üç (13) yaşında (veya ülkenizdeki geçerli minimum yaşta) veya daha büyük ziyaretçiler ve kullanıcılar için tasarlanmıştır. On üç (13) yaşından (veya ülkenizdeki geçerli minimum yaştan) küçükseniz, bu Platform sizin için tasarlanmamıştır. Platform aracılığıyla on üç (13) yaşından (veya ülkenizdeki geçerli minimum yaştan) küçük çocuklardan bilerek kişisel bilgi toplamaz veya talep etmeyiz.**\n\n**Website'yi ve/veya Platform'u kullanmanız, Website'de yayınlanan Koşullar'ın ve Gizlilik Politikası'nın en son versiyonundan haberdar olduğunuzu ve bunları kabul ettiğinizi gösterir. Üçüncü taraf web sitelerini veya içeriğini kullanımınızın tüm üçüncü taraf gereksinimlerine uygun olmasını sağlamak tamamen sizin sorumluluğunuzdadır.**\n\n**Bu Koşulları zaman zaman değiştirebiliriz. Önemli değişiklikleri size e-posta yoluyla (Platform'umuzda bir hesap (\"Hesap\") ile kayıtlıysanız) veya Website'de bir bildirim ile (gerekli görüldüğünde) bildireceğiz ve son değişiklik tarihini belirteceğiz. Bu güncellemeler yayınlandıktan sonra Website'yi veya Platform'u kullanmanız, bu değişiklikleri kabul ettiğiniz ve bunlarla bağlı olmayı kabul ettiğiniz anlamına gelecektir. Bu Koşullar, bu Koşullar'da belirtildiği şekilde sizin veya bizim tarafımızdan feshedilene kadar geçerli olmaya devam edecektir.**\n\n**Platform'umuz (ve tüm mevcut içerik) kullanımınız için lisanslanmıştır, ancak mülkiyet hakkı Şirket ve lisans verenlerinde kalmaktadır. Bu Sözleşme'nin tüm Koşulları'na uymanız şartıyla, Şirket size Platform'umuzu kullanmanız ve mevcut web oyunlarını kişisel, ticari olmayan kullanımınız için oynamanız için sınırlı bir lisans vermektedir. Ayrıca, kurallarımıza uyduğunuz sürece Platform'umuzdan oyun videoları yükleyebilir ve üçüncü taraf video paylaşım ve yayın platformlarında oyun yayını yapabilirsiniz.**\n\nŞirket size, bu Koşullar'da ve yazılı olarak bildirdiğimiz diğer sınırlamalara tabi olmak üzere, Platform'umuzu kullanmanız için münhasır olmayan, sınırlı, alt lisanslanamaz ve devredilemez bir hak vermektedir. Bu Koşullar'da yer alan hiçbir şey, Şirket'in Platform'umuzu başkalarına sağlamasını engellemez.\n\nAşağıda açıkça verilen sınırlı haklar dışında, Şirket, Website ve Platform'umuz üzerindeki tüm hak, mülkiyet ve menfaatleri, ilgili tüm fikri mülkiyet hakları dahil olmak üzere saklı tutar. Platform'umuz aracılığıyla sunulan tüm oyunlar Şirket veya iş ortaklarının mülkiyetindedir. Burada açıkça belirtilenler dışında size hiçbir hak verilmemektedir. Website/Platform'un herhangi bir bölümünü açık yazılı iznimiz olmadan çoğaltmamayı, kopyalamamayı, satmamayı, yeniden satmamayı veya kullanmamayı, Website/Platform'u kullanmamayı veya Website/Platform'a erişmemeyi kabul edersiniz. Görsel tasarım öğelerinin hiçbir bölümünü açık yazılı iznimiz olmadan kopyalayamaz, çoğaltamaz veya yeniden kullanamazsınız.\n\nKullanıcılar, Şirket'e kendi başlarına içerik yükleyebilir, oluşturabilir ve sağlayabilir (\"Kullanıcı İçeriği\"). Kullanıcı İçeriği'ni yüklediğiniz, oluşturduğunuz veya başka bir şekilde bize sağladığınız ölçüde, Şirket'e Website ve/veya Hizmetleri sağlamak ve sürdürmek için gerekli veya faydalı olabilecek şekilde bu Kullanıcı İçeriği'ni kullanmak, kopyalamak, depolamak, değiştirmek, iletmek ve görüntülemek için münhasır olmayan, telifsiz, dünya çapında, alt lisanslanabilir, devredilebilir bir lisans verirsiniz. Şirket, bu Koşullar'ın hükümlerini ihlal ettiği veya başka şekilde uygunsuz olduğu, üçüncü taraf haklarını ihlal ettiği veya geçerli yasa ve yönetmeliklere aykırı olduğu düşünülen Kullanıcı İçeriği'ni inceleme ve kaldırma hakkını saklı tutar, ancak bununla yükümlü değildir.\n\nKullanıcılar, Platform'umuzda bulunan oyunların oynanış görüntülerini ve ekran görüntülerini kullanarak çevrimiçi (canlı yayın) web sitelerinde video oluşturabilir, yükleyebilir, canlı yayın yapabilir ve gelir elde edebilir (\"Oyun İçeriği\"), ancak bu aşağıdaki koşullara tabidir: (i) Şirket'in Platform'u ve logosu açıkça görünür olacak ve gizlenmeyecektir, (ii) yalnızca bu tür çevrimiçi web sitelerinde (örneğin, Youtube, Twitch,...) mevcut olan gelir elde etme yöntemlerine uygun olarak videolardan ve yayınlardan gelir elde edilecektir, (iii) Oyun İçeriği'nizin Şirket tarafından resmi olarak desteklendiğini, onaylandığını veya Şirket ile bağlantılı olduğunu ima etmeyecek veya belirtmeyeceksiniz (Şirket'in sizinle ortaklık kurduğu durumlar hariç) ve (iv) Kullanıcı, Oyun İçeriği ile birlikte kullandığı üçüncü taraf içeriğinden (örneğin müzik) sorumludur. Şirket, yasadışı, ihlal edici, uygunsuz veya bu Koşullar'a uygun olmadığını düşündüğü Oyun İçeriği'ne karşı herhangi bir zamanda işlem yapma hakkını saklı tutar.\n\nŞirket, Kullanıcı'nın bu Koşullar'a uyması şartıyla, herhangi bir sorunu çözmek için elinden gelen çabayı gösterecektir."
+    },
+    "privacy": {
+      "dataCollection": {
+        "title": "Veri Toplama",
+        "content": "Hesap oluşturduğunuzda, oyun oynadığınızda veya bizimle iletişime geçtiğinizde doğrudan bize sağladığınız bilgileri toplarız. Bu bilgiler adınızı, e-posta adresinizi ve sağlamayı tercih ettiğiniz diğer bilgileri içerebilir."
+      },
+      "dataUse": {
+        "title": "Verilerin Kullanımı",
+        "content": "Toplanan bilgileri hizmetlerimizi sağlamak, sürdürmek ve iyileştirmek, sizinle iletişim kurmak ve Platformumuzun güvenliğini sağlamak için kullanırız."
+      },
+      "dataSharing": {
+        "title": "Veri Paylaşımı",
+        "content": "Kişisel bilgilerinizi, bu politikada belirtilen durumlar ve yasal zorunluluklar dışında üçüncü taraflarla paylaşmayız."
+      },
+      "cookies": {
+        "title": "Çerez Kullanımı",
+        "content": "Platform'daki deneyiminizi geliştirmek için çerezler ve benzer teknolojiler kullanırız. Bunlar şunları içerir:",
+        "essential": "Temel çerezler: Temel site işlevselliği için gereklidir",
+        "analytics": "Analitik çerezler: Ziyaretçilerin web sitemizle nasıl etkileşime girdiğini anlamamıza yardımcı olur",
+        "preferences": "Tercih çerezleri: Ayarlarınızı ve tercihlerinizi hatırlar"
+      }
+    }
   }
 }

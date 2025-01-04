@@ -27,8 +27,8 @@ export function middleware(request) {
     return;
   }
 
-  // Handle special page redirects
-  if (pathMappings[locale] && currentPath) {
+  // Handle path mappings
+  if (currentPath && pathMappings[locale]) {
     const correctPath = pathMappings[locale][currentPath];
     if (correctPath) {
       segments[2] = correctPath;

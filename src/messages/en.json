@@ -81,11 +81,13 @@
     "description": "Game portal where you can play thousands of free games. New games, popular games and more.",
     "quickLinks": "Quick Links",
     "categories": "Categories",
-    "newsletterTitle": "Newsletter",
-    "newsletter": {
-      "description": "Subscribe to our newsletter to stay updated with new games and updates.",
-      "emailPlaceholder": "Your email address",
-      "subscribe": "Subscribe"
+    "legal": "Legal",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy & Cookie Policy",
+    "locale": "en",
+    "paths": {
+      "termsOfService": "terms-of-service",
+      "privacyPolicy": "privacy-policy"
     },
     "actionGames": "Action Games",
     "adventureGames": "Adventure Games",
@@ -133,5 +135,36 @@
     "category": "Category",
     "tags": "Tags",
     "playCount": "Played {count} times"
+  },
+  "legal": {
+    "termsTitle": "Terms of Service",
+    "privacyTitle": "Privacy & Cookie Policy",
+    "lastUpdated": "Last Updated",
+    "termsLastUpdated": "January 4, 2024",
+    "privacyLastUpdated": "January 4, 2024",
+    "terms": {
+      "content": "JellyArcade is an instant (browser) game project of CB CONS d.o.o., a company incorporated and operating under the laws of Montenegro, with registration number 03588360, having its registered office at Palih Boraca 14, Tivat - Montenegro (hereinafter referred to as the \"Company\"). The Company aims to make games accessible online (hereinafter referred to as the \"Platform\"). Players can access the Platform with or without an account (hereinafter referred to as \"Account\"). The Platform is accessible through one of JellyArcade's Company sites, which can be seen in the address bar (hereinafter referred to as \"Website\"). These Terms of Use (hereinafter referred to as \"Terms\") are concluded between the Company, subject to the laws of Montenegro, and the User (hereinafter referred to as \"User\").\n\nUser is a person who visits the Website and/or Platform, plays instant (browser) games, registers, creates a login, subscribes or contracts with the Company through any form available on the Website and/or Platform.\n\nTHESE TERMS OUTLINE OUR RELATIONSHIP WITH YOU, AS SUPPLEMENTED BY OUR PRIVACY & COOKIE POLICY BY PLAYING WEB GAMES ON OUR PLATFORM OR OTHERWISE USING THE WEBSITE OR PLATFORM, YOU AGREE TO BE BOUND BY THE FOLLOWING TERMS AND CONDITIONS AND ALL APPLICABLE LAWS AND REGULATIONS.\n\nThe Platform is intended for visitors and users who are thirteen (13) years of age (or the applicable minimum age in your country) or older. If you are under thirteen (13) years of age (or the applicable minimum age in your country), this Platform is not intended for you. We do not knowingly collect or solicit personal information from children under the age of thirteen (13) (or the applicable minimum age in your country) through our Platform.\n\nYour use of the Website and/or the Platform means that you are aware of, and agree to, the most recent version of the Terms and our Privacy Policy as published on the Website. It is your sole responsibility to ensure that your use of any and all third party websites or content complies with all third party requirements.\n\nWe may modify these Terms from time to time. We will notify you of any material changes by email (if you are registered on our Platform via an account (\"Account\")) or notice on the Website (where deemed necessary) and will note the date of the last change. If you use the Website or Platform after these updates are posted, you will be deemed to accept these changes and agree to be bound by them. These Terms will continue to apply until terminated, either by you or by us, as described in these Terms.\n\nOur Platform (and all the available content) is licensed for your use, but its ownership as a property remains with Company and its licensors. Provided that you comply with all Terms of this Agreement, Company grants you a limited license to use our Platform and play the available web games for your personal, non-commercial use. You may also upload videos and stream games from our Platform on third party video sharing and streaming platforms but only when you follow our rules.\n\nCompany grants you a non-exclusive, limited, non-sublicensable and non-transferable right to use our Platform, subject to the limitations set forth in these Terms and any other limitations communicated by us in writing. Nothing in these Terms prohibits Company from providing our Platform to others.\n\nExcept for the limited rights expressly granted below, Company reserves all right, title and interest in and to our Website and Platform, including all related intellectual property rights. All games offered through our Platform are owned by Company or its partners. No rights are granted to you hereunder other than as expressly set forth herein. You agree not to reproduce, duplicate, copy, sell, resell or exploit any portion of the Website/Platform without our express written permission, not to use or access the Website/Platform. You may not copy, reproduce or reuse any portion of the visual design elements without our express written permission.\n\nUsers may upload, create and provide content to Company on its own ('User Content'). To the extent you upload, create or otherwise provide User Content to us, you grant Company a non-exclusive, royalty-free, worldwide, sublicensable, transferable, license to use, copy, store, modify, transmit and display such User Content as may be necessary or useful to provide and maintain the Website and/or Services. Company reserves the right, but is not obligated, to review and remove User Content that is deemed to violate the provisions of these Terms or otherwise inappropriate, third-party rights, or applicable laws or regulations.\n\nUsers may create, upload, livestream and monetise videos on online (live streaming) websites using gameplay and screenshots from games available on our Platform (\"Gaming Content\"), subject to the following conditions: (i) Company' Platform and its logo will be clearly visible and not obscured, (ii) only monetise such videos and streams in accordance with the monetisation methods available on such online websites (e.g., Youtube, Twitch,...), (iii) you do not imply or state that your Gaming Content is officially affiliated with, sponsored, endorsed or approved by Company (except when Company have entered into a partnership with you) and (iv) the User is responsible for any third party content (e.g. music) that it uses together with the Gaming Content. Company reserves the right to take action at any time against Gaming Content that Company believes is unlawful, infringing, inappropriate or not in accordance with these Terms.\n\nCompany will use its best efforts to resolve any issues, provided that the User complies with these Terms.\n\nYou can access our Platform and play web games with or without an Account. You should keep your username and password protected and secure. All activities that occur under your Account or on our Website are your responsibility. The Account information you provide to us must be accurate, complete, and your own. We are not responsible for any loss or damage arising from your failure to comply with these requirements or as a result of the use of your Account. If you are under 13 years old (or the applicable minimum age in your country of residence) or do not understand what this agreement is about, you and your parent or guardian must review this agreement together. Your right to use our Platform is also subject to limitations. In general, you should avoid doing anything that might harm Company or anyone else. Among other things, you may not copy the Platform or use any content in an illegal or harmful manner, make any misrepresentations of or abuse our services, or otherwise violate anyone's rights or any applicable laws. Failure to abide by any of these rules may bring us to revoke and cancel your Account, and void this agreement.\n\nYou can access our Platform with or without an Account. In order to create your Account, log in to the Website, and/or participate in the Platform offered, you must be eligible and agree to the terms and conditions set forth below. Failure to qualify and continuously comply with any of the following terms and conditions constitutes a violation of these Terms and may result in the termination of your Account and permission to use the Website and Platform. In particular, you agree that:\n\n<ul>\n<li>You are either (a) of age to give legal consent or (b) you are a minor over thirteen (13) years old or the applicable minimum age in your country, state, or province or (c) have the consent of your parents (or your legal guardian), to access the Website under the laws of all jurisdictions applicable to you. We expressly reserve the right (but have no obligation) to request proof of your age at any time;</li>\n</ul>"
+    },
+    "privacy": {
+      "dataCollection": {
+        "title": "Data Collection",
+        "content": "We collect information that you provide directly to us when you create an account, play games, or contact us. This may include your name, email address, and any other information you choose to provide."
+      },
+      "dataUse": {
+        "title": "Use of Data",
+        "content": "We use the collected information to provide, maintain, and improve our services, communicate with you, and ensure the security of our Platform."
+      },
+      "dataSharing": {
+        "title": "Data Sharing",
+        "content": "We do not share your personal information with third parties except as described in this policy and when required by law."
+      },
+      "cookies": {
+        "title": "Cookie Usage",
+        "content": "We use cookies and similar technologies to enhance your experience on our Platform. These include:",
+        "essential": "Essential cookies: Required for basic site functionality",
+        "analytics": "Analytics cookies: Help us understand how visitors interact with our website",
+        "preferences": "Preference cookies: Remember your settings and preferences"
+      }
+    }
   }
 }

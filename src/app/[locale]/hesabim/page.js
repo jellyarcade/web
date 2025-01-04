@@ -29,7 +29,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className='container mx-auto px-4 py-8'>
+    <div className='container mx-auto mt-24 px-4 py-8'>
       <div className='max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8'>
         <div className='flex items-center space-x-6 mb-6'>
           <div className='w-24 h-24 rounded-full overflow-hidden'>

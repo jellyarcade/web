@@ -29,7 +29,7 @@ export default function NotificationsPage() {
   }
 
   return (
-    <div className='container mx-auto px-4 py-8'>
+    <div className='container mt-24  mx-auto px-4 py-8'>
       <div className='max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8'>
         <h1 className='text-2xl font-bold mb-6'>{t('title')}</h1>
         <div className='space-y-4'>
