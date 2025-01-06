@@ -119,7 +119,20 @@
     "profilePicture": "Profile Picture",
     "role": "Role",
     "accountStatus": "Account Status",
-    "active": "Active"
+    "active": "Active",
+    "changeAvatar": "Change Picture",
+    "avatarUpdated": "Profile picture updated",
+    "avatarError": "Failed to update profile picture",
+    "changePassword": "Change Password",
+    "oldPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "passwordsDoNotMatch": "New passwords do not match",
+    "passwordUpdated": "Password successfully updated",
+    "passwordError": "Failed to update password",
+    "cancel": "Cancel",
+    "update": "Update",
+    "updating": "Updating..."
   },
   "notifications": {
     "title": "Notifications",
@@ -134,7 +147,13 @@
     "description": "Description",
     "category": "Category",
     "tags": "Tags",
-    "playCount": "Played {count} times"
+    "playCount": "{{count}} plays",
+    "addToFavorites": "Add to Favorites",
+    "removeFromFavorites": "Remove from Favorites",
+    "loginToFavorite": "Login to add to favorites",
+    "addedToFavorites": "Game added to favorites",
+    "removedFromFavorites": "Game removed from favorites",
+    "favoriteError": "Failed to update favorites"
   },
   "legal": {
     "termsTitle": "Terms of Service",

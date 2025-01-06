@@ -4,9 +4,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import Image from 'next/image';
 import Link from 'next/link';
-import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import { useAuth } from '@/contexts/AuthContext';
+import { useState, useEffect } from 'react';
 import Container from '../layout/Container';
 
 // Swiper styles
@@ -14,52 +15,69 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-const recentGames = [
-  {
-    id: 6,
-    image:
-      'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&auto=format&fit=crop',
-    title: 'Call of Duty',
-    category: 'Action',
-    lastPlayed: '2 hours ago',
-  },
-  {
-    id: 7,
-    image:
-      'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop',
-    title: 'Red Dead Redemption 2',
-    category: 'Adventure',
-    lastPlayed: 'Yesterday',
-  },
-  {
-    id: 8,
-    image:
-      'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&auto=format&fit=crop',
-    title: 'FIFA 24',
-    category: 'Sports',
-    lastPlayed: '3 days ago',
-  },
-  {
-    id: 9,
-    image:
-      'https://images.unsplash.com/photo-1547394765-185e1e68f34e?w=800&auto=format&fit=crop',
-    title: 'Cyberpunk 2077',
-    category: 'RPG',
-    lastPlayed: 'Last week',
-  },
-  {
-    id: 10,
-    image:
-      'https://images.unsplash.com/photo-1551103782-8ab07afd45c1?w=800&auto=format&fit=crop',
-    title: 'The Last of Us',
-    category: 'Action',
-    lastPlayed: '2 weeks ago',
-  },
-];
-
 const RecentlyPlayed = () => {
   const isMobile = useMediaQuery('(max-width: 1024px)');
   const t = useTranslations('home.recentlyPlayed');
+  const locale = useLocale();
+  const { token } = useAuth();
+  const [recentGames, setRecentGames] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Son oynanan oyunları getir
+  useEffect(() => {
+    const fetchRecentGames = async () => {
+      if (!token) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          'https://api.jellyarcade.com/api/users/recent-games',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('Recent games could not be loaded');
+        }
+
+        const data = await response.json();
+
+        // Oyunları unique hale getir
+        const uniqueGames = data.reduce((acc, current) => {
+          const gameExists = acc.find(
+            item => item.game._id === current.game._id
+          );
+          if (!gameExists) {
+            acc.push(current);
+          }
+          return acc;
+        }, []);
+
+        setRecentGames(uniqueGames);
+      } catch (error) {
+        console.error('Error loading recent games:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchRecentGames();
+  }, [token]);
+
+  // Yükleme durumunda veya oyun yoksa gösterme
+  if (isLoading || recentGames.length === 0) {
+    return null;
+  }
+
+  // Başlık için fallback fonksiyonu
+  const getTitle = game => {
+    return game.title[locale] || game.title['tr'] || game.title['en'] || 'Game';
+  };
 
   if (!isMobile) {
     return (
@@ -75,16 +93,24 @@ const RecentlyPlayed = () => {
 
           {/* Games Grid */}
           <div className='grid grid-cols-5 gap-4'>
-            {recentGames.map(game => (
-              <Link key={game.id} href={`/games/${game.id}`}>
+            {recentGames.map(({ game }) => (
+              <Link
+                key={game._id}
+                href={`/${locale}/${game.slug[locale] || game.slug['tr']}`}
+              >
                 <div className='relative aspect-[2/1] rounded-lg overflow-hidden shadow-lg group'>
                   <Image
-                    src={game.image}
-                    alt={`${game.title} - ${game.category} game`}
+                    src={game.image || '/images/game-placeholder.jpg'}
+                    alt={getTitle(game)}
                     fill
                     className='object-cover transition-transform duration-300 group-hover:scale-110'
                   />
                   <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent' />
+                  <div className='absolute bottom-2 left-2 right-2'>
+                    <h3 className='text-white text-sm font-medium truncate'>
+                      {getTitle(game)}
+                    </h3>
+                  </div>
                 </div>
               </Link>
             ))}
@@ -117,20 +143,25 @@ const RecentlyPlayed = () => {
             delay: 3000,
             disableOnInteraction: false,
           }}
-          loop={true}
+          loop={recentGames.length > 2}
           className='!pb-10'
         >
-          {recentGames.map(game => (
-            <SwiperSlide key={game.id}>
-              <Link href={`/games/${game.id}`}>
+          {recentGames.map(({ game }) => (
+            <SwiperSlide key={game._id}>
+              <Link href={`/${locale}/${game.slug[locale] || game.slug['tr']}`}>
                 <div className='relative aspect-[2/1] rounded-lg overflow-hidden shadow-lg group'>
                   <Image
-                    src={game.image}
-                    alt={`${game.title} - ${game.category} game`}
+                    src={game.image || '/images/game-placeholder.jpg'}
+                    alt={getTitle(game)}
                     fill
                     className='object-cover transition-transform duration-300 group-hover:scale-110'
                   />
                   <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent' />
+                  <div className='absolute bottom-2 left-2 right-2'>
+                    <h3 className='text-white text-sm font-medium truncate'>
+                      {getTitle(game)}
+                    </h3>
+                  </div>
                 </div>
               </Link>
             </SwiperSlide>

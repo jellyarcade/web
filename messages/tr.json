@@ -2,7 +2,7 @@
   "home": {
     "gameGrid": {
       "title": "Tüm Oyunlar",
-      "subtitle": "En yeni ve en popüler oyunları keşfedin"
+      "subtitle": "En yeni ve en popüler oyunları keşfet"
     }
   },
   "category": {
@@ -13,6 +13,12 @@
     "description": "Açıklama",
     "category": "Kategori",
     "tags": "Etiketler",
-    "playCount": "{{count}} oynanma"
+    "playCount": "{{count}} kez oynandı",
+    "addToFavorites": "Favorilere Ekle",
+    "removeFromFavorites": "Favorilerden Çıkar",
+    "loginToFavorite": "Favorilere eklemek için giriş yapın",
+    "addedToFavorites": "Oyun favorilere eklendi",
+    "removedFromFavorites": "Oyun favorilerden çıkarıldı",
+    "favoriteError": "Favori işlemi başarısız oldu"
   }
 }

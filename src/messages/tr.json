@@ -69,7 +69,7 @@
     },
     "gameGrid": {
       "title": "Tüm Oyunlar",
-      "subtitle": "En yeni ve en popüler oyunları keşfedin"
+      "subtitle": "En yeni ve en popüler oyunları keşfet"
     },
     "badges": {
       "updated": "YENİLENDİ",
@@ -119,7 +119,20 @@
     "profilePicture": "Profil Fotoğrafı",
     "role": "Rol",
     "accountStatus": "Hesap Durumu",
-    "active": "Aktif"
+    "active": "Aktif",
+    "changeAvatar": "Fotoğrafı Değiştir",
+    "avatarUpdated": "Profil fotoğrafı güncellendi",
+    "avatarError": "Profil fotoğrafı güncellenemedi",
+    "changePassword": "Şifre Değiştir",
+    "oldPassword": "Mevcut Şifre",
+    "newPassword": "Yeni Şifre",
+    "confirmPassword": "Yeni Şifre (Tekrar)",
+    "passwordsDoNotMatch": "Yeni şifreler eşleşmiyor",
+    "passwordUpdated": "Şifre başarıyla güncellendi",
+    "passwordError": "Şifre güncellenemedi",
+    "cancel": "İptal",
+    "update": "Güncelle",
+    "updating": "Güncelleniyor..."
   },
   "notifications": {
     "title": "Bildirimler",
@@ -134,7 +147,13 @@
     "description": "Açıklama",
     "category": "Kategori",
     "tags": "Etiketler",
-    "playCount": "{count} kez oynandı"
+    "playCount": "{{count}} kez oynandı",
+    "addToFavorites": "Favorilere Ekle",
+    "removeFromFavorites": "Favorilerden Çıkar",
+    "loginToFavorite": "Favorilere eklemek için giriş yapın",
+    "addedToFavorites": "Oyun favorilere eklendi",
+    "removedFromFavorites": "Oyun favorilerden çıkarıldı",
+    "favoriteError": "Favori işlemi başarısız oldu"
   },
   "legal": {
     "termsTitle": "Kullanım Koşulları",
