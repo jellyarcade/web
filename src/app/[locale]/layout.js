@@ -7,7 +7,7 @@ import Header from '@/components/layout/Header';
 import { AuthProvider } from '@/contexts/AuthContext';
 
 export const metadata = {
-  title: 'Game Portal',
+  title: 'Jelly Arcade',
   description: 'Play thousands of free games',
 };
 

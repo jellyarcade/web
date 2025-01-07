@@ -1,7 +1,7 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Game Portal',
+  title: 'Jelly Arcade',
   description: 'Play thousands of free games',
 };
 
