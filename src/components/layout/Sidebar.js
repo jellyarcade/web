@@ -2,11 +2,26 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useLocale } from 'next/navigation';
 import { HiHome, HiStar, HiSparkles, HiPuzzle } from 'react-icons/hi';
 import { HiOutlineEnvelope } from 'react-icons/hi2';
 import { useTranslations } from 'next-intl';
 import ContactModal from '../contact/ContactModal';
+
+const MenuItem = ({ href, children, isActive }) => {
+  return (
+    <li>
+      <Link
+        href={href}
+        className={`block text-white transition-colors relative group ${
+          isActive ? 'bg-[#16bf36]' : 'hover:bg-[#16bf36]/80'
+        }`}
+      >
+        {children}
+      </Link>
+    </li>
+  );
+};
 
 const Sidebar = ({ isOpen, onClose, children }) => {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -101,7 +116,39 @@ const Sidebar = ({ isOpen, onClose, children }) => {
           <nav className='flex-1 md:pt-[96px] overflow-y-auto'>
             <ul className='space-y-2'>
               {allMenuItems.map(item => (
-                <MenuItem key={item.href} {...item} onClose={onClose} />
+                <MenuItem
+                  key={item.href}
+                  href={item.href}
+                  isActive={
+                    item.href === `/${locale}`
+                      ? pathname === item.href
+                      : pathname.startsWith(item.href)
+                  }
+                >
+                  <span className='flex items-center px-4 py-4 font-semibold'>
+                    <item.icon className='w-6 h-6 mr-4' />
+                    <span className='text-lg flex items-center gap-2'>
+                      {item.label}
+                      {item.href.includes('yeni-oyunlar') ||
+                      item.href.includes('new-games') ? (
+                        <span className='bg-red-500 text-white text-xs px-2 py-0.5 rounded-full animate-pulse'>
+                          NEW
+                        </span>
+                      ) : null}
+                    </span>
+                  </span>
+                  <div
+                    className={`absolute top-0 -right-1 h-full w-1 transition-colors ${
+                      (
+                        item.href === `/${locale}`
+                          ? pathname === item.href
+                          : pathname.startsWith(item.href)
+                      )
+                        ? 'bg-[#16bf36]'
+                        : 'bg-[#16bf36]/80 opacity-0 group-hover:opacity-100'
+                    }`}
+                  />
+                </MenuItem>
               ))}
             </ul>
           </nav>
@@ -124,46 +171,6 @@ const Sidebar = ({ isOpen, onClose, children }) => {
         onClose={() => setIsContactModalOpen(false)}
       />
     </>
-  );
-};
-
-const MenuItem = ({ href, icon: Icon, label, onClose }) => {
-  const pathname = usePathname();
-  const locale = pathname.split('/')[1];
-
-  const isHome = href === `/${locale}`;
-  const isCurrentPage = pathname === href;
-  const isActive = isCurrentPage && !isHome;
-
-  return (
-    <li>
-      <Link
-        href={href}
-        className={`block text-white transition-colors relative group ${
-          isActive ? 'bg-[#16bf36]' : 'hover:bg-[#16bf36]/80'
-        }`}
-        onClick={onClose}
-      >
-        <span className='flex items-center px-4 py-4 font-semibold'>
-          <Icon className='w-6 h-6 mr-4' />
-          <span className='text-lg flex items-center gap-2'>
-            {label}
-            {href.includes('yeni-oyunlar') || href.includes('new-games') ? (
-              <span className='bg-red-500 text-white text-xs px-2 py-0.5 rounded-full animate-pulse'>
-                NEW
-              </span>
-            ) : null}
-          </span>
-        </span>
-        <div
-          className={`absolute top-0 -right-1 h-full w-1 transition-colors ${
-            isActive
-              ? 'bg-[#16bf36]'
-              : 'bg-[#16bf36]/80 opacity-0 group-hover:opacity-100'
-          }`}
-        />
-      </Link>
-    </li>
   );
 };
 

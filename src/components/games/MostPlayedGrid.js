@@ -46,7 +46,7 @@ const MostPlayedGrid = ({ games = [] }) => {
               <div className='relative aspect-square rounded-lg overflow-hidden shadow-lg group'>
                 <Image
                   src={game.image || '/images/game-placeholder.jpg'}
-                  alt={game.title[params.locale]}
+                  alt={game.title[params.locale] || 'Game thumbnail'}
                   fill
                   sizes='(max-width: 1024px) 20vw, 10vw'
                   className='object-cover transition-transform duration-300 group-hover:scale-110'
