@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/contexts/AuthContext';
+import AuthModal from '@/components/auth/AuthModal';
 
 export default function GameClient({ game, locale }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -12,6 +13,7 @@ export default function GameClient({ game, locale }) {
   const [currentOrientation, setCurrentOrientation] = useState('portrait');
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const [snackbar, setSnackbar] = useState({
     show: false,
     message: '',
@@ -59,7 +61,10 @@ export default function GameClient({ game, locale }) {
 
   // Favoriye ekleme/çıkarma işlemi
   const toggleFavorite = async () => {
-    if (!token) return; // Kullanıcı giriş yapmamışsa işlem yapma
+    if (!token) {
+      setShowAuthModal(true);
+      return;
+    }
 
     try {
       setIsLoading(true);
@@ -134,29 +139,6 @@ export default function GameClient({ game, locale }) {
 
   const handlePlay = async () => {
     try {
-      // Önce API'ye istek at
-      const response = await fetch(
-        `https://api.jellyarcade.com/api/games/${game._id}/play`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        console.error('Error playing game:', {
-          status: response.status,
-          statusText: response.statusText,
-          data,
-        });
-        return;
-      }
-
       // Oyunu başlatmadan önce oryantasyon kontrolü yap
       const isPortrait = window.innerHeight > window.innerWidth;
       const needsLandscape = game.orientation === 'horizontal';
@@ -166,7 +148,7 @@ export default function GameClient({ game, locale }) {
         setShowOrientationModal(true);
       }
 
-      // Sonra oyunu başlat
+      // Oyunu başlat
       setIsPlaying(true);
 
       // Oyun başladığında otomatik olarak fullscreen yap
@@ -181,6 +163,44 @@ export default function GameClient({ game, locale }) {
         } else if (iframe.msRequestFullscreen) {
           iframe.msRequestFullscreen();
         }
+      }
+
+      // Oyun başladıktan sonra API'ye bildir veya localStorage'a kaydet
+      if (token) {
+        await fetch(`https://api.jellyarcade.com/api/games/${game._id}/play`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } else {
+        // Giriş yapmamış kullanıcılar için localStorage'a kaydet
+        const recentGames = JSON.parse(
+          localStorage.getItem('recentGames') || '[]'
+        );
+        const gameData = {
+          game: {
+            _id: game._id,
+            title: game.title,
+            slug: game.slug,
+            image: game.image,
+          },
+          playedAt: new Date().toISOString(),
+        };
+
+        // Aynı oyun varsa listeden çıkar
+        const filteredGames = recentGames.filter(
+          item => item.game._id !== game._id
+        );
+
+        // Yeni oyunu başa ekle ve son 10 oyunu tut
+        filteredGames.unshift(gameData);
+        if (filteredGames.length > 10) {
+          filteredGames.pop();
+        }
+
+        localStorage.setItem('recentGames', JSON.stringify(filteredGames));
       }
     } catch (error) {
       console.error('Error playing game:', error);
@@ -247,6 +267,12 @@ export default function GameClient({ game, locale }) {
   return (
     <div className='container mx-auto px-4 py-8 mt-[72px]'>
       {showOrientationModal && <OrientationModal />}
+      {showAuthModal && (
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+        />
+      )}
 
       {/* Snackbar */}
       {snackbar.show && (
@@ -266,16 +292,14 @@ export default function GameClient({ game, locale }) {
           {/* Favori Butonu */}
           <button
             onClick={toggleFavorite}
-            disabled={isLoading || !token}
+            disabled={isLoading}
             className={`p-2 rounded-full transition-colors ${
-              !token ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'
+              isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'
             }`}
             title={
-              token
-                ? isFavorite
-                  ? t('game.removeFromFavorites')
-                  : t('game.addToFavorites')
-                : t('game.loginToFavorite')
+              isFavorite
+                ? t('game.removeFromFavorites')
+                : t('game.addToFavorites')
             }
           >
             <svg

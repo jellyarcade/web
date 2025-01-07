@@ -26,44 +26,50 @@ const RecentlyPlayed = () => {
   // Son oynanan oyunları getir
   useEffect(() => {
     const fetchRecentGames = async () => {
-      if (!token) {
-        setIsLoading(false);
-        return;
-      }
-
-      try {
-        const response = await fetch(
-          'https://api.jellyarcade.com/api/users/recent-games',
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error('Recent games could not be loaded');
-        }
-
-        const data = await response.json();
-
-        // Oyunları unique hale getir
-        const uniqueGames = data.reduce((acc, current) => {
-          const gameExists = acc.find(
-            item => item.game._id === current.game._id
+      if (token) {
+        try {
+          const response = await fetch(
+            'https://api.jellyarcade.com/api/users/recent-games',
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
           );
-          if (!gameExists) {
-            acc.push(current);
-          }
-          return acc;
-        }, []);
 
-        setRecentGames(uniqueGames);
-      } catch (error) {
-        console.error('Error loading recent games:', error);
-      } finally {
-        setIsLoading(false);
+          if (!response.ok) {
+            throw new Error('Recent games could not be loaded');
+          }
+
+          const data = await response.json();
+
+          // Oyunları unique hale getir
+          const uniqueGames = data.reduce((acc, current) => {
+            const gameExists = acc.find(
+              item => item.game._id === current.game._id
+            );
+            if (!gameExists) {
+              acc.push(current);
+            }
+            return acc;
+          }, []);
+
+          setRecentGames(uniqueGames);
+        } catch (error) {
+          console.error('Error loading recent games:', error);
+        }
+      } else {
+        // Giriş yapmamış kullanıcılar için localStorage'dan oku
+        try {
+          const localGames = JSON.parse(
+            localStorage.getItem('recentGames') || '[]'
+          );
+          setRecentGames(localGames);
+        } catch (error) {
+          console.error('Error loading local recent games:', error);
+        }
       }
+      setIsLoading(false);
     };
 
     fetchRecentGames();

@@ -105,7 +105,7 @@ const Sidebar = ({ isOpen, onClose, children }) => {
           isOpen ? 'translate-x-0' : '-translate-x-[calc(100%+1rem)]'
         }`}
       >
-        <div className='text-white h-full flex flex-col'>
+        <div className='text-white h-full flex flex-col overflow-hidden'>
           {/* UserMenu Container */}
           <div className='md:hidden p-4 pt-28'>
             {children}
@@ -113,7 +113,7 @@ const Sidebar = ({ isOpen, onClose, children }) => {
           </div>
 
           {/* Ana Menü */}
-          <nav className='flex-1 md:pt-[96px] overflow-y-auto'>
+          <nav className='flex-1 md:pt-[96px] overflow-y-auto overflow-x-hidden'>
             <ul className='space-y-2'>
               {allMenuItems.map(item => (
                 <MenuItem
