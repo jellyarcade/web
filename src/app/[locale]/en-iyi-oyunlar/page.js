@@ -1,14 +1,14 @@
-import { notFound, redirect } from 'next/navigation';
-import GameGrid from '@/components/category/GameGrid';
+import { redirect } from 'next/navigation';
+import Container from '@/components/layout/Container';
+import MostPlayedGrid from '@/components/games/MostPlayedGrid';
 import Carousel from '@/components/home/Carousel';
 import RecentlyPlayed from '@/components/home/RecentlyPlayed';
-import Container from '@/components/layout/Container';
 
 const API_URL = 'https://api.jellyarcade.com/api';
 
-async function getCategory(slug) {
+async function getMostPlayedGames() {
   try {
-    const res = await fetch(`${API_URL}/categories/slug/${slug}`, {
+    const res = await fetch(`${API_URL}/games/most-played`, {
       cache: 'no-store',
       method: 'GET',
       headers: {
@@ -23,27 +23,23 @@ async function getCategory(slug) {
     const data = await res.json();
     return data;
   } catch (error) {
-    console.error('Error fetching category:', error);
+    console.error('Error fetching most played games:', error);
     return null;
   }
 }
 
-export default async function CategoryPage({ params: { locale, slug } }) {
-  // Türkçe URL'ye yönlendir
-  if (locale === 'tr') {
-    redirect(`/tr/kategori/${slug}`);
+export default async function MostPlayedPage({ params: { locale } }) {
+  // İngilizce URL'ye yönlendir
+  if (locale === 'en') {
+    redirect('/en/top-games');
     return null;
   }
 
-  const category = await getCategory(slug);
-
-  if (!category) {
-    return notFound();
-  }
+  const mostPlayedData = await getMostPlayedGames();
 
   // API'den gelen veriyi GameGrid formatına dönüştür
   const games =
-    category?.games?.map(game => ({
+    mostPlayedData?.map(game => ({
       _id: game._id,
       title: {
         [locale]: game.title[locale] || game.title.en,
@@ -83,11 +79,7 @@ export default async function CategoryPage({ params: { locale, slug } }) {
       </Container>
       <RecentlyPlayed />
       <div className='mb-8'></div>
-      <GameGrid
-        games={games}
-        title={category.name[locale]}
-        description={category.description[locale]}
-      />
+      <MostPlayedGrid games={games} />
     </div>
   );
 }

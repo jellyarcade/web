@@ -29,9 +29,9 @@ async function getCategory(slug) {
 }
 
 export default async function CategoryPage({ params: { locale, slug } }) {
-  // Türkçe URL'ye yönlendir
-  if (locale === 'tr') {
-    redirect(`/tr/kategori/${slug}`);
+  // İngilizce URL'ye yönlendir
+  if (locale === 'en') {
+    redirect(`/en/category/${slug}`);
     return null;
   }
 

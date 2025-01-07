@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { HiHome, HiStar, HiSparkles } from 'react-icons/hi';
+import { HiHome, HiStar, HiSparkles, HiPuzzle } from 'react-icons/hi';
 import { HiOutlineEnvelope } from 'react-icons/hi2';
 import { useTranslations } from 'next-intl';
 import ContactModal from '../contact/ContactModal';
@@ -18,8 +18,11 @@ const Sidebar = ({ isOpen, onClose, children }) => {
 
   const staticMenuItems = [
     { href: `/${locale}`, label: t('home'), icon: HiHome },
-    { href: `/${locale}/new-games`, label: t('newGames'), icon: HiSparkles },
-    { href: `/${locale}/top-games`, label: t('topGames'), icon: HiStar },
+    {
+      href: `/${locale}/${locale === 'tr' ? 'en-iyi-oyunlar' : 'top-games'}`,
+      label: t('topGames'),
+      icon: HiStar,
+    },
   ];
 
   useEffect(() => {
@@ -36,11 +39,26 @@ const Sidebar = ({ isOpen, onClose, children }) => {
         const filteredCategories = data
           .filter(cat => cat.isActive && cat.parent === null)
           .sort((a, b) => a.order - b.order)
-          .map(cat => ({
-            href: `/${locale}/category/${cat.slug[locale]}`,
-            label: cat.name[locale],
-            icon: HiStar, // Varsayılan icon
-          }));
+          .map(cat => {
+            // Kategori slug'ına göre ikon seçimi
+            let icon = HiPuzzle;
+            if (cat.slug.tr === 'yeni-oyunlar' || cat.slug.en === 'new-games') {
+              icon = HiSparkles;
+            } else if (
+              cat.slug.tr === 'en-iyi-oyunlar' ||
+              cat.slug.en === 'top-games'
+            ) {
+              icon = HiStar;
+            }
+
+            return {
+              href: `/${locale}/${locale === 'tr' ? 'kategori' : 'category'}/${
+                cat.slug[locale]
+              }`,
+              label: cat.name[locale],
+              icon: icon,
+            };
+          });
         setCategories(filteredCategories);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -115,7 +133,7 @@ const MenuItem = ({ href, icon: Icon, label, onClose }) => {
 
   const isHome = href === `/${locale}`;
   const isCurrentPage = pathname === href;
-  const isActive = isHome || isCurrentPage;
+  const isActive = isCurrentPage && !isHome;
 
   return (
     <li>
@@ -128,7 +146,14 @@ const MenuItem = ({ href, icon: Icon, label, onClose }) => {
       >
         <span className='flex items-center px-4 py-4 font-semibold'>
           <Icon className='w-6 h-6 mr-4' />
-          <span className='text-lg'>{label}</span>
+          <span className='text-lg flex items-center gap-2'>
+            {label}
+            {href.includes('yeni-oyunlar') || href.includes('new-games') ? (
+              <span className='bg-red-500 text-white text-xs px-2 py-0.5 rounded-full animate-pulse'>
+                NEW
+              </span>
+            ) : null}
+          </span>
         </span>
         <div
           className={`absolute top-0 -right-1 h-full w-1 transition-colors ${

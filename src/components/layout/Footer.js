@@ -63,7 +63,9 @@ const Footer = () => {
                 categories.map(category => (
                   <li key={category._id}>
                     <Link
-                      href={`/${locale}/category/${category.slug[locale]}`}
+                      href={`/${locale}/${
+                        locale === 'tr' ? 'kategori' : 'category'
+                      }/${category.slug[locale]}`}
                       className='text-gray-400 hover:text-white'
                     >
                       {category.name[locale]}

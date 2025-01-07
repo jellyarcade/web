@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { useTranslations } from 'use-intl';
+import { useTranslations, useLocale } from 'use-intl';
 
 // Swiper styles
 import 'swiper/css';
@@ -35,6 +35,22 @@ const Badge = ({ text, className }) => (
 const Carousel = ({ items }) => {
   const isMobile = useMediaQuery('(max-width: 1024px)');
   const t = useTranslations('home.badges');
+  const locale = useLocale();
+
+  const getGameUrl = item => {
+    // İlk item için yeni oyunlar kategorisine yönlendir
+    if (item.id === 1) {
+      return `/${locale}/${
+        locale === 'tr' ? 'kategori/yeni-oyunlar' : 'category/new-games'
+      }`;
+    }
+    // İkinci item için en iyi oyunlar sayfasına yönlendir
+    if (item.id === 2) {
+      return `/${locale}/${locale === 'tr' ? 'en-iyi-oyunlar' : 'top-games'}`;
+    }
+    // Diğer itemlar için varsayılan URL
+    return '#';
+  };
 
   const renderBadges = index => (
     <>
@@ -56,7 +72,7 @@ const Carousel = ({ items }) => {
       <div className='max-w-[100%] mx-auto'>
         <div className='grid grid-cols-3 gap-6'>
           {items.slice(0, 3).map((item, index) => (
-            <Link key={item.id} href={`/games/${item.id}`}>
+            <Link key={item.id} href={getGameUrl(item)}>
               <div className='relative aspect-[16/9] shadow-lg rounded-lg overflow-hidden'>
                 <div className='rounded-lg overflow-hidden'>
                   <Image
@@ -101,7 +117,7 @@ const Carousel = ({ items }) => {
         >
           {items.map((item, index) => (
             <SwiperSlide key={item.id}>
-              <Link href={`/games/${item.id}`}>
+              <Link href={getGameUrl(item)}>
                 <div className='relative aspect-[16/9] shadow-lg rounded-lg overflow-hidden'>
                   <div className='rounded-lg overflow-hidden'>
                     <Image

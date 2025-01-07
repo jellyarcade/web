@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useParams } from 'next/navigation';
 
-const GameGrid = ({ games = [], title, description }) => {
+const MostPlayedGrid = ({ games = [] }) => {
   const isMobile = useMediaQuery('(max-width: 1024px)');
   const params = useParams();
 
@@ -23,14 +23,12 @@ const GameGrid = ({ games = [], title, description }) => {
       <div className='max-w-[95%] mx-auto'>
         <div className='mb-6'>
           <h2 className='text-2xl font-cocogoose font-medium uppercase mb-2 text-[#2cd284]'>
-            {title ||
-              (params.locale === 'tr' ? 'En İyi Oyunlar' : 'Most Played Games')}
+            {params.locale === 'tr' ? 'En İyi Oyunlar' : 'Most Played Games'}
           </h2>
           <p className='text-gray-600'>
-            {description ||
-              (params.locale === 'tr'
-                ? 'En çok oynanan ve beğenilen oyunları keşfet'
-                : 'Discover the most played and liked games')}
+            {params.locale === 'tr'
+              ? 'En çok oynanan ve beğenilen oyunları keşfet'
+              : 'Discover the most played and liked games'}
           </p>
         </div>
 
@@ -74,4 +72,4 @@ const GameGrid = ({ games = [], title, description }) => {
   );
 };
 
-export default GameGrid;
+export default MostPlayedGrid;
