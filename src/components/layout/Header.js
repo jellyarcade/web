@@ -9,6 +9,7 @@ import UserMenu from './UserMenu';
 import Sidebar from './Sidebar';
 import AuthModal from '../auth/AuthModal';
 import SearchModal from '../search/SearchModal';
+import Link from 'next/link';
 
 const Header = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -46,7 +47,9 @@ const Header = ({ children }) => {
               >
                 <HiMenu />
               </button>
-              <Logo locale={locale} />
+              <Link href={`/${locale}`}>
+                <Logo size='large' />
+              </Link>
             </div>
 
             {/* Desktop Search */}

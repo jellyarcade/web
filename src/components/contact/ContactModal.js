@@ -1,8 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IoClose } from 'react-icons/io5';
 import { useTranslations } from 'next-intl';
+import emailjs from '@emailjs/browser';
+
+// EmailJS'i initialize et
+emailjs.init('vePXnXPXHMOqqRfjH');
 
 const ContactModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -11,17 +15,41 @@ const ContactModal = ({ isOpen, onClose }) => {
     message: '',
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const t = useTranslations('contact');
 
   const handleSubmit = async e => {
     e.preventDefault();
     setLoading(true);
+    setError('');
+    setSuccess(false);
 
-    // Simüle edilmiş API çağrısı
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      await emailjs.send(
+        'service_w9gzkfa',
+        'template_cp6oldk',
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+        },
+        'vePXnXPXHMOqqRfjH'
+      );
 
-    setLoading(false);
-    onClose();
+      // Form başarıyla gönderildi
+      setFormData({ name: '', email: '', message: '' });
+      setSuccess(true);
+      setTimeout(() => {
+        onClose();
+        setSuccess(false);
+      }, 2000);
+    } catch (error) {
+      console.error('Email gönderme hatası:', error);
+      setError(t('sendError'));
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = e => {
@@ -50,6 +78,18 @@ const ContactModal = ({ isOpen, onClose }) => {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className='p-6 space-y-4'>
+          {error && (
+            <div className='p-3 bg-red-100 text-red-600 rounded-lg text-sm'>
+              {error}
+            </div>
+          )}
+
+          {success && (
+            <div className='p-3 bg-green-100 text-green-600 rounded-lg text-sm'>
+              {t('sendSuccess')}
+            </div>
+          )}
+
           <div>
             <label
               htmlFor='name'

@@ -1,19 +1,14 @@
 'use client';
 
-import HeroSection from '@/components/home/HeroSection';
-import RecentlyPlayed from '@/components/home/RecentlyPlayed';
-import GameGrid from '@/components/category/GameGrid';
 import { useParams } from 'next/navigation';
+import GameGrid from '@/components/category/GameGrid';
 
 export default function CategoryPage() {
-  const params = useParams();
-  const categorySlug = params.slug;
+  const { slug } = useParams();
 
   return (
-    <>
-      <HeroSection />
-      <RecentlyPlayed />
-      <GameGrid categorySlug={categorySlug} />
-    </>
+    <div className='mt-24'>
+      <GameGrid categorySlug={slug} />
+    </div>
   );
 }

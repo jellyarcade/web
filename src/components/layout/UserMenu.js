@@ -16,10 +16,41 @@ import LanguageSwitcher from './LanguageSwitcher';
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [userProfile, setUserProfile] = useState(null);
   const menuRef = useRef();
   const t = useTranslations('user');
   const locale = useLocale();
-  const { user, logout } = useAuth();
+  const { user, logout, token } = useAuth();
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (!token) return;
+
+      try {
+        const response = await fetch(
+          `https://api.jellyarcade.com/api/users/profile?lang=${locale}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('Profil bilgileri alınamadı');
+        }
+
+        const data = await response.json();
+        setUserProfile(data);
+      } catch (error) {
+        console.error('Profil bilgileri getirme hatası:', error);
+      }
+    };
+
+    if (user) {
+      fetchUserProfile();
+    }
+  }, [token, locale, user]);
 
   const getLocalizedPath = path => {
     if (locale === 'tr') {
@@ -74,9 +105,12 @@ const UserMenu = () => {
               onClick={handleAuthAction}
               className='w-8 h-8 rounded-full bg-gray-200 overflow-hidden focus:ring-2 focus:ring-orange-500'
             >
-              {user?.avatar ? (
+              {user ? (
                 <img
-                  src={user.avatar}
+                  src={
+                    userProfile?.avatar ||
+                    'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
+                  }
                   alt={user.name}
                   className='w-full h-full object-cover'
                 />

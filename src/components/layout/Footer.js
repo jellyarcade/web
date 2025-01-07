@@ -1,12 +1,41 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 import FooterLinks from './FooterLinks';
 import Logo from './Logo';
 
 const Footer = () => {
   const t = useTranslations('footer');
+  const locale = useLocale();
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(
+          'https://api.jellyarcade.com/api/categories'
+        );
+        if (!response.ok) {
+          throw new Error('Failed to fetch categories');
+        }
+        const data = await response.json();
+        // isActive olan ve parent'ı null olan kategorileri filtrele ve order'a göre sırala
+        const filteredCategories = data
+          .filter(cat => cat.isActive && cat.parent === null)
+          .sort((a, b) => a.order - b.order);
+        setCategories(filteredCategories);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <footer className='w-full bg-gray-900 text-white'>
@@ -14,7 +43,9 @@ const Footer = () => {
         <div className='grid grid-cols-1 md:grid-cols-4 gap-8'>
           {/* Logo ve Açıklama */}
           <div className='space-y-4'>
-            <Logo />
+            <Link href={`/${locale}`}>
+              <Logo size='large' />
+            </Link>
             <p className='text-gray-400'>{t('description')}</p>
           </div>
 
@@ -28,38 +59,17 @@ const Footer = () => {
           <div>
             <h3 className='text-lg font-semibold mb-4'>{t('categories')}</h3>
             <ul className='space-y-2'>
-              <li>
-                <Link
-                  href='/action-games'
-                  className='text-gray-400 hover:text-white'
-                >
-                  {t('actionGames')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/adventure-games'
-                  className='text-gray-400 hover:text-white'
-                >
-                  {t('adventureGames')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/sports-games'
-                  className='text-gray-400 hover:text-white'
-                >
-                  {t('sportsGames')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/racing-games'
-                  className='text-gray-400 hover:text-white'
-                >
-                  {t('racingGames')}
-                </Link>
-              </li>
+              {!loading &&
+                categories.map(category => (
+                  <li key={category._id}>
+                    <Link
+                      href={`/${locale}/category/${category.slug[locale]}`}
+                      className='text-gray-400 hover:text-white'
+                    >
+                      {category.name[locale]}
+                    </Link>
+                  </li>
+                ))}
             </ul>
           </div>
 

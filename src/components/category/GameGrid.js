@@ -3,59 +3,46 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useInView } from 'react-intersection-observer';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 
 const GameGrid = ({ categorySlug }) => {
   const [games, setGames] = useState([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [category, setCategory] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const isMobile = useMediaQuery('(max-width: 1024px)');
   const params = useParams();
-  const t = useTranslations('category');
-
-  const { ref, inView } = useInView({
-    threshold: 0,
-    triggerOnce: false,
-  });
 
   useEffect(() => {
-    const fetchGames = async () => {
+    const fetchCategory = async () => {
       try {
         setIsLoading(true);
         const response = await fetch(
-          `https://api.jellyarcade.com/api/games?category=${categorySlug}&page=${page}&limit=20&lang=${params.locale}`
+          `https://api.jellyarcade.com/api/categories/slug/${categorySlug}`
         );
         const data = await response.json();
-
-        if (data && data.data) {
-          setGames(prev => [...prev, ...data.data]);
-          setHasMore(data.data.length === 20);
-        }
+        setCategory(data);
+        setGames(data.games || []);
       } catch (error) {
-        console.error('Error fetching games:', error);
+        console.error('Error fetching category:', error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    if (inView && hasMore) {
-      fetchGames();
-      setPage(prev => prev + 1);
-    }
-  }, [inView, hasMore, categorySlug, page, params.locale]);
+    fetchCategory();
+  }, [categorySlug]);
 
   return (
-    <section className='md:pt-8 pb-8'>
+    <section className='pb-8'>
       <div className='max-w-[95%] mx-auto'>
         <div className='mb-6'>
           <h2 className='text-2xl font-cocogoose font-medium uppercase mb-2 text-[#2cd284]'>
-            {t(`categories.${categorySlug}`)}
+            {category?.name[params.locale]}
           </h2>
-          <p className='text-gray-600'>{t('subtitle')}</p>
+          <p className='text-gray-600'>
+            {category?.description[params.locale]}
+          </p>
         </div>
 
         <div
@@ -92,8 +79,8 @@ const GameGrid = ({ categorySlug }) => {
           ))}
         </div>
 
-        {(hasMore || isLoading) && (
-          <div ref={ref} className='flex justify-center items-center py-8'>
+        {isLoading && (
+          <div className='flex justify-center items-center py-8'>
             <div className='w-8 h-8 border-4 border-brand-orange border-t-transparent rounded-full animate-spin' />
           </div>
         )}

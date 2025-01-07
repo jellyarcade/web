@@ -16,7 +16,9 @@
     "email": "E-posta Adresiniz",
     "message": "Mesajınız",
     "send": "Gönder",
-    "sending": "Gönderiliyor..."
+    "sending": "Gönderiliyor...",
+    "sendSuccess": "Mesajınız başarıyla gönderildi",
+    "sendError": "Mesaj gönderilirken bir hata oluştu"
   },
   "search": {
     "search": "Oyun Ara",
@@ -147,7 +149,7 @@
     "description": "Açıklama",
     "category": "Kategori",
     "tags": "Etiketler",
-    "playCount": "{{count}} kez oynandı",
+    "playCount": "kez oynandı",
     "addToFavorites": "Favorilere Ekle",
     "removeFromFavorites": "Favorilerden Çıkar",
     "loginToFavorite": "Favorilere eklemek için giriş yapın",

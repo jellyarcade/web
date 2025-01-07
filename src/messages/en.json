@@ -16,7 +16,9 @@
     "email": "Your Email",
     "message": "Your Message",
     "send": "Send",
-    "sending": "Sending..."
+    "sending": "Sending...",
+    "sendSuccess": "Message sent successfully",
+    "sendError": "Failed to send message"
   },
   "search": {
     "search": "Search Games",
@@ -147,7 +149,7 @@
     "description": "Description",
     "category": "Category",
     "tags": "Tags",
-    "playCount": "{{count}} plays",
+    "playCount": "plays",
     "addToFavorites": "Add to Favorites",
     "removeFromFavorites": "Remove from Favorites",
     "loginToFavorite": "Login to add to favorites",

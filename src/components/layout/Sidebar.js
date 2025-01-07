@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { HiHome, HiStar, HiSparkles } from 'react-icons/hi';
@@ -10,13 +10,49 @@ import ContactModal from '../contact/ContactModal';
 
 const Sidebar = ({ isOpen, onClose, children }) => {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const t = useTranslations('navigation');
+  const pathname = usePathname();
+  const locale = pathname.split('/')[1];
 
-  const menuItems = [
-    { href: '/', label: t('home'), icon: HiHome },
-    { href: '/new-games', label: t('newGames'), icon: HiSparkles },
-    { href: '/top-games', label: t('topGames'), icon: HiStar },
+  const staticMenuItems = [
+    { href: `/${locale}`, label: t('home'), icon: HiHome },
+    { href: `/${locale}/new-games`, label: t('newGames'), icon: HiSparkles },
+    { href: `/${locale}/top-games`, label: t('topGames'), icon: HiStar },
   ];
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(
+          'https://api.jellyarcade.com/api/categories'
+        );
+        if (!response.ok) {
+          throw new Error('Failed to fetch categories');
+        }
+        const data = await response.json();
+        // isActive olan ve parent'ı null olan kategorileri filtrele ve order'a göre sırala
+        const filteredCategories = data
+          .filter(cat => cat.isActive && cat.parent === null)
+          .sort((a, b) => a.order - b.order)
+          .map(cat => ({
+            href: `/${locale}/category/${cat.slug[locale]}`,
+            label: cat.name[locale],
+            icon: HiStar, // Varsayılan icon
+          }));
+        setCategories(filteredCategories);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, [locale]);
+
+  const allMenuItems = [...staticMenuItems, ...(loading ? [] : categories)];
 
   return (
     <>
@@ -44,9 +80,9 @@ const Sidebar = ({ isOpen, onClose, children }) => {
           </div>
 
           {/* Ana Menü */}
-          <nav className='flex-1 md:pt-[96px]'>
+          <nav className='flex-1 md:pt-[96px] overflow-y-auto'>
             <ul className='space-y-2'>
-              {menuItems.map(item => (
+              {allMenuItems.map(item => (
                 <MenuItem key={item.href} {...item} onClose={onClose} />
               ))}
             </ul>
@@ -75,9 +111,10 @@ const Sidebar = ({ isOpen, onClose, children }) => {
 
 const MenuItem = ({ href, icon: Icon, label, onClose }) => {
   const pathname = usePathname();
+  const locale = pathname.split('/')[1];
 
-  const isHome = href === '/' && (pathname === '/tr' || pathname === '/en');
-  const isCurrentPage = pathname.endsWith(href) && href !== '/';
+  const isHome = href === `/${locale}`;
+  const isCurrentPage = pathname === href;
   const isActive = isHome || isCurrentPage;
 
   return (

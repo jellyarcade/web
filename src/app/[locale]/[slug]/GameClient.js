@@ -106,12 +106,12 @@ export default function GameClient({ game, locale }) {
   useEffect(() => {
     const checkOrientation = () => {
       const isPortrait = window.innerHeight > window.innerWidth;
-      setCurrentOrientation(isPortrait ? 'portrait' : 'landscape');
+      setCurrentOrientation(isPortrait ? 'vertical' : 'horizontal');
 
       // Oyun başladıysa oryantasyon kontrolü yap
       if (isPlaying) {
-        const needsLandscape = game.orientation === 'landscape';
-        const needsPortrait = game.orientation === 'portrait';
+        const needsLandscape = game.orientation === 'horizontal';
+        const needsPortrait = game.orientation === 'vertical';
 
         setShowOrientationModal(
           (needsLandscape && isPortrait) || (needsPortrait && !isPortrait)
@@ -159,8 +159,8 @@ export default function GameClient({ game, locale }) {
 
       // Oyunu başlatmadan önce oryantasyon kontrolü yap
       const isPortrait = window.innerHeight > window.innerWidth;
-      const needsLandscape = game.orientation === 'landscape';
-      const needsPortrait = game.orientation === 'portrait';
+      const needsLandscape = game.orientation === 'horizontal';
+      const needsPortrait = game.orientation === 'vertical';
 
       if ((needsLandscape && isPortrait) || (needsPortrait && !isPortrait)) {
         setShowOrientationModal(true);

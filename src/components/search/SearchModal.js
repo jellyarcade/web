@@ -9,7 +9,7 @@ import { useTranslations } from 'next-intl';
 
 const SearchModal = ({ isOpen, onClose, searchQuery: initialQuery = '' }) => {
   const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const params = useParams();
   const t = useTranslations('search');
@@ -28,21 +28,21 @@ const SearchModal = ({ isOpen, onClose, searchQuery: initialQuery = '' }) => {
 
       setLoading(true);
       try {
-        // Simüle edilmiş API çağrısı
-        await new Promise(resolve => setTimeout(resolve, 500));
+        const response = await fetch(
+          `https://api.jellyarcade.com/api/games/search?q=${encodeURIComponent(
+            searchQuery
+          )}`
+        );
 
-        // Örnek veri
-        const mockResults = Array.from({ length: 8 }, (_, i) => ({
-          id: i + 1,
-          title: `Game ${i + 1}`,
-          image: `https://picsum.photos/seed/${i + 1}/400/300`,
-          category: i % 2 === 0 ? 'action' : 'adventure',
-          slug: `game-${i + 1}`,
-        }));
+        if (!response.ok) {
+          throw new Error('Search failed');
+        }
 
-        setResults(mockResults);
+        const data = await response.json();
+        setResults(data);
       } catch (error) {
         console.error('Error fetching search results:', error);
+        setResults([]);
       } finally {
         setLoading(false);
       }
@@ -60,7 +60,6 @@ const SearchModal = ({ isOpen, onClose, searchQuery: initialQuery = '' }) => {
   return (
     <div className='fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-20'>
       <div className='bg-white w-full max-w-3xl rounded-lg shadow-xl max-h-[80vh] overflow-hidden'>
-        {/* Header with Search Input */}
         <div className='p-4 border-b'>
           <div className='flex items-center gap-3'>
             <div className='relative flex-1'>
@@ -83,7 +82,6 @@ const SearchModal = ({ isOpen, onClose, searchQuery: initialQuery = '' }) => {
           </div>
         </div>
 
-        {/* Content */}
         <div className='p-4 overflow-y-auto max-h-[calc(80vh-73px)]'>
           {loading ? (
             <div className='flex justify-center py-8'>
@@ -93,22 +91,22 @@ const SearchModal = ({ isOpen, onClose, searchQuery: initialQuery = '' }) => {
             <div className='grid grid-cols-2 sm:grid-cols-4 gap-4'>
               {results.map(game => (
                 <Link
-                  key={game.id}
-                  href={`/${params.locale}/${game.slug}`}
+                  key={game._id}
+                  href={`/${params.locale}/${game.slug[params.locale]}`}
                   onClick={onClose}
                   className='block group'
                 >
                   <div className='relative aspect-square rounded-lg overflow-hidden shadow-lg'>
                     <Image
-                      src={game.image}
-                      alt={game.title}
+                      src={game.image || '/images/game-placeholder.jpg'}
+                      alt={game.title[params.locale]}
                       fill
                       className='object-cover transition-transform duration-300 group-hover:scale-110'
                     />
                     <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent' />
                     <div className='absolute bottom-2 left-2 right-2'>
                       <h3 className='text-white font-medium truncate text-sm'>
-                        {game.title}
+                        {game.title[params.locale]}
                       </h3>
                     </div>
                   </div>
