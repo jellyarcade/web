@@ -287,7 +287,13 @@ export default function GameClient({ game, locale }) {
 
       <div className='max-w-5xl mx-auto space-y-6'>
         <div className='flex justify-between items-center'>
-          <h1 className='text-3xl font-bold'>{game.title[locale]}</h1>
+          <div>
+            <h1 className='text-3xl font-bold'>{game.title[locale]}</h1>
+            <div className='text-sm text-gray-500 mt-1'>
+              {game.playCount || 0}{' '}
+              {locale === 'tr' ? 'kez oynandı' : 'times played'}
+            </div>
+          </div>
 
           {/* Favori Butonu */}
           <button
@@ -430,13 +436,6 @@ export default function GameClient({ game, locale }) {
 
           {isDetailsOpen && (
             <div className='p-4 space-y-4'>
-              {/* Oynanma Sayısı */}
-              <div>
-                <span className='text-sm text-gray-500'>
-                  {t('game.playCount', { count: game.playCount || 0 })}
-                </span>
-              </div>
-
               {/* Açıklama */}
               {game.description?.[locale] && (
                 <div>
