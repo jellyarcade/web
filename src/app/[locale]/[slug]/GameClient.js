@@ -177,8 +177,6 @@ export default function GameClient({ game, locale }) {
         setShowOrientationModal(true);
         return;
       }
-    } else {
-      console.log('Not mobile, skipping orientation check');
     }
 
     // iOS kontrolü
@@ -222,17 +220,30 @@ export default function GameClient({ game, locale }) {
       }, 1000);
     }
 
-    // Oyun başladıktan sonra API'ye bildir veya localStorage'a kaydet
-    if (token) {
+    // Her durumda oyun sayısını artır
+    try {
       fetch(`https://api.jellyarcade.com/api/games/${game._id}/play`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
-      });
-    } else {
-      // Giriş yapmamış kullanıcılar için localStorage'a kaydet
+      })
+        .then(response => {
+          if (!response.ok) {
+            console.error('Play count increment failed:', response.status);
+          }
+        })
+        .catch(error => {
+          console.error('Play count increment error:', error);
+        });
+    } catch (error) {
+      console.error('Play count increment error:', error);
+    }
+
+    // Eğer kullanıcı giriş yapmamışsa localStorage'a kaydet
+    if (!token) {
       const recentGames = JSON.parse(
         localStorage.getItem('recentGames') || '[]'
       );
