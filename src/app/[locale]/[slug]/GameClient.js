@@ -391,8 +391,8 @@ export default function GameClient({ game, locale }) {
                     <Image
                       src='/images/avatar.png'
                       alt='Jelly Arcade'
-                      width={24}
-                      height={24}
+                      width={36}
+                      height={36}
                       className='rounded'
                     />
                     <div className='text-sm text-white'>
