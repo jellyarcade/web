@@ -143,7 +143,18 @@ export default function GameClient({ game, locale }) {
     const checkOrientation = () => {
       if (!isMobile) return; // Sadece mobilde kontrol et
 
-      const isPortrait = window.innerHeight > window.innerWidth;
+      const isIOS =
+        /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      let isPortrait;
+
+      if (isIOS) {
+        // iOS için özel oryantasyon kontrolü
+        isPortrait = window.orientation === 0 || window.orientation === 180;
+      } else {
+        // Diğer cihazlar için normal kontrol
+        isPortrait = window.innerHeight > window.innerWidth;
+      }
+
       setCurrentOrientation(isPortrait ? 'vertical' : 'horizontal');
 
       // Oyun başladıysa oryantasyon kontrolü yap
@@ -160,21 +171,35 @@ export default function GameClient({ game, locale }) {
     // İlk kontrol
     checkOrientation();
 
-    // Ekran döndürüldüğünde kontrol et
-    window.addEventListener('resize', checkOrientation);
+    // iOS için özel event listener
     window.addEventListener('orientationchange', checkOrientation);
+    // Diğer cihazlar için
+    window.addEventListener('resize', checkOrientation);
 
     return () => {
-      window.removeEventListener('resize', checkOrientation);
       window.removeEventListener('orientationchange', checkOrientation);
+      window.removeEventListener('resize', checkOrientation);
     };
   }, [isPlaying, game.orientation, isMobile]);
 
   const handlePlay = async () => {
     try {
+      // iOS kontrolü
+      const isIOS =
+        /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
       // Oyunu başlatmadan önce oryantasyon kontrolü yap
       if (isMobile) {
-        const isPortrait = window.innerHeight > window.innerWidth;
+        let isPortrait;
+
+        if (isIOS) {
+          // iOS için özel oryantasyon kontrolü
+          isPortrait = window.orientation === 0 || window.orientation === 180;
+        } else {
+          // Diğer cihazlar için normal kontrol
+          isPortrait = window.innerHeight > window.innerWidth;
+        }
+
         const needsLandscape = game.orientation === 'horizontal';
         const needsPortrait = game.orientation === 'vertical';
 
@@ -186,10 +211,6 @@ export default function GameClient({ game, locale }) {
 
       // Oyunu başlat
       setIsPlaying(true);
-
-      // iOS için özel kontrol
-      const isIOS =
-        /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
       // Mobilde oyun başladığında otomatik olarak fullscreen yap
       if (isMobile) {
