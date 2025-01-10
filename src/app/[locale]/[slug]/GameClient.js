@@ -23,7 +23,7 @@ export default function GameClient({ game, locale }) {
   });
   const { token, user } = useAuth();
   const t = useTranslations();
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isMobile = useMediaQuery('(max-width: 640px)');
 
   // Fullscreen değişikliklerini izle
   useEffect(() => {
@@ -324,7 +324,7 @@ export default function GameClient({ game, locale }) {
   );
 
   return (
-    <div className='h-[calc(100vh-72px)] flex flex-col mt-[72px]'>
+    <div className='mt-[72px]'>
       {showOrientationModal && <OrientationModal />}
       {showAuthModal && (
         <AuthModal
@@ -344,14 +344,15 @@ export default function GameClient({ game, locale }) {
         </div>
       )}
 
-      <div className='flex-1 flex flex-col max-w-5xl w-full mx-auto px-4 py-6 overflow-hidden'>
-        <div className='flex justify-between items-center mb-6'>
+      <div className='max-w-5xl w-full mx-auto px-4 py-4'>
+        <div className='mb-4'>
           <h1 className='text-3xl font-bold'>{game.title[locale]}</h1>
         </div>
 
-        <div className='relative flex-1 min-h-0'>
-          {/* Oyun alanı */}
-          <div className='h-full flex flex-col'>
+        <div>
+          {/* Oyun alanı ve Game Details */}
+          <div className='max-w-3xl mr-auto space-y-4'>
+            {/* Oyun alanı */}
             {!isPlaying ? (
               // Preview image ve play butonu
               <div className='relative aspect-video w-full rounded-lg overflow-hidden shadow-lg'>
@@ -386,9 +387,18 @@ export default function GameClient({ game, locale }) {
 
                 {/* Alt Bar */}
                 <div className='absolute bottom-0 left-0 right-0 h-10 bg-black/75 backdrop-blur-sm flex items-center justify-between px-4'>
-                  <div className='text-sm text-white'>
-                    {game.playCount || 0}{' '}
-                    {locale === 'tr' ? 'kez oynandı' : 'times played'}
+                  <div className='flex items-center gap-2'>
+                    <Image
+                      src='/images/avatar.png'
+                      alt='Jelly Arcade'
+                      width={24}
+                      height={24}
+                      className='rounded'
+                    />
+                    <div className='text-sm text-white'>
+                      {game.playCount || 0}{' '}
+                      {locale === 'tr' ? 'kez oynandı' : 'times played'}
+                    </div>
                   </div>
                   <button
                     onClick={toggleFavorite}
@@ -423,9 +433,18 @@ export default function GameClient({ game, locale }) {
 
                 {/* Alt Bar */}
                 <div className='absolute bottom-0 left-0 right-0 h-10 bg-black/75 backdrop-blur-sm flex items-center justify-between px-4'>
-                  <div className='text-sm text-white'>
-                    {game.playCount || 0}{' '}
-                    {locale === 'tr' ? 'kez oynandı' : 'times played'}
+                  <div className='flex items-center gap-2'>
+                    <Image
+                      src='/images/avatar.png'
+                      alt='Jelly Arcade'
+                      width={24}
+                      height={24}
+                      className='rounded'
+                    />
+                    <div className='text-sm text-white'>
+                      {game.playCount || 0}{' '}
+                      {locale === 'tr' ? 'kez oynandı' : 'times played'}
+                    </div>
                   </div>
                   <button
                     onClick={toggleFavorite}
@@ -483,7 +502,7 @@ export default function GameClient({ game, locale }) {
               </div>
             )}
 
-            {/* Mobil için tam ekrana dön butonu - Fullscreen modunda değilken göster */}
+            {/* Mobil için tam ekrana dön butonu */}
             {isMobile && isPlaying && !isFullscreen && (
               <div className='mt-4'>
                 <button
@@ -525,7 +544,7 @@ export default function GameClient({ game, locale }) {
             )}
 
             {/* Game Details Akordiyon */}
-            <div className='mt-6 border rounded-lg overflow-hidden'>
+            <div className='border rounded-lg overflow-hidden'>
               <button
                 onClick={() => setIsDetailsOpen(!isDetailsOpen)}
                 className='w-full px-4 py-3 bg-gray-50 hover:bg-gray-100 flex items-center justify-between transition-colors'
@@ -549,10 +568,10 @@ export default function GameClient({ game, locale }) {
                 </svg>
               </button>
 
-              {/* Game Details İçeriği - Scroll olabilir */}
+              {/* Game Details İçeriği */}
               <div
-                className={`overflow-y-auto transition-all duration-300 ${
-                  isDetailsOpen ? 'max-h-[calc(100vh-600px)]' : 'max-h-0'
+                className={`transition-all duration-300 ${
+                  isDetailsOpen ? 'block' : 'hidden'
                 }`}
               >
                 <div className='p-4 space-y-4'>
@@ -562,7 +581,7 @@ export default function GameClient({ game, locale }) {
                       <h3 className='font-medium mb-2'>
                         {t('game.description')}:
                       </h3>
-                      <p className='text-gray-600'>
+                      <p className='text-gray-600 text-sm'>
                         {game.description[locale]}
                       </p>
                     </div>

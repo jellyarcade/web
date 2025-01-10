@@ -20,5 +20,12 @@
     "addedToFavorites": "Game added to favorites",
     "removedFromFavorites": "Game removed from favorites",
     "favoriteError": "Failed to update favorites"
+  },
+  "legal": {
+    "termsTitle": "Terms of Service",
+    "privacyTitle": "Privacy & Cookie Policy",
+    "lastUpdated": "Last updated",
+    "termsLastUpdated": "January 10, 2024",
+    "privacyLastUpdated": "January 10, 2024"
   }
 }

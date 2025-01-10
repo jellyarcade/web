@@ -6,10 +6,24 @@ import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import { AuthProvider } from '@/contexts/AuthContext';
 
-export const metadata = {
-  title: 'Jelly Arcade',
-  description: 'Play thousands of free games',
-};
+export async function generateMetadata({ params: { locale } }) {
+  return {
+    title: {
+      template:
+        locale === 'tr'
+          ? '%s - Ücretsiz Oyunlar & Yükleme Yok'
+          : '%s - Free Games & No Install',
+      default:
+        locale === 'tr'
+          ? 'Ücretsiz Oyunlar & Yükleme Yok'
+          : 'Free Games & No Install',
+    },
+    description:
+      locale === 'tr'
+        ? "Ücretsiz online oyunlar oyna. Yükleme yapmadan binlerce oyunu Jelly Arcade'de oynayabilirsin."
+        : 'Play free online games. You can play thousands of games on Jelly Arcade without downloading.',
+  };
+}
 
 const locales = ['tr', 'en'];
 export const defaultLocale = 'tr';

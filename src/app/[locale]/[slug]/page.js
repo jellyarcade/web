@@ -31,6 +31,26 @@ async function getGame(slug) {
   }
 }
 
+export async function generateMetadata({ params: { locale, slug } }) {
+  // Oyun verilerini al
+  const game = await getGame(slug);
+
+  if (!game) {
+    return {
+      title: locale === 'tr' ? 'Oyun Bulunamadı' : 'Game Not Found',
+    };
+  }
+
+  return {
+    title: game.title[locale],
+    description:
+      game.description?.[locale] ||
+      (locale === 'tr'
+        ? "Ücretsiz online oyunlar oyna. Yükleme yapmadan en iyi ücretsiz oyunlar Jelly Arcade'de."
+        : 'Play free online games without downloading. Best free online games on Jelly Arcade.'),
+  };
+}
+
 export default async function GamePage({ params: { locale, slug } }) {
   // Check if this is a game slug or a special page
   const specialPages = [

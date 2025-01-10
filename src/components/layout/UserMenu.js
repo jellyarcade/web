@@ -177,14 +177,14 @@ const UserMenu = () => {
                     href={`/${locale}/${getLocalizedPath('notifications')}`}
                     className='text-white hover:text-white/90'
                   >
-                    <HiBell className='w-6 h-6' />
+                    <HiBell className='w-6 h-6 mt-0' />
                   </Link>
                 ) : (
                   <button
                     onClick={() => setShowAuthModal(true)}
                     className='text-white hover:text-white/90'
                   >
-                    <HiBell className='w-7 h-7' />
+                    <HiBell className='w-6 h-6 mt-2' />
                   </button>
                 )}
                 {user && hasUnreadNotifications && (
@@ -216,14 +216,14 @@ const UserMenu = () => {
                   href={`/${locale}/${getLocalizedPath('notifications')}`}
                   className='text-white hover:text-white/90'
                 >
-                  <HiBell className='w-6 h-6' />
+                  <HiBell className='w-6 h-6 mt-0' />
                 </Link>
               ) : (
                 <button
                   onClick={() => setShowAuthModal(true)}
-                  className='text-white hover:text-white/90'
+                  className='text-white mt-2 hover:text-white/90'
                 >
-                  <HiBell className='w-7 h-7' />
+                  <HiBell className='w-6 h-6 mt-0' />
                 </button>
               )}
               {user && hasUnreadNotifications && (

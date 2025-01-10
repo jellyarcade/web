@@ -20,5 +20,12 @@
     "addedToFavorites": "Oyun favorilere eklendi",
     "removedFromFavorites": "Oyun favorilerden çıkarıldı",
     "favoriteError": "Favori işlemi başarısız oldu"
+  },
+  "legal": {
+    "termsTitle": "Kullanım Koşulları",
+    "privacyTitle": "Gizlilik ve Çerez Politikası",
+    "lastUpdated": "Son güncelleme",
+    "termsLastUpdated": "10 Ocak 2024",
+    "privacyLastUpdated": "10 Ocak 2024"
   }
 }

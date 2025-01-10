@@ -24,9 +24,9 @@ export default function PrivacyPolicy() {
 
   return (
     <div className='container mx-auto px-4 mt-24 md:px-20 lg:px-24 py-8'>
-      <h1 className='text-3xl font-bold mb-6'>Gizlilik ve Çerez Politikası</h1>
+      <h1 className='text-3xl font-bold mb-6'>{t('privacyTitle')}</h1>
       <p className='text-sm text-gray-600 mb-8'>
-        {t('lastUpdated')}: {t('termsLastUpdated')}
+        {t('lastUpdated')}: {t('privacyLastUpdated')}
       </p>
       <div className='prose max-w-none space-y-4'>
         <p>
@@ -60,7 +60,8 @@ export default function PrivacyPolicy() {
         <p>
           For information about the terms upon which Company do business, you
           should also read our{' '}
-          <Link href={`/${locale}/terms-of-service`}>Terms of Service</Link>.
+          <Link href={`/${locale}/kullanim-kosullari`}>Kullanım Koşulları</Link>
+          .
         </p>
         <p>
           Personal Data is any information about you that allows us to identify
@@ -92,8 +93,8 @@ export default function PrivacyPolicy() {
             account, username and password
           </li>
           <li>
-            On what basis: The prior, express, free, specific and
-            informed consent of you
+            On what basis: The prior, express, free, specific and informed
+            consent of you
           </li>
         </ul>
         <p className='font-bold'>
@@ -105,8 +106,8 @@ export default function PrivacyPolicy() {
             interests, gaming behaviour and feedback
           </li>
           <li>
-            On what basis: The prior, express, free, specific and
-            informed consent of you
+            On what basis: The prior, express, free, specific and informed
+            consent of you
           </li>
         </ul>
         <p className='font-bold'>
@@ -119,7 +120,7 @@ export default function PrivacyPolicy() {
             you provide to us
           </li>
           <li>
-            On what basis: Necessary for the exercise of our legitimate
+            On what basis: Necessary for the exercise of our legitimate
             interests, in particular to enhance the quality of our Platform
           </li>
         </ul>
@@ -129,7 +130,7 @@ export default function PrivacyPolicy() {
         <ul className='list-disc list-inside'>
           <li>Which personal data: username and email address</li>
           <li>
-            On what basis: Necessary for the exercise of our legitimate
+            On what basis: Necessary for the exercise of our legitimate
             interests, in particular to communicate relevant information about
             our Platform
           </li>
@@ -144,7 +145,7 @@ export default function PrivacyPolicy() {
             data) and in-game statistics
           </li>
           <li>
-            On what basis: Necessary for the exercise of our legitimate
+            On what basis: Necessary for the exercise of our legitimate
             interests, in particular collecting statistics about the usage and
             performance of our Platform and the games
           </li>
@@ -152,7 +153,7 @@ export default function PrivacyPolicy() {
         <p className='font-bold'>To comply with legal obligations</p>
         <ul className='list-disc list-inside'>
           <li>Which personal data: data required by applicable law</li>
-          <li>On what basis: Necessary to comply with a legal obligation</li>
+          <li>On what basis: Necessary to comply with a legal obligation</li>
         </ul>
         <p className='font-bold'>
           To prevent, detect and combat fraud and other illegal or unauthorised
@@ -164,7 +165,7 @@ export default function PrivacyPolicy() {
             illegal activities
           </li>
           <li>
-            On what basis: Necessary for the exercise of our legitimate
+            On what basis: Necessary for the exercise of our legitimate
             interests, in particular the prevention of fraud and other illegal
             activities
           </li>
@@ -175,8 +176,8 @@ export default function PrivacyPolicy() {
         <ul className='list-disc list-inside'>
           <li>Which personal data: username and email address</li>
           <li>
-            On what basis: The prior, express, free, specific and
-            informed consent of you
+            On what basis: The prior, express, free, specific and informed
+            consent of you
           </li>
         </ul>
         <p className='font-bold'>To enable advertising on our Platform</p>
@@ -187,11 +188,11 @@ export default function PrivacyPolicy() {
             browser type and operating system
           </li>
           <li>
-            On what basis: The prior, express, free, specific and
-            informed consent of you when you accept our Privacy and Cookie
-            Policy, and confirm your ad preferences. This authorisation can be
-            withdrawn by you at any time. For more information, please consult
-            ‘Manage Your Ad Preferences’ and our Cookie Policy.
+            On what basis: The prior, express, free, specific and informed
+            consent of you when you accept our Privacy and Cookie Policy, and
+            confirm your ad preferences. This authorisation can be withdrawn by
+            you at any time. For more information, please consult ‘Manage Your
+            Ad Preferences’ and our Cookie Policy.
           </li>
         </ul>
         <p className='font-bold'>
@@ -202,7 +203,7 @@ export default function PrivacyPolicy() {
             Which personal data: e-mail, tax identification number, bank account
             identification, Paypal Account, preferred payment method
           </li>
-          <li>On what basis: Necessary for the performance of a contract</li>
+          <li>On what basis: Necessary for the performance of a contract</li>
         </ul>
         <p className='font-bold'>To enable in-game purchases</p>
         <ul className='list-disc list-inside'>
@@ -212,7 +213,7 @@ export default function PrivacyPolicy() {
           Company does not collect any specific payment data when you make an
           in-game purchase. The payment is executed by a third party payment
           provider. Company store and link your in-game purchases to your
-          Account. | Necessary for the performance of a contract |
+          Account. | Necessary for the performance of a contract |
         </p>
         <p>
           If you register an Account with us you give your explicit consent to
@@ -304,7 +305,7 @@ export default function PrivacyPolicy() {
           with such external game developers if that’s strictly required for the
           performance of our contractual obligations with the game developers.
           Company may also share any personal information required to facilitate
-          in-game purchases, such as your email address. When sharing usage data
+          in-game purchases, such as your email address. When sharing usage data
           with a game developer about his game, Company will always anonymize
           the data. In addition, if you share feedback with us about a game,
           Company can also share this feedback with the developer of the game.
@@ -326,7 +327,7 @@ export default function PrivacyPolicy() {
         <p>
           Should you need further details regarding how Company transfer data
           internationally and the protective measures Company employ, please
-          reach out to us via email at info@jellyarcade.com
+          reach out to us via email at info@jellyarcade.com
         </p>
         <p>
           Company will keep your data for as long as strictly necessary for the

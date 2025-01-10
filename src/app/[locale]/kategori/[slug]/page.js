@@ -28,6 +28,29 @@ async function getCategory(slug) {
   }
 }
 
+export async function generateMetadata({ params: { locale, slug } }) {
+  // Kategori verilerini al
+  const category = await getCategory(slug);
+
+  if (!category || !category.name || !category.name[locale]) {
+    return {
+      title: locale === 'tr' ? 'Kategori Bulunamadı' : 'Category Not Found',
+    };
+  }
+
+  const categoryName = category.name[locale];
+  const categoryNameLower = categoryName.toLowerCase();
+
+  return {
+    title:
+      locale === 'tr' ? `${categoryName} Oyunları` : `${categoryName} Games`,
+    description:
+      locale === 'tr'
+        ? `${categoryName} kategorisindeki en iyi ücretsiz oyunları oyna. Yükleme yapmadan ${categoryNameLower} oyunlarını Jelly Arcade'de oynayabilirsin.`
+        : `Play the best free ${categoryNameLower} games. You can play ${categoryName} games on Jelly Arcade without downloading.`,
+  };
+}
+
 export default async function CategoryPage({ params: { locale, slug } }) {
   // İngilizce URL'ye yönlendir
   if (locale === 'en') {
@@ -37,7 +60,7 @@ export default async function CategoryPage({ params: { locale, slug } }) {
 
   const category = await getCategory(slug);
 
-  if (!category) {
+  if (!category || !category.name || !category.name[locale]) {
     return notFound();
   }
 
@@ -46,10 +69,10 @@ export default async function CategoryPage({ params: { locale, slug } }) {
     category?.games?.map(game => ({
       _id: game._id,
       title: {
-        [locale]: game.title[locale] || game.title.en,
+        [locale]: game.title?.[locale] || game.title?.en || '',
       },
       slug: {
-        [locale]: game.slug[locale] || game.slug.en,
+        [locale]: game.slug?.[locale] || game.slug?.en || '',
       },
       instantLink: game.instantLink,
       playCount: game.playCount,
@@ -89,7 +112,7 @@ export default async function CategoryPage({ params: { locale, slug } }) {
       <GameGrid
         games={games}
         title={category.name[locale]}
-        description={category.description[locale]}
+        description={category.description?.[locale] || ''}
       />
     </div>
   );
