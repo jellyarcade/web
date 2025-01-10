@@ -79,11 +79,11 @@ export default function SearchBar() {
               setShowResults(true);
             }}
             placeholder={t('placeholder')}
-            className='w-full h-8 pl-8 pr-3 rounded-lg bg-gray-100 border border-transparent focus:border-brand-orange focus:bg-white focus:ring-0 text-sm transition-colors'
+            className='w-full h-5 pl-5 pr-2 rounded bg-gray-100 border border-transparent focus:border-brand-orange focus:bg-white focus:ring-0 text-[10px] transition-colors'
           />
-          <div className='absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none'>
+          <div className='absolute inset-y-0 left-0 pl-1 flex items-center pointer-events-none'>
             <svg
-              className='h-3.5 w-3.5 text-gray-400'
+              className='h-2.5 w-2.5 text-gray-400'
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
               viewBox='0 0 24 24'
@@ -102,21 +102,21 @@ export default function SearchBar() {
 
       {/* Search Results Dropdown */}
       {showResults && query.trim() && (
-        <div className='absolute w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 max-h-96 overflow-y-auto z-50'>
+        <div className='absolute w-full mt-1 bg-white rounded-md shadow-lg border border-gray-200 max-h-96 overflow-y-auto z-50'>
           {loading ? (
-            <div className='p-3 text-center text-gray-500 text-sm'>
+            <div className='p-1.5 text-center text-gray-500 text-[11px]'>
               {t('searching')}
             </div>
           ) : results.length > 0 ? (
-            <div className='py-1.5'>
+            <div className='py-0.5'>
               {results.map(game => (
                 <Link
                   key={game._id}
                   href={`/${locale}/${game.slug}`}
                   onClick={() => setShowResults(false)}
-                  className='flex items-center gap-2 px-3 py-1.5 hover:bg-gray-50'
+                  className='flex items-center gap-1.5 px-1.5 py-1 hover:bg-gray-50'
                 >
-                  <div className='relative w-8 h-8 rounded overflow-hidden flex-shrink-0'>
+                  <div className='relative w-5 h-5 rounded overflow-hidden flex-shrink-0'>
                     <Image
                       src={game.image || '/images/game-placeholder.jpg'}
                       alt={game.title[locale]}
@@ -125,10 +125,10 @@ export default function SearchBar() {
                     />
                   </div>
                   <div className='flex-grow min-w-0'>
-                    <div className='text-sm font-medium truncate'>
+                    <div className='text-[11px] font-medium truncate'>
                       {game.title[locale]}
                     </div>
-                    <div className='text-xs text-gray-500 truncate'>
+                    <div className='text-[10px] text-gray-500 truncate'>
                       {game.description[locale]}
                     </div>
                   </div>
@@ -136,7 +136,7 @@ export default function SearchBar() {
               ))}
             </div>
           ) : (
-            <div className='p-3 text-center text-gray-500 text-sm'>
+            <div className='p-1.5 text-center text-gray-500 text-[11px]'>
               {t('noResults')}
             </div>
           )}

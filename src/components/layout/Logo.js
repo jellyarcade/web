@@ -4,9 +4,10 @@ import Image from 'next/image';
 
 const Logo = ({ size = 'small' }) => {
   const dimensions = {
-    small: { width: 90, height: 28 },
-    medium: { width: 110, height: 34 },
-    large: { width: 130, height: 40 },
+    small: { width: 100, height: 32 },
+    medium: { width: 120, height: 38 },
+    large: { width: 160, height: 50 },
+    xlarge: { width: 160, height: 50 },
   };
 
   const { width, height } = dimensions[size];

@@ -135,7 +135,7 @@ const UserMenu = () => {
           <div className='flex items-center gap-4 md:gap-6 order-first md:order-last md:ml-6'>
             <button
               onClick={handleAuthAction}
-              className='w-6 h-6 rounded-full bg-gray-200 overflow-hidden focus:ring-2 focus:ring-orange-500'
+              className='w-5 h-5 rounded-full bg-gray-200 overflow-hidden focus:ring-2 focus:ring-orange-500'
             >
               {user ? (
                 <img
@@ -161,14 +161,14 @@ const UserMenu = () => {
                   href={`/${locale}/${getLocalizedPath('favorites')}`}
                   className='text-white hover:text-white/90'
                 >
-                  <HiHeart className='w-8 h-8' />
+                  <HiHeart className='w-6 h-6' />
                 </Link>
               ) : (
                 <button
                   onClick={() => setShowAuthModal(true)}
                   className='text-white hover:text-white/90'
                 >
-                  <HiHeart className='w-12 h-12' />
+                  <HiHeart className='w-6 h-6' />
                 </button>
               )}
               <div className='relative'>
@@ -177,7 +177,7 @@ const UserMenu = () => {
                     href={`/${locale}/${getLocalizedPath('notifications')}`}
                     className='text-white hover:text-white/90'
                   >
-                    <HiBell className='w-7 h-7' />
+                    <HiBell className='w-6 h-6' />
                   </Link>
                 ) : (
                   <button
@@ -200,14 +200,14 @@ const UserMenu = () => {
                 href={`/${locale}/${getLocalizedPath('favorites')}`}
                 className='text-white hover:text-white/90'
               >
-                <HiHeart className='w-8 h-8' />
+                <HiHeart className='w-6 h-6' />
               </Link>
             ) : (
               <button
                 onClick={() => setShowAuthModal(true)}
                 className='text-white hover:text-white/90'
               >
-                <HiHeart className='w-8 h-8' />
+                <HiHeart className='w-6 h-6' />
               </button>
             )}
             <div className='relative mr-1'>
@@ -216,7 +216,7 @@ const UserMenu = () => {
                   href={`/${locale}/${getLocalizedPath('notifications')}`}
                   className='text-white hover:text-white/90'
                 >
-                  <HiBell className='w-7 h-7' />
+                  <HiBell className='w-6 h-6' />
                 </Link>
               ) : (
                 <button

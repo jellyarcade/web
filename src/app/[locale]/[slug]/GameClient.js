@@ -324,7 +324,7 @@ export default function GameClient({ game, locale }) {
   );
 
   return (
-    <div className='container mx-auto px-4 py-8 mt-[72px]'>
+    <div className='h-[calc(100vh-72px)] flex flex-col mt-[72px]'>
       {showOrientationModal && <OrientationModal />}
       {showAuthModal && (
         <AuthModal
@@ -344,85 +344,72 @@ export default function GameClient({ game, locale }) {
         </div>
       )}
 
-      <div className='max-w-5xl mx-auto space-y-6'>
-        <div className='flex justify-between items-center'>
-          <div>
-            <h1 className='text-3xl font-bold'>{game.title[locale]}</h1>
-            <div className='text-sm text-gray-500 mt-1'>
-              {game.playCount || 0}{' '}
-              {locale === 'tr' ? 'kez oynandı' : 'times played'}
-            </div>
-          </div>
-
-          {/* Favori Butonu */}
-          <button
-            onClick={toggleFavorite}
-            disabled={isLoading}
-            className={`p-2 rounded-full transition-colors ${
-              isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'
-            }`}
-            title={
-              isFavorite
-                ? t('game.removeFromFavorites')
-                : t('game.addToFavorites')
-            }
-          >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              viewBox='0 0 24 24'
-              fill={isFavorite ? 'currentColor' : 'none'}
-              stroke='currentColor'
-              className={`w-6 h-6 ${
-                isFavorite ? 'text-red-500' : 'text-gray-600'
-              } ${isLoading ? 'opacity-50' : ''}`}
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth={2}
-                d='M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z'
-              />
-            </svg>
-          </button>
+      <div className='flex-1 flex flex-col max-w-5xl w-full mx-auto px-4 py-6 overflow-hidden'>
+        <div className='flex justify-between items-center mb-6'>
+          <h1 className='text-3xl font-bold'>{game.title[locale]}</h1>
         </div>
 
-        <div className='relative'>
-          {!isPlaying ? (
-            // Oyun başlamadan önce resim ve play butonu göster
-            <div className='relative aspect-video w-full rounded-lg overflow-hidden shadow-lg'>
-              <Image
-                src={game.image || '/images/game-placeholder.jpg'}
-                alt={game.title[locale]}
-                fill
-                className='object-cover'
-              />
+        <div className='relative flex-1 min-h-0'>
+          {/* Oyun alanı */}
+          <div className='h-full flex flex-col'>
+            {!isPlaying ? (
+              // Preview image ve play butonu
+              <div className='relative aspect-video w-full rounded-lg overflow-hidden shadow-lg'>
+                <Image
+                  src={game.image || '/images/game-placeholder.jpg'}
+                  alt={game.title[locale]}
+                  fill
+                  className='object-cover'
+                />
 
-              {/* Karartma Efekti */}
-              <div className='absolute inset-0 bg-black/30 transition-opacity hover:opacity-0' />
+                {/* Karartma Efekti */}
+                <div className='absolute inset-0 bg-black/30 transition-opacity hover:opacity-0' />
 
-              {/* Play Butonu */}
-              <button
-                onClick={handlePlay}
-                className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-xl transition-transform hover:scale-110'
-              >
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  viewBox='0 0 24 24'
-                  fill='currentColor'
-                  className='w-10 h-10 text-brand-orange translate-x-0.5'
+                {/* Play Butonu */}
+                <button
+                  onClick={handlePlay}
+                  className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-xl transition-transform hover:scale-110'
                 >
-                  <path
-                    fillRule='evenodd'
-                    d='M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z'
-                    clipRule='evenodd'
-                  />
-                </svg>
-              </button>
-            </div>
-          ) : (
-            // Oyun başladığında iframe'i göster
-            <>
-              <div className='aspect-video w-full rounded-lg overflow-hidden shadow-lg relative'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 24 24'
+                    fill='currentColor'
+                    className='w-10 h-10 text-brand-orange translate-x-0.5'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                </button>
+
+                {/* Alt Bar */}
+                <div className='absolute bottom-0 left-0 right-0 h-10 bg-black/75 backdrop-blur-sm flex items-center justify-between px-4'>
+                  <div className='text-sm text-white'>
+                    {game.playCount || 0}{' '}
+                    {locale === 'tr' ? 'kez oynandı' : 'times played'}
+                  </div>
+                  <button
+                    onClick={toggleFavorite}
+                    className={`p-1.5 rounded-full transition-colors hover:bg-white/10 ${
+                      isFavorite ? 'text-red-500' : 'text-white'
+                    }`}
+                  >
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 24 24'
+                      fill='currentColor'
+                      className='w-5 h-5'
+                    >
+                      <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            ) : (
+              // iframe
+              <div className='relative aspect-video w-full rounded-lg overflow-hidden shadow-lg'>
                 <iframe
                   src={game.instantLink}
                   className='w-full h-full border-0'
@@ -433,6 +420,30 @@ export default function GameClient({ game, locale }) {
                   referrerPolicy='origin'
                   title={game.title[locale]}
                 />
+
+                {/* Alt Bar */}
+                <div className='absolute bottom-0 left-0 right-0 h-10 bg-black/75 backdrop-blur-sm flex items-center justify-between px-4'>
+                  <div className='text-sm text-white'>
+                    {game.playCount || 0}{' '}
+                    {locale === 'tr' ? 'kez oynandı' : 'times played'}
+                  </div>
+                  <button
+                    onClick={toggleFavorite}
+                    className={`p-1.5 rounded-full transition-colors hover:bg-white/10 ${
+                      isFavorite ? 'text-red-500' : 'text-white'
+                    }`}
+                  >
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 24 24'
+                      fill='currentColor'
+                      className='w-5 h-5'
+                    >
+                      <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
+                    </svg>
+                  </button>
+                </div>
+
                 {/* Full Screen Butonu - Masaüstü için */}
                 {!isMobile && (
                   <button
@@ -450,7 +461,7 @@ export default function GameClient({ game, locale }) {
                         }
                       }
                     }}
-                    className='absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2 rounded-lg transition-colors'
+                    className='absolute bottom-12 right-4 bg-black/50 hover:bg-black/70 text-white p-2 rounded-lg transition-colors'
                     title='Full Screen'
                   >
                     <svg
@@ -470,118 +481,132 @@ export default function GameClient({ game, locale }) {
                   </button>
                 )}
               </div>
-              {/* Mobil için tam ekrana dön butonu - Fullscreen modunda değilken göster */}
-              {isMobile && isPlaying && !isFullscreen && (
-                <div className='mt-4'>
-                  <button
-                    onClick={() => {
-                      const iframe = document.querySelector('iframe');
-                      if (iframe) {
-                        if (iframe.requestFullscreen) {
-                          iframe.requestFullscreen();
-                        } else if (iframe.webkitRequestFullscreen) {
-                          iframe.webkitRequestFullscreen();
-                        } else if (iframe.mozRequestFullScreen) {
-                          iframe.mozRequestFullScreen();
-                        } else if (iframe.msRequestFullscreen) {
-                          iframe.msRequestFullscreen();
-                        }
+            )}
+
+            {/* Mobil için tam ekrana dön butonu - Fullscreen modunda değilken göster */}
+            {isMobile && isPlaying && !isFullscreen && (
+              <div className='mt-4'>
+                <button
+                  onClick={() => {
+                    const iframe = document.querySelector('iframe');
+                    if (iframe) {
+                      if (iframe.requestFullscreen) {
+                        iframe.requestFullscreen();
+                      } else if (iframe.webkitRequestFullscreen) {
+                        iframe.webkitRequestFullscreen();
+                      } else if (iframe.mozRequestFullScreen) {
+                        iframe.mozRequestFullScreen();
+                      } else if (iframe.msRequestFullscreen) {
+                        iframe.msRequestFullscreen();
                       }
-                    }}
-                    className='w-full bg-brand-orange text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-brand-orange/90 transition-colors'
+                    }
+                  }}
+                  className='w-full bg-brand-orange text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-brand-orange/90 transition-colors'
+                >
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    strokeWidth={1.5}
+                    stroke='currentColor'
+                    className='w-6 h-6'
                   >
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      strokeWidth={1.5}
-                      stroke='currentColor'
-                      className='w-6 h-6'
-                    >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        d='M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15'
-                      />
-                    </svg>
-                    {locale === 'tr'
-                      ? 'Tam Ekranda Devam Et'
-                      : 'Continue in Full Screen'}
-                  </button>
-                </div>
-              )}
-            </>
-          )}
-        </div>
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      d='M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15'
+                    />
+                  </svg>
+                  {locale === 'tr'
+                    ? 'Tam Ekranda Devam Et'
+                    : 'Continue in Full Screen'}
+                </button>
+              </div>
+            )}
 
-        {/* Oyun Detayları Akordiyon */}
-        <div className='border rounded-lg overflow-hidden'>
-          <button
-            onClick={() => setIsDetailsOpen(!isDetailsOpen)}
-            className='w-full px-4 py-3 bg-gray-50 hover:bg-gray-100 flex items-center justify-between'
-          >
-            <span className='font-medium'>{t('game.gameDetails')}</span>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              viewBox='0 0 24 24'
-              fill='currentColor'
-              className={`w-5 h-5 transition-transform ${
-                isDetailsOpen ? 'rotate-180' : ''
-              }`}
-            >
-              <path
-                fillRule='evenodd'
-                d='M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z'
-                clipRule='evenodd'
-              />
-            </svg>
-          </button>
+            {/* Game Details Akordiyon */}
+            <div className='mt-6 border rounded-lg overflow-hidden'>
+              <button
+                onClick={() => setIsDetailsOpen(!isDetailsOpen)}
+                className='w-full px-4 py-3 bg-gray-50 hover:bg-gray-100 flex items-center justify-between transition-colors'
+              >
+                <span className='font-medium'>
+                  {locale === 'tr' ? 'Oyun Detayları' : 'Game Details'}
+                </span>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  className={`w-5 h-5 transition-transform ${
+                    isDetailsOpen ? 'rotate-180' : ''
+                  }`}
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                    clipRule='evenodd'
+                  />
+                </svg>
+              </button>
 
-          {isDetailsOpen && (
-            <div className='p-4 space-y-4'>
-              {/* Açıklama */}
-              {game.description?.[locale] && (
-                <div>
-                  <h3 className='font-medium mb-2'>{t('game.description')}:</h3>
-                  <p className='text-gray-600'>{game.description[locale]}</p>
-                </div>
-              )}
+              {/* Game Details İçeriği - Scroll olabilir */}
+              <div
+                className={`overflow-y-auto transition-all duration-300 ${
+                  isDetailsOpen ? 'max-h-[calc(100vh-600px)]' : 'max-h-0'
+                }`}
+              >
+                <div className='p-4 space-y-4'>
+                  {/* Açıklama */}
+                  {game.description?.[locale] && (
+                    <div>
+                      <h3 className='font-medium mb-2'>
+                        {t('game.description')}:
+                      </h3>
+                      <p className='text-gray-600'>
+                        {game.description[locale]}
+                      </p>
+                    </div>
+                  )}
 
-              {/* Kategori */}
-              {game.categories?.length > 0 && (
-                <div>
-                  <h3 className='font-medium mb-2'>{t('game.category')}:</h3>
-                  <div className='flex flex-wrap gap-2'>
-                    {game.categories.map(category => (
-                      <span
-                        key={category._id}
-                        className='px-3 py-1 bg-green-50 text-green-600 rounded-full text-sm'
-                      >
-                        {category.name[locale]}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
+                  {/* Kategori */}
+                  {game.categories?.length > 0 && (
+                    <div>
+                      <h3 className='font-medium mb-2'>
+                        {t('game.category')}:
+                      </h3>
+                      <div className='flex flex-wrap gap-2'>
+                        {game.categories.map(category => (
+                          <span
+                            key={category._id}
+                            className='px-3 py-1 bg-green-50 text-green-600 rounded-full text-sm'
+                          >
+                            {category.name[locale]}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
-              {/* Etiketler */}
-              {game.keywords?.[locale]?.length > 0 && (
-                <div>
-                  <h3 className='font-medium mb-2'>{t('game.tags')}:</h3>
-                  <div className='flex flex-wrap gap-2'>
-                    {game.keywords[locale].map(keyword => (
-                      <span
-                        key={keyword}
-                        className='px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-sm'
-                      >
-                        #{keyword}
-                      </span>
-                    ))}
-                  </div>
+                  {/* Etiketler */}
+                  {game.keywords?.[locale]?.length > 0 && (
+                    <div>
+                      <h3 className='font-medium mb-2'>{t('game.tags')}:</h3>
+                      <div className='flex flex-wrap gap-2'>
+                        {game.keywords[locale].map(keyword => (
+                          <span
+                            key={keyword}
+                            className='px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-sm'
+                          >
+                            #{keyword}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>

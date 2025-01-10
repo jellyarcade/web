@@ -101,7 +101,7 @@ const Sidebar = ({ isOpen, onClose, children }) => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 bottom-0 w-[280px] bg-brand-orange z-30 transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 bottom-0 w-[220px] bg-brand-orange z-30 transform transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : '-translate-x-[calc(100%+1rem)]'
         }`}
       >
@@ -125,9 +125,9 @@ const Sidebar = ({ isOpen, onClose, children }) => {
                       : pathname.startsWith(item.href)
                   }
                 >
-                  <span className='flex items-center px-4 py-4 font-semibold'>
+                  <span className='flex items-center px-4 py-1 font-semibold'>
                     <item.icon className='w-6 h-6 mr-4' />
-                    <span className='text-lg flex items-center gap-2'>
+                    <span className='text-md flex items-center gap-2'>
                       {item.label}
                       {item.href.includes('yeni-oyunlar') ||
                       item.href.includes('new-games') ? (
@@ -157,9 +157,9 @@ const Sidebar = ({ isOpen, onClose, children }) => {
           <div className='p-4 pb-12'>
             <button
               onClick={() => setIsContactModalOpen(true)}
-              className='w-full flex items-center justify-center gap-2 bg-[#16bf36] text-white py-4 px-6 rounded-full text-lg font-semilight hover:bg-[#16bf36]/90 transition-colors'
+              className='w-full flex items-center justify-center gap-2 bg-[#16bf36] text-white py-2 px-6 rounded-full text-sm font-semilight hover:bg-[#16bf36]/90 transition-colors'
             >
-              <HiOutlineEnvelope className='text-2xl' />
+              <HiOutlineEnvelope className='text-sm' />
               {t('contactUs')}
             </button>
           </div>

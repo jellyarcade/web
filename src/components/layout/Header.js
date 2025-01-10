@@ -43,7 +43,7 @@ const Header = ({ children }) => {
             <div className='flex items-center gap-4 sm:gap-8'>
               <button
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className='text-brand-orange hover:text-brand-orange/90 text-2xl sm:text-3xl'
+                className='text-brand-orange hover:text-brand-orange/90 text-xl sm:text-xl'
               >
                 <HiMenu />
               </button>
@@ -55,14 +55,14 @@ const Header = ({ children }) => {
             {/* Desktop Search */}
             <form
               onSubmit={handleSearch}
-              className='hidden md:block flex-1 max-w-xl mx-8 relative'
+              className='hidden md:block flex-1 max-w-xl mx-4 relative'
             >
               <input
                 type='text'
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder={t('search')}
-                className='w-full px-8 py-3 rounded-full bg-white/90 border-0 focus:ring-2 focus:ring-brand-orange font-light text-base'
+                className='w-full px-8 py-2 rounded-full bg-white/90 border-0 focus:ring-2 focus:ring-brand-orange font-light text-base'
               />
               <button
                 type='submit'
