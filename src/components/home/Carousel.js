@@ -52,14 +52,14 @@ const Carousel = ({ items }) => {
     return '#';
   };
 
-  const renderBadges = index => (
+  const renderBadges = item => (
     <>
-      {index === 0 && (
+      {item.isNew && (
         <div className='absolute top-3 -left-2 z-10'>
           <Badge text={t('updated')} className='bg-[#7be3b2] text-white' />
         </div>
       )}
-      {index === 1 && (
+      {item.isPopular && (
         <div className='absolute top-3 -left-2 z-10'>
           <Badge text={t('topRated')} className='bg-[#ffdc00] text-white' />
         </div>
@@ -82,7 +82,7 @@ const Carousel = ({ items }) => {
                     className='object-cover transition-transform duration-300 hover:scale-110'
                   />
                 </div>
-                {renderBadges(index)}
+                {renderBadges(item)}
                 <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg' />
               </div>
             </Link>
@@ -127,7 +127,7 @@ const Carousel = ({ items }) => {
                       className='object-cover transition-transform duration-300 hover:scale-110'
                     />
                   </div>
-                  {renderBadges(index)}
+                  {renderBadges(item)}
                   <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg' />
                 </div>
               </Link>

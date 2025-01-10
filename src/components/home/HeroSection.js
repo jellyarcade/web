@@ -3,38 +3,53 @@
 import { useTranslations } from 'next-intl';
 import Carousel from './Carousel';
 import Container from '../layout/Container';
+import { useEffect, useState } from 'react';
 
-const games = [
-  {
-    id: 1,
-    image:
-      'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop',
-    title: 'Fortnite',
-    category: 'Action',
-  },
-  {
-    id: 2,
-    image:
-      'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=800&auto=format&fit=crop',
-    title: 'Minecraft',
-    category: 'Adventure',
-  },
-  {
-    id: 3,
-    image:
-      'https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?w=800&auto=format&fit=crop',
-    title: 'Among Us',
-    category: 'Strategy',
-  },
-];
+const API_URL = 'https://api.jellyarcade.com/api';
 
 const HeroSection = () => {
   const t = useTranslations('home.hero');
+  const [games, setGames] = useState([]);
+
+  useEffect(() => {
+    const fetchGames = async () => {
+      try {
+        const res = await fetch(`${API_URL}/games`, {
+          cache: 'no-store',
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error('Failed to fetch games');
+        }
+
+        const data = await res.json();
+        const featuredGames = data.filter(game => game.isNew || game.isPopular);
+        setGames(
+          featuredGames.map(game => ({
+            id: game._id,
+            image: game.image,
+            title: game.name,
+            slug: game.slug,
+            isNew: game.isNew,
+            isPopular: game.isPopular,
+          }))
+        );
+      } catch (error) {
+        console.error('Error fetching games:', error);
+      }
+    };
+
+    fetchGames();
+  }, []);
 
   return (
     <section className='relative mt-[72px] bg-gray-50'>
       <Container className='pt-6 sm:pt-8'>
-        <Carousel items={games} className='rounded-lg overflow-hidden' />
+        <Carousel items={games} />
       </Container>
     </section>
   );
