@@ -11,7 +11,6 @@ export default function GameClient({ game, locale }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [showOrientationModal, setShowOrientationModal] = useState(false);
-  const [currentOrientation, setCurrentOrientation] = useState('portrait');
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -23,7 +22,28 @@ export default function GameClient({ game, locale }) {
   });
   const { token, user } = useAuth();
   const t = useTranslations();
-  const isMobile = useMediaQuery('(max-width: 640px)');
+
+  // Mobil cihaz kontrolü
+  const isMobileScreen = useMediaQuery('(max-width: 640px)');
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const isMobileDevice =
+        /iphone|ipad|ipod|android|webos|blackberry|windows phone/i.test(
+          userAgent
+        );
+      setIsMobile(isMobileDevice);
+    };
+
+    checkMobile();
+  }, []);
+
+  // isMobile değerini izle
+  useEffect(() => {
+    console.log('isMobile value changed:', isMobile);
+  }, [isMobile]);
 
   // Fullscreen değişikliklerini izle
   useEffect(() => {
@@ -138,153 +158,106 @@ export default function GameClient({ game, locale }) {
     }
   };
 
-  // Ekran oryantasyonunu kontrol et
-  useEffect(() => {
-    const checkOrientation = () => {
-      if (!isMobile) return; // Sadece mobilde kontrol et
+  const handlePlay = () => {
+    console.log('handlePlay called');
+    console.log('isMobile value in handlePlay:', isMobile);
 
-      const isIOS =
-        /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-      let isPortrait;
+    // Sadece mobilde oryantasyon kontrolü yap
+    if (isMobile) {
+      // Şu anki ekran oryantasyonunu kontrol et
+      const currentOrientation =
+        window.innerHeight > window.innerWidth ? 'vertical' : 'horizontal';
 
-      if (isIOS) {
-        // iOS için özel oryantasyon kontrolü
-        isPortrait = window.orientation === 0 || window.orientation === 180;
-      } else {
-        // Diğer cihazlar için normal kontrol
-        isPortrait = window.innerHeight > window.innerWidth;
+      console.log('Current orientation:', currentOrientation);
+      console.log('Game orientation:', game.orientation);
+
+      // Oyunun oryantasyonu ile karşılaştır
+      if (currentOrientation !== game.orientation) {
+        console.log('Wrong orientation, showing modal');
+        setShowOrientationModal(true);
+        return;
       }
+    } else {
+      console.log('Not mobile, skipping orientation check');
+    }
 
-      setCurrentOrientation(isPortrait ? 'vertical' : 'horizontal');
+    // iOS kontrolü
+    const isIOS =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-      // Oyun başladıysa oryantasyon kontrolü yap
-      if (isPlaying) {
-        const needsLandscape = game.orientation === 'horizontal';
-        const needsPortrait = game.orientation === 'vertical';
+    // Oyunu başlat
+    setIsPlaying(true);
 
-        setShowOrientationModal(
-          (needsLandscape && isPortrait) || (needsPortrait && !isPortrait)
-        );
-      }
-    };
-
-    // İlk kontrol
-    checkOrientation();
-
-    // iOS için özel event listener
-    window.addEventListener('orientationchange', checkOrientation);
-    // Diğer cihazlar için
-    window.addEventListener('resize', checkOrientation);
-
-    return () => {
-      window.removeEventListener('orientationchange', checkOrientation);
-      window.removeEventListener('resize', checkOrientation);
-    };
-  }, [isPlaying, game.orientation, isMobile]);
-
-  const handlePlay = async () => {
-    try {
-      // iOS kontrolü
-      const isIOS =
-        /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-      // Oyunu başlatmadan önce oryantasyon kontrolü yap
-      if (isMobile) {
-        let isPortrait;
-
-        if (isIOS) {
-          // iOS için özel oryantasyon kontrolü
-          isPortrait = window.orientation === 0 || window.orientation === 180;
-        } else {
-          // Diğer cihazlar için normal kontrol
-          isPortrait = window.innerHeight > window.innerWidth;
-        }
-
-        const needsLandscape = game.orientation === 'horizontal';
-        const needsPortrait = game.orientation === 'vertical';
-
-        if ((needsLandscape && isPortrait) || (needsPortrait && !isPortrait)) {
-          setShowOrientationModal(true);
-          return; // Oryantasyon uyarısı gösteriliyorsa burada dur
-        }
-      }
-
-      // Oyunu başlat
-      setIsPlaying(true);
-
-      // Mobilde oyun başladığında otomatik olarak fullscreen yap
-      if (isMobile) {
-        setTimeout(() => {
-          const iframe = document.querySelector('iframe');
-          if (iframe) {
-            try {
-              if (isIOS) {
-                // iOS için özel tam ekran yöntemi
-                iframe.style.position = 'fixed';
-                iframe.style.top = '0';
-                iframe.style.left = '0';
-                iframe.style.width = '100%';
-                iframe.style.height = '100%';
-                iframe.style.zIndex = '9999';
-                document.body.style.overflow = 'hidden';
-              } else {
-                // Diğer mobil cihazlar için normal tam ekran
-                if (iframe.requestFullscreen) {
-                  iframe.requestFullscreen();
-                } else if (iframe.webkitRequestFullscreen) {
-                  iframe.webkitRequestFullscreen();
-                } else if (iframe.mozRequestFullScreen) {
-                  iframe.mozRequestFullScreen();
-                } else if (iframe.msRequestFullscreen) {
-                  iframe.msRequestFullscreen();
-                }
+    // Mobilde oyun başladığında otomatik olarak fullscreen yap
+    if (isMobile) {
+      setTimeout(() => {
+        const iframe = document.querySelector('iframe');
+        if (iframe) {
+          try {
+            if (isIOS) {
+              // iOS için özel tam ekran yöntemi
+              iframe.style.position = 'fixed';
+              iframe.style.top = '0';
+              iframe.style.left = '0';
+              iframe.style.width = '100%';
+              iframe.style.height = '100%';
+              iframe.style.zIndex = '9999';
+              document.body.style.overflow = 'hidden';
+            } else {
+              // Diğer mobil cihazlar için normal tam ekran
+              if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+              } else if (iframe.webkitRequestFullscreen) {
+                iframe.webkitRequestFullscreen();
+              } else if (iframe.mozRequestFullScreen) {
+                iframe.mozRequestFullScreen();
+              } else if (iframe.msRequestFullscreen) {
+                iframe.msRequestFullscreen();
               }
-            } catch (error) {
-              console.error('Fullscreen error:', error);
             }
+          } catch (error) {
+            console.error('Fullscreen error:', error);
           }
-        }, 1000);
-      }
-
-      // Oyun başladıktan sonra API'ye bildir veya localStorage'a kaydet
-      if (token) {
-        await fetch(`https://api.jellyarcade.com/api/games/${game._id}/play`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
-      } else {
-        // Giriş yapmamış kullanıcılar için localStorage'a kaydet
-        const recentGames = JSON.parse(
-          localStorage.getItem('recentGames') || '[]'
-        );
-        const gameData = {
-          game: {
-            _id: game._id,
-            title: game.title,
-            slug: game.slug,
-            image: game.image,
-          },
-          playedAt: new Date().toISOString(),
-        };
-
-        // Aynı oyun varsa listeden çıkar
-        const filteredGames = recentGames.filter(
-          item => item.game._id !== game._id
-        );
-
-        // Yeni oyunu başa ekle ve son 10 oyunu tut
-        filteredGames.unshift(gameData);
-        if (filteredGames.length > 10) {
-          filteredGames.pop();
         }
+      }, 1000);
+    }
 
-        localStorage.setItem('recentGames', JSON.stringify(filteredGames));
+    // Oyun başladıktan sonra API'ye bildir veya localStorage'a kaydet
+    if (token) {
+      fetch(`https://api.jellyarcade.com/api/games/${game._id}/play`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } else {
+      // Giriş yapmamış kullanıcılar için localStorage'a kaydet
+      const recentGames = JSON.parse(
+        localStorage.getItem('recentGames') || '[]'
+      );
+      const gameData = {
+        game: {
+          _id: game._id,
+          title: game.title,
+          slug: game.slug,
+          image: game.image,
+        },
+        playedAt: new Date().toISOString(),
+      };
+
+      // Aynı oyun varsa listeden çıkar
+      const filteredGames = recentGames.filter(
+        item => item.game._id !== game._id
+      );
+
+      // Yeni oyunu başa ekle ve son 10 oyunu tut
+      filteredGames.unshift(gameData);
+      if (filteredGames.length > 10) {
+        filteredGames.pop();
       }
-    } catch (error) {
-      console.error('Error playing game:', error);
+
+      localStorage.setItem('recentGames', JSON.stringify(filteredGames));
     }
   };
 
@@ -293,7 +266,7 @@ export default function GameClient({ game, locale }) {
     <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
       <div className='bg-white p-6 rounded-lg max-w-sm mx-4 text-center'>
         <div className='mb-4'>
-          {game.orientation === 'landscape' ? (
+          {game.orientation === 'horizontal' ? (
             <svg
               xmlns='http://www.w3.org/2000/svg'
               className='h-16 w-16 mx-auto text-brand-orange'
@@ -326,35 +299,18 @@ export default function GameClient({ game, locale }) {
           )}
         </div>
         <h3 className='text-lg font-bold mb-2'>
-          {game.orientation === 'landscape'
+          {game.orientation === 'horizontal'
             ? 'Lütfen cihazınızı yatay çevirin'
             : 'Lütfen cihazınızı dikey çevirin'}
         </h3>
         <p className='text-gray-600 mb-4'>
-          {game.orientation === 'landscape'
+          {game.orientation === 'horizontal'
             ? 'Bu oyun yatay modda oynanmak için tasarlanmıştır.'
             : 'Bu oyun dikey modda oynanmak için tasarlanmıştır.'}
         </p>
         <button
           onClick={() => {
             setShowOrientationModal(false);
-            // Oyunu başlat
-            setIsPlaying(true);
-            // Kısa bir süre bekleyip fullscreen yap
-            setTimeout(() => {
-              const iframe = document.querySelector('iframe');
-              if (iframe) {
-                if (iframe.requestFullscreen) {
-                  iframe.requestFullscreen();
-                } else if (iframe.webkitRequestFullscreen) {
-                  iframe.webkitRequestFullscreen();
-                } else if (iframe.mozRequestFullScreen) {
-                  iframe.mozRequestFullScreen();
-                } else if (iframe.msRequestFullscreen) {
-                  iframe.msRequestFullscreen();
-                }
-              }
-            }, 1000);
           }}
           className='bg-brand-orange text-white px-4 py-2 rounded hover:bg-brand-orange/90 transition-colors'
         >
