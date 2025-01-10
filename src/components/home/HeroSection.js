@@ -4,36 +4,42 @@ import { useTranslations } from 'next-intl';
 import Carousel from './Carousel';
 import Container from '../layout/Container';
 import { useEffect, useState } from 'react';
-
-const API_URL = 'https://api.jellyarcade.com/api';
+import { useLocale } from 'next-intl';
+import { useParams } from 'next/navigation';
 
 const HeroSection = () => {
   const t = useTranslations('home.hero');
   const [games, setGames] = useState([]);
+  const locale = useLocale();
+  const params = useParams();
 
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        const res = await fetch(`${API_URL}/games`, {
-          cache: 'no-store',
-          method: 'GET',
-          headers: {
-            Accept: 'application/json',
-          },
-        });
+        const res = await fetch(
+          `https://api.jellyarcade.com/api/games?lang=${params.locale}`,
+          {
+            cache: 'no-store',
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+            },
+          }
+        );
 
         if (!res.ok) {
           throw new Error('Failed to fetch games');
         }
 
         const data = await res.json();
+        console.log('data', data);
         const featuredGames = data.filter(game => game.isNew || game.isPopular);
         setGames(
           featuredGames.map(game => ({
             id: game._id,
             image: game.image,
-            title: game.name,
-            slug: game.slug,
+            title: game.title[locale],
+            slug: game.slug[locale],
             isNew: game.isNew,
             isPopular: game.isPopular,
           }))

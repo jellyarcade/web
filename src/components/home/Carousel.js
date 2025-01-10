@@ -36,20 +36,8 @@ const Carousel = ({ items }) => {
   const isMobile = useMediaQuery('(max-width: 1024px)');
   const t = useTranslations('home.badges');
   const locale = useLocale();
-
   const getGameUrl = item => {
-    // İlk item için yeni oyunlar kategorisine yönlendir
-    if (item.id === 1) {
-      return `/${locale}/${
-        locale === 'tr' ? 'kategori/yeni-oyunlar' : 'category/new-games'
-      }`;
-    }
-    // İkinci item için en iyi oyunlar sayfasına yönlendir
-    if (item.id === 2) {
-      return `/${locale}/${locale === 'tr' ? 'en-iyi-oyunlar' : 'top-games'}`;
-    }
-    // Diğer itemlar için varsayılan URL
-    return '#';
+    return `/${locale}/${item.slug}`;
   };
 
   const renderBadges = item => (
@@ -128,6 +116,7 @@ const Carousel = ({ items }) => {
                     />
                   </div>
                   {renderBadges(item)}
+
                   <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg' />
                 </div>
               </Link>
