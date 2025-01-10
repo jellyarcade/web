@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/contexts/AuthContext';
 import AuthModal from '@/components/auth/AuthModal';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 export default function GameClient({ game, locale }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -14,6 +15,7 @@ export default function GameClient({ game, locale }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [snackbar, setSnackbar] = useState({
     show: false,
     message: '',
@@ -21,6 +23,35 @@ export default function GameClient({ game, locale }) {
   });
   const { token, user } = useAuth();
   const t = useTranslations();
+  const isMobile = useMediaQuery('(max-width: 768px)');
+
+  // Fullscreen değişikliklerini izle
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener(
+        'webkitfullscreenchange',
+        handleFullscreenChange
+      );
+      document.removeEventListener(
+        'mozfullscreenchange',
+        handleFullscreenChange
+      );
+      document.removeEventListener(
+        'MSFullscreenChange',
+        handleFullscreenChange
+      );
+    };
+  }, []);
 
   // Favori durumunu kontrol et
   useEffect(() => {
@@ -110,6 +141,8 @@ export default function GameClient({ game, locale }) {
   // Ekran oryantasyonunu kontrol et
   useEffect(() => {
     const checkOrientation = () => {
+      if (!isMobile) return; // Sadece mobilde kontrol et
+
       const isPortrait = window.innerHeight > window.innerWidth;
       setCurrentOrientation(isPortrait ? 'vertical' : 'horizontal');
 
@@ -135,34 +168,41 @@ export default function GameClient({ game, locale }) {
       window.removeEventListener('resize', checkOrientation);
       window.removeEventListener('orientationchange', checkOrientation);
     };
-  }, [isPlaying, game.orientation]);
+  }, [isPlaying, game.orientation, isMobile]);
 
   const handlePlay = async () => {
     try {
       // Oyunu başlatmadan önce oryantasyon kontrolü yap
-      const isPortrait = window.innerHeight > window.innerWidth;
-      const needsLandscape = game.orientation === 'horizontal';
-      const needsPortrait = game.orientation === 'vertical';
+      if (isMobile) {
+        const isPortrait = window.innerHeight > window.innerWidth;
+        const needsLandscape = game.orientation === 'horizontal';
+        const needsPortrait = game.orientation === 'vertical';
 
-      if ((needsLandscape && isPortrait) || (needsPortrait && !isPortrait)) {
-        setShowOrientationModal(true);
+        if ((needsLandscape && isPortrait) || (needsPortrait && !isPortrait)) {
+          setShowOrientationModal(true);
+          return; // Oryantasyon uyarısı gösteriliyorsa burada dur
+        }
       }
 
       // Oyunu başlat
       setIsPlaying(true);
 
-      // Oyun başladığında otomatik olarak fullscreen yap
-      const iframe = document.querySelector('iframe');
-      if (iframe) {
-        if (iframe.requestFullscreen) {
-          iframe.requestFullscreen();
-        } else if (iframe.webkitRequestFullscreen) {
-          iframe.webkitRequestFullscreen();
-        } else if (iframe.mozRequestFullScreen) {
-          iframe.mozRequestFullScreen();
-        } else if (iframe.msRequestFullscreen) {
-          iframe.msRequestFullscreen();
-        }
+      // Mobilde oyun başladığında otomatik olarak fullscreen yap
+      if (isMobile) {
+        setTimeout(() => {
+          const iframe = document.querySelector('iframe');
+          if (iframe) {
+            if (iframe.requestFullscreen) {
+              iframe.requestFullscreen();
+            } else if (iframe.webkitRequestFullscreen) {
+              iframe.webkitRequestFullscreen();
+            } else if (iframe.mozRequestFullScreen) {
+              iframe.mozRequestFullScreen();
+            } else if (iframe.msRequestFullscreen) {
+              iframe.msRequestFullscreen();
+            }
+          }
+        }, 1000); // iframe'in yüklenmesi için kısa bir süre bekle
       }
 
       // Oyun başladıktan sonra API'ye bildir veya localStorage'a kaydet
@@ -255,7 +295,26 @@ export default function GameClient({ game, locale }) {
             : 'Bu oyun dikey modda oynanmak için tasarlanmıştır.'}
         </p>
         <button
-          onClick={() => setShowOrientationModal(false)}
+          onClick={() => {
+            setShowOrientationModal(false);
+            // Oyunu başlat
+            setIsPlaying(true);
+            // Kısa bir süre bekleyip fullscreen yap
+            setTimeout(() => {
+              const iframe = document.querySelector('iframe');
+              if (iframe) {
+                if (iframe.requestFullscreen) {
+                  iframe.requestFullscreen();
+                } else if (iframe.webkitRequestFullscreen) {
+                  iframe.webkitRequestFullscreen();
+                } else if (iframe.mozRequestFullScreen) {
+                  iframe.mozRequestFullScreen();
+                } else if (iframe.msRequestFullscreen) {
+                  iframe.msRequestFullscreen();
+                }
+              }
+            }, 1000);
+          }}
           className='bg-brand-orange text-white px-4 py-2 rounded hover:bg-brand-orange/90 transition-colors'
         >
           Anladım
@@ -362,52 +421,96 @@ export default function GameClient({ game, locale }) {
             </div>
           ) : (
             // Oyun başladığında iframe'i göster
-            <div className='aspect-video w-full rounded-lg overflow-hidden shadow-lg relative'>
-              <iframe
-                src={game.instantLink}
-                className='w-full h-full border-0'
-                allow='fullscreen; autoplay; clipboard-write; encrypted-media; picture-in-picture'
-                allowFullScreen
-                sandbox='allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation'
-                loading='lazy'
-                referrerPolicy='origin'
-                title={game.title[locale]}
-              />
-              {/* Full Screen Butonu */}
-              <button
-                onClick={() => {
-                  const iframe = document.querySelector('iframe');
-                  if (iframe) {
-                    if (iframe.requestFullscreen) {
-                      iframe.requestFullscreen();
-                    } else if (iframe.webkitRequestFullscreen) {
-                      iframe.webkitRequestFullscreen();
-                    } else if (iframe.mozRequestFullScreen) {
-                      iframe.mozRequestFullScreen();
-                    } else if (iframe.msRequestFullscreen) {
-                      iframe.msRequestFullscreen();
-                    }
-                  }
-                }}
-                className='absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2 rounded-lg transition-colors'
-                title='Full Screen'
-              >
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  strokeWidth={1.5}
-                  stroke='currentColor'
-                  className='w-6 h-6'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15'
-                  />
-                </svg>
-              </button>
-            </div>
+            <>
+              <div className='aspect-video w-full rounded-lg overflow-hidden shadow-lg relative'>
+                <iframe
+                  src={game.instantLink}
+                  className='w-full h-full border-0'
+                  allow='fullscreen; autoplay; clipboard-write; encrypted-media; picture-in-picture'
+                  allowFullScreen
+                  sandbox='allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation'
+                  loading='lazy'
+                  referrerPolicy='origin'
+                  title={game.title[locale]}
+                />
+                {/* Full Screen Butonu - Masaüstü için */}
+                {!isMobile && (
+                  <button
+                    onClick={() => {
+                      const iframe = document.querySelector('iframe');
+                      if (iframe) {
+                        if (iframe.requestFullscreen) {
+                          iframe.requestFullscreen();
+                        } else if (iframe.webkitRequestFullscreen) {
+                          iframe.webkitRequestFullscreen();
+                        } else if (iframe.mozRequestFullScreen) {
+                          iframe.mozRequestFullScreen();
+                        } else if (iframe.msRequestFullscreen) {
+                          iframe.msRequestFullscreen();
+                        }
+                      }
+                    }}
+                    className='absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2 rounded-lg transition-colors'
+                    title='Full Screen'
+                  >
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      strokeWidth={1.5}
+                      stroke='currentColor'
+                      className='w-6 h-6'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15'
+                      />
+                    </svg>
+                  </button>
+                )}
+              </div>
+              {/* Mobil için tam ekrana dön butonu - Fullscreen modunda değilken göster */}
+              {isMobile && isPlaying && !isFullscreen && (
+                <div className='mt-4'>
+                  <button
+                    onClick={() => {
+                      const iframe = document.querySelector('iframe');
+                      if (iframe) {
+                        if (iframe.requestFullscreen) {
+                          iframe.requestFullscreen();
+                        } else if (iframe.webkitRequestFullscreen) {
+                          iframe.webkitRequestFullscreen();
+                        } else if (iframe.mozRequestFullScreen) {
+                          iframe.mozRequestFullScreen();
+                        } else if (iframe.msRequestFullscreen) {
+                          iframe.msRequestFullscreen();
+                        }
+                      }
+                    }}
+                    className='w-full bg-brand-orange text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-brand-orange/90 transition-colors'
+                  >
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      strokeWidth={1.5}
+                      stroke='currentColor'
+                      className='w-6 h-6'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15'
+                      />
+                    </svg>
+                    {locale === 'tr'
+                      ? 'Tam Ekranda Devam Et'
+                      : 'Continue in Full Screen'}
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
 
