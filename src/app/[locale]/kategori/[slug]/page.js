@@ -1,8 +1,8 @@
 import { notFound, redirect } from 'next/navigation';
-import GameGrid from '@/components/category/GameGrid';
-import Carousel from '@/components/home/Carousel';
-import RecentlyPlayed from '@/components/home/RecentlyPlayed';
 import Container from '@/components/layout/Container';
+import GameGrid from '@/components/category/GameGrid';
+import HeroSection from '@/components/home/HeroSection';
+import RecentlyPlayed from '@/components/home/RecentlyPlayed';
 
 const API_URL = 'https://api.jellyarcade.com/api';
 
@@ -79,34 +79,9 @@ export default async function CategoryPage({ params: { locale, slug } }) {
       image: game.image,
     })) || [];
 
-  const carouselItems = [
-    {
-      id: 1,
-      title: locale === 'tr' ? 'Yeni Oyunlar' : 'New Games',
-      image:
-        'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop',
-    },
-    {
-      id: 2,
-      title: locale === 'tr' ? 'En İyi Oyunlar' : 'Top Games',
-      image:
-        'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=800&auto=format&fit=crop',
-    },
-    {
-      id: 3,
-      title: locale === 'tr' ? 'Macera Oyunları' : 'Adventure Games',
-      image:
-        'https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?w=800&auto=format&fit=crop',
-    },
-  ];
-
   return (
     <div className='mt-24'>
-      <Container>
-        <div className='mb-8'>
-          <Carousel items={carouselItems} />
-        </div>
-      </Container>
+      <HeroSection />
       <RecentlyPlayed />
       <div className='mb-8'></div>
       <GameGrid
