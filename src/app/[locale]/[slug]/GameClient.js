@@ -187,22 +187,42 @@ export default function GameClient({ game, locale }) {
       // Oyunu başlat
       setIsPlaying(true);
 
+      // iOS için özel kontrol
+      const isIOS =
+        /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
       // Mobilde oyun başladığında otomatik olarak fullscreen yap
       if (isMobile) {
         setTimeout(() => {
           const iframe = document.querySelector('iframe');
           if (iframe) {
-            if (iframe.requestFullscreen) {
-              iframe.requestFullscreen();
-            } else if (iframe.webkitRequestFullscreen) {
-              iframe.webkitRequestFullscreen();
-            } else if (iframe.mozRequestFullScreen) {
-              iframe.mozRequestFullScreen();
-            } else if (iframe.msRequestFullscreen) {
-              iframe.msRequestFullscreen();
+            try {
+              if (isIOS) {
+                // iOS için özel tam ekran yöntemi
+                iframe.style.position = 'fixed';
+                iframe.style.top = '0';
+                iframe.style.left = '0';
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.zIndex = '9999';
+                document.body.style.overflow = 'hidden';
+              } else {
+                // Diğer mobil cihazlar için normal tam ekran
+                if (iframe.requestFullscreen) {
+                  iframe.requestFullscreen();
+                } else if (iframe.webkitRequestFullscreen) {
+                  iframe.webkitRequestFullscreen();
+                } else if (iframe.mozRequestFullScreen) {
+                  iframe.mozRequestFullScreen();
+                } else if (iframe.msRequestFullscreen) {
+                  iframe.msRequestFullscreen();
+                }
+              }
+            } catch (error) {
+              console.error('Fullscreen error:', error);
             }
           }
-        }, 1000); // iframe'in yüklenmesi için kısa bir süre bekle
+        }, 1000);
       }
 
       // Oyun başladıktan sonra API'ye bildir veya localStorage'a kaydet
@@ -508,19 +528,45 @@ export default function GameClient({ game, locale }) {
                 <button
                   onClick={() => {
                     const iframe = document.querySelector('iframe');
+                    const isIOS =
+                      /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+                      !window.MSStream;
+
                     if (iframe) {
-                      if (iframe.requestFullscreen) {
-                        iframe.requestFullscreen();
-                      } else if (iframe.webkitRequestFullscreen) {
-                        iframe.webkitRequestFullscreen();
-                      } else if (iframe.mozRequestFullScreen) {
-                        iframe.mozRequestFullScreen();
-                      } else if (iframe.msRequestFullscreen) {
-                        iframe.msRequestFullscreen();
+                      try {
+                        if (isIOS) {
+                          // iOS için özel tam ekran yöntemi
+                          iframe.style.position = 'fixed';
+                          iframe.style.top = '0';
+                          iframe.style.left = '0';
+                          iframe.style.width = '100%';
+                          iframe.style.height = '100%';
+                          iframe.style.zIndex = '9999';
+                          document.body.style.overflow = 'hidden';
+                        } else {
+                          // Diğer mobil cihazlar için normal tam ekran
+                          if (iframe.requestFullscreen) {
+                            iframe.requestFullscreen();
+                          } else if (iframe.webkitRequestFullscreen) {
+                            iframe.webkitRequestFullscreen();
+                          } else if (iframe.mozRequestFullScreen) {
+                            iframe.mozRequestFullScreen();
+                          } else if (iframe.msRequestFullscreen) {
+                            iframe.msRequestFullscreen();
+                          }
+                        }
+                      } catch (error) {
+                        console.error('Fullscreen error:', error);
                       }
                     }
                   }}
-                  className='w-full bg-brand-orange text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-brand-orange/90 transition-colors'
+                  className='w-full bg-brand-orange text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-brand-orange/90 transition-colors active:bg-brand-orange/80 cursor-pointer touch-manipulation'
+                  style={{
+                    WebkitTapHighlightColor: 'transparent',
+                    WebkitTouchCallout: 'none',
+                    WebkitUserSelect: 'none',
+                    userSelect: 'none',
+                  }}
                 >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
