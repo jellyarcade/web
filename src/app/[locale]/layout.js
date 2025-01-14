@@ -6,7 +6,9 @@ import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import { AuthProvider } from '@/contexts/AuthContext';
 
-export async function generateMetadata({ params: { locale } }) {
+export async function generateMetadata({ params }) {
+  const { locale: paramLocale } = await params;
+  const locale = paramLocale || defaultLocale;
   return {
     title: {
       template:
@@ -33,7 +35,8 @@ export function generateStaticParams() {
 }
 
 export default async function LocaleLayout({ children, params }) {
-  const locale = params.locale || defaultLocale;
+  const { locale: paramLocale } = await params;
+  const locale = paramLocale || defaultLocale;
 
   if (!locales.includes(locale)) {
     notFound();

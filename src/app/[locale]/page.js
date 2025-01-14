@@ -2,7 +2,8 @@ import HeroSection from '@/components/home/HeroSection';
 import RecentlyPlayed from '@/components/home/RecentlyPlayed';
 import GameGrid from '@/components/home/GameGrid';
 
-export async function generateMetadata({ params: { locale } }) {
+export async function generateMetadata({ params }) {
+  const { locale } = await params;
   return {
     title:
       locale === 'tr'

@@ -83,7 +83,7 @@ const GameGrid = () => {
         {isLoading ? (
           <div
             className={`grid ${
-              isMobile ? 'grid-cols-5 gap-2' : 'grid-cols-10 gap-4'
+              isMobile ? 'grid-cols-3 gap-2' : 'grid-cols-10 gap-4'
             }`}
           >
             {[...Array(20)].map((_, i) => (
@@ -96,7 +96,7 @@ const GameGrid = () => {
         ) : (
           <div
             className={`grid ${
-              isMobile ? 'grid-cols-5 gap-2' : 'grid-cols-10 gap-4'
+              isMobile ? 'grid-cols-3 gap-2' : 'grid-cols-10 gap-4'
             }`}
           >
             {games.map(game => (
