@@ -9,6 +9,7 @@ import {
   HiBell,
   HiHeart,
 } from 'react-icons/hi';
+import { BiLogIn } from 'react-icons/bi';
 import { useAuth } from '@/contexts/AuthContext';
 import AuthModal from '../auth/AuthModal';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -135,7 +136,7 @@ const UserMenu = () => {
           <div className='flex items-center gap-4 md:gap-6 order-first md:order-last md:ml-6'>
             <button
               onClick={handleAuthAction}
-              className='w-5 h-5 rounded-full bg-gray-200 overflow-hidden focus:ring-2 focus:ring-orange-500'
+              className='w-6 h-6 flex items-center justify-center focus:ring-2 focus:ring-orange-500'
             >
               {user ? (
                 <img
@@ -144,14 +145,10 @@ const UserMenu = () => {
                     'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
                   }
                   alt={user.name}
-                  className='w-full h-full object-cover'
+                  className='w-full h-full object-cover rounded-full'
                 />
               ) : (
-                <img
-                  src='https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
-                  alt='Default avatar'
-                  className='w-full h-full object-cover'
-                />
+                <BiLogIn className='w-7 h-7 text-white hover:text-white/90' />
               )}
             </button>
 
@@ -161,17 +158,17 @@ const UserMenu = () => {
                   href={`/${locale}/${getLocalizedPath('favorites')}`}
                   className='text-white hover:text-white/90'
                 >
-                  <HiHeart className='w-6 h-6' />
+                  <HiHeart className='w-7 h-7 text-white' />
                 </Link>
               ) : (
                 <button
                   onClick={() => setShowAuthModal(true)}
                   className='text-white hover:text-white/90'
                 >
-                  <HiHeart className='w-6 h-6' />
+                  <HiHeart className='w-7 h-7 text-white' />
                 </button>
               )}
-              <div className='relative'>
+              {/* <div className='relative'>
                 {user ? (
                   <Link
                     href={`/${locale}/${getLocalizedPath('notifications')}`}
@@ -190,7 +187,7 @@ const UserMenu = () => {
                 {user && hasUnreadNotifications && (
                   <span className='absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full' />
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -200,17 +197,17 @@ const UserMenu = () => {
                 href={`/${locale}/${getLocalizedPath('favorites')}`}
                 className='text-white hover:text-white/90'
               >
-                <HiHeart className='w-6 h-6' />
+                <HiHeart className='w-7 h-7 text-red-500' />
               </Link>
             ) : (
               <button
                 onClick={() => setShowAuthModal(true)}
                 className='text-white hover:text-white/90'
               >
-                <HiHeart className='w-6 h-6' />
+                <HiHeart className='w-7 h-7 text-red-500' />
               </button>
             )}
-            <div className='relative mr-1'>
+            {/* <div className='relative mr-1'>
               {user ? (
                 <Link
                   href={`/${locale}/${getLocalizedPath('notifications')}`}
@@ -229,7 +226,7 @@ const UserMenu = () => {
               {user && hasUnreadNotifications && (
                 <span className='absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full' />
               )}
-            </div>
+            </div> */}
           </div>
         </div>
 
