@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLocale } from 'next-intl';
+import { BiSolidJoystick } from 'react-icons/bi';
 
 const GameGrid = ({ games = [] }) => {
   const locale = useLocale();
@@ -36,6 +37,12 @@ const GameGrid = ({ games = [] }) => {
               <h3 className='font-semibold text-lg truncate'>
                 {game.title[locale]}
               </h3>
+              <div className='flex items-center gap-1 mt-1'>
+                <BiSolidJoystick className='w-4 h-4 text-gray-200' />
+                <span className='text-sm text-gray-200'>
+                  {game.playCount || 0}
+                </span>
+              </div>
               {game.keywords[locale]?.length > 0 && (
                 <p className='text-sm text-gray-200 truncate'>
                   {game.keywords[locale].join(', ')}

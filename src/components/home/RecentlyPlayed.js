@@ -90,11 +90,11 @@ const RecentlyPlayed = () => {
       <section className='sm:mt-4 md:mt-8'>
         <Container>
           {/* Title Section */}
-          <div className='mb-6'>
-            <h2 className='text-2xl font-cocogoose font-medium uppercase mb-2 text-[#2cd284]'>
+          <div className='mb-3'>
+            <h2 className='text-xl font-cocogoose font-medium uppercase mb-0 text-[#2cd284]'>
               {t('title')}
             </h2>
-            <p className='text-gray-600'>{t('subtitle')}</p>
+            {/* <p className='text-gray-600'>{t('subtitle')}</p> */}
           </div>
 
           {/* Games Grid */}
@@ -130,11 +130,11 @@ const RecentlyPlayed = () => {
     <section className='relative'>
       <Container>
         {/* Title for Mobile */}
-        <div className='mb-6'>
-          <h2 className='text-2xl font-cocogoose font-medium uppercase mb-2 text-[#2cd284]'>
+        <div className='mb-3'>
+          <h2 className='text-xl font-cocogoose font-medium uppercase mb-0 text-[#2cd284]'>
             {t('title')}
           </h2>
-          <p className='text-gray-600'>{t('subtitle')}</p>
+          {/* <p className='text-gray-600'>{t('subtitle')}</p> */}
         </div>
 
         <Swiper

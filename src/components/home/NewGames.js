@@ -50,7 +50,7 @@ const NewGames = () => {
     <section className='py-12 bg-gray-50'>
       <div className='container mx-auto px-4'>
         <div className='flex items-center justify-between mb-8'>
-          <h2 className='text-3xl font-bold'>{t('title')}</h2>
+          <h2 className='text-xl font-bold'>{t('title')}</h2>
           <ViewAllButton href='/games/new'>{t('viewAll')}</ViewAllButton>
         </div>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>

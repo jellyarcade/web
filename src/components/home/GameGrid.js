@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import Container from '../layout/Container';
 import { getAllGames } from '@/services/api';
+import { BiSolidJoystick } from 'react-icons/bi';
 
 const GameGrid = () => {
   const [games, setGames] = useState([]);
@@ -73,11 +74,11 @@ const GameGrid = () => {
   return (
     <section className='md:pt-8 pb-8'>
       <Container>
-        <div className='mb-6'>
-          <h2 className='text-2xl font-cocogoose font-medium uppercase mb-2 text-[#2cd284]'>
+        <div className='mb-3'>
+          <h2 className='text-xl font-cocogoose font-medium uppercase mb-0 text-[#2cd284]'>
             {t('title')}
           </h2>
-          <p className='text-gray-600'>{t('subtitle')}</p>
+          {/* <p className='text-gray-600'>{t('subtitle')}</p> */}
         </div>
 
         {isLoading ? (
@@ -117,9 +118,10 @@ const GameGrid = () => {
                     <h3 className='text-white font-medium truncate text-sm'>
                       {game.title[params.locale]}
                     </h3>
-                    <div className='flex items-center gap-2 mt-1'>
+                    <div className='flex items-center gap-1 mt-1'>
+                      <BiSolidJoystick className='w-4 h-4 text-gray-300' />
                       <span className='text-xs text-gray-300'>
-                        {game.playCount || 0} oynanma
+                        {game.playCount || 0}
                       </span>
                     </div>
                   </div>

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useParams } from 'next/navigation';
+import { BiSolidJoystick } from 'react-icons/bi';
 
 const MostPlayedGrid = ({ games = [] }) => {
   const isMobile = useMediaQuery('(max-width: 1024px)');
@@ -21,15 +22,15 @@ const MostPlayedGrid = ({ games = [] }) => {
   return (
     <section className='pb-8'>
       <div className='max-w-[95%] mx-auto'>
-        <div className='mb-6'>
-          <h2 className='text-2xl font-cocogoose font-medium uppercase mb-2 text-[#2cd284]'>
-            {params.locale === 'tr' ? 'En İyi Oyunlar' : 'Most Played Games'}
+        <div className='mb-3'>
+          <h2 className='text-xl font-cocogoose font-medium uppercase mb-0 text-[#2cd284]'>
+            {params.locale === 'tr' ? 'En İYİ Oyunlar' : 'Most Played Games'}
           </h2>
-          <p className='text-gray-600'>
+          {/* <p className='text-gray-600'>
             {params.locale === 'tr'
               ? 'En çok oynanan ve beğenilen oyunları keşfet'
               : 'Discover the most played and liked games'}
-          </p>
+          </p> */}
         </div>
 
         <div
@@ -56,10 +57,10 @@ const MostPlayedGrid = ({ games = [] }) => {
                   <h3 className='text-white font-medium truncate text-sm'>
                     {game.title[params.locale]}
                   </h3>
-                  <div className='flex items-center gap-2 mt-1'>
+                  <div className='flex items-center gap-1 mt-1'>
+                    <BiSolidJoystick className='w-4 h-4 text-gray-300' />
                     <span className='text-xs text-gray-300'>
-                      {game.playCount || 0}{' '}
-                      {params.locale === 'tr' ? 'oynanma' : 'plays'}
+                      {game.playCount || 0}
                     </span>
                   </div>
                 </div>
