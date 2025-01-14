@@ -336,24 +336,46 @@ export default function GameClient({ game, locale }) {
 
   return (
     <div className='mt-[72px]'>
-      {showOrientationModal && <OrientationModal />}
+      {/* Auth Modal */}
       {showAuthModal && (
-        <AuthModal
-          isOpen={showAuthModal}
-          onClose={() => setShowAuthModal(false)}
-        />
-      )}
-
-      {/* Snackbar */}
-      {snackbar.show && (
         <div
-          className={`fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white transition-all transform ${
-            snackbar.type === 'success' ? 'bg-green-500' : 'bg-red-500'
-          }`}
+          className='fixed inset-0 z-[999999]'
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          {snackbar.message}
+          <AuthModal
+            isOpen={true}
+            onClose={() => {
+              console.log('Closing auth modal...');
+              setShowAuthModal(false);
+              // Eğer iOS'ta isek ve fullscreen'den çıkılmışsa tekrar fullscreen'e dön
+              if (isIOS && isFullscreen) {
+                const gameContainer = document.querySelector('#game-container');
+                if (gameContainer) {
+                  gameContainer.style.position = 'fixed';
+                  gameContainer.style.top = '0';
+                  gameContainer.style.left = '0';
+                  gameContainer.style.width = '100%';
+                  gameContainer.style.height = '100%';
+                  gameContainer.style.zIndex = '9999';
+                  document.body.style.overflow = 'hidden';
+                }
+              }
+            }}
+          />
         </div>
       )}
+
+      {showOrientationModal && <OrientationModal />}
 
       <div className='max-w-5xl w-full mx-auto px-4 py-4'>
         <div className='mb-4'>
@@ -432,7 +454,9 @@ export default function GameClient({ game, locale }) {
               // Game Container
               <div
                 id='game-container'
-                className='relative aspect-video w-full rounded-lg overflow-hidden shadow-lg'
+                className={`relative aspect-video w-full ${
+                  isFullscreen ? '' : 'rounded-lg'
+                } overflow-hidden shadow-lg`}
               >
                 {/* Fullscreen Control Bar */}
                 {isFullscreen && (
@@ -467,7 +491,48 @@ export default function GameClient({ game, locale }) {
 
                     {!token ? (
                       <button
-                        onClick={() => setShowAuthModal(true)}
+                        onClick={() => {
+                          const isIOS =
+                            /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+                            !window.MSStream;
+
+                          if (isMobile) {
+                            if (isIOS) {
+                              // iOS için özel işlem
+                              const gameContainer =
+                                document.querySelector('#game-container');
+                              if (gameContainer) {
+                                gameContainer.style.position = 'static';
+                                gameContainer.style.width = '100%';
+                                gameContainer.style.height = 'auto';
+                                document.body.style.overflow = 'auto';
+                              }
+                              setShowAuthModal(true);
+                            } else {
+                              // Diğer mobil cihazlar için
+                              if (document.fullscreenElement) {
+                                document.exitFullscreen().then(() => {
+                                  setTimeout(() => {
+                                    setShowAuthModal(true);
+                                  }, 100);
+                                });
+                              } else {
+                                setShowAuthModal(true);
+                              }
+                            }
+                          } else {
+                            // Web için normal işlem
+                            if (document.fullscreenElement) {
+                              document.exitFullscreen().then(() => {
+                                setTimeout(() => {
+                                  setShowAuthModal(true);
+                                }, 100);
+                              });
+                            } else {
+                              setShowAuthModal(true);
+                            }
+                          }
+                        }}
                         className='text-white hover:text-brand-orange flex items-center gap-2 transition-colors'
                       >
                         <svg
@@ -500,6 +565,37 @@ export default function GameClient({ game, locale }) {
                     )}
                   </div>
                 )}
+
+                {/* Fullscreen Button for Web */}
+                {!isMobile && !isFullscreen && (
+                  <button
+                    onClick={() => {
+                      const gameContainer =
+                        document.querySelector('#game-container');
+                      if (gameContainer && gameContainer.requestFullscreen) {
+                        gameContainer.requestFullscreen();
+                      }
+                    }}
+                    className='absolute top-4 right-4 bg-black/75 hover:bg-black/90 text-white p-2 rounded transition-colors z-[99999]'
+                    title={locale === 'tr' ? 'Tam Ekran' : 'Fullscreen'}
+                  >
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      strokeWidth={1.5}
+                      stroke='currentColor'
+                      className='w-6 h-6'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15'
+                      />
+                    </svg>
+                  </button>
+                )}
+
                 <iframe
                   src={game.instantLink}
                   className='w-full h-full border-0'
@@ -518,32 +614,28 @@ export default function GameClient({ game, locale }) {
               <div className='mt-4'>
                 <button
                   onClick={() => {
-                    const iframe = document.querySelector('iframe');
-                    const isIOS =
-                      /iPad|iPhone|iPod/.test(navigator.userAgent) &&
-                      !window.MSStream;
-
-                    if (iframe) {
+                    const gameContainer =
+                      document.querySelector('#game-container');
+                    if (gameContainer) {
                       try {
                         if (isIOS) {
-                          // iOS için özel tam ekran yöntemi
-                          iframe.style.position = 'fixed';
-                          iframe.style.top = '0';
-                          iframe.style.left = '0';
-                          iframe.style.width = '100%';
-                          iframe.style.height = '100%';
-                          iframe.style.zIndex = '9999';
+                          gameContainer.style.position = 'fixed';
+                          gameContainer.style.top = '0';
+                          gameContainer.style.left = '0';
+                          gameContainer.style.width = '100%';
+                          gameContainer.style.height = '100%';
+                          gameContainer.style.zIndex = '9999';
                           document.body.style.overflow = 'hidden';
+                          setIsFullscreen(true);
                         } else {
-                          // Diğer mobil cihazlar için normal tam ekran
-                          if (iframe.requestFullscreen) {
-                            iframe.requestFullscreen();
-                          } else if (iframe.webkitRequestFullscreen) {
-                            iframe.webkitRequestFullscreen();
-                          } else if (iframe.mozRequestFullScreen) {
-                            iframe.mozRequestFullScreen();
-                          } else if (iframe.msRequestFullscreen) {
-                            iframe.msRequestFullscreen();
+                          if (gameContainer.requestFullscreen) {
+                            gameContainer.requestFullscreen();
+                          } else if (gameContainer.webkitRequestFullscreen) {
+                            gameContainer.webkitRequestFullscreen();
+                          } else if (gameContainer.mozRequestFullScreen) {
+                            gameContainer.mozRequestFullScreen();
+                          } else if (gameContainer.msRequestFullscreen) {
+                            gameContainer.msRequestFullscreen();
                           }
                         }
                       } catch (error) {
