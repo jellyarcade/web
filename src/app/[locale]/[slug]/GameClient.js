@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '@/contexts/AuthContext';
 import AuthModal from '@/components/auth/AuthModal';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { RiLoginBoxLine, RiLogoutBoxLine } from 'react-icons/ri';
 
 export default function GameClient({ game, locale }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -15,12 +16,48 @@ export default function GameClient({ game, locale }) {
   const [isLoading, setIsLoading] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [userProfile, setUserProfile] = useState(null);
   const [snackbar, setSnackbar] = useState({
     show: false,
     message: '',
     type: 'success',
   });
   const { token, user } = useAuth();
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (!token) return;
+
+      try {
+        const response = await fetch(
+          `https://api.jellyarcade.com/api/users/profile?lang=${locale}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('Profil bilgileri alınamadı');
+        }
+
+        const data = await response.json();
+        setUserProfile(data);
+      } catch (error) {
+        console.error('Profil bilgileri getirme hatası:', error);
+      }
+    };
+
+    if (user) {
+      fetchUserProfile();
+    }
+  }, [token, locale, user]);
+
+  useEffect(() => {
+    console.log('Auth Data:', { token, user, userProfile });
+  }, [token, user, userProfile]);
+
   const t = useTranslations();
 
   // Mobil cihaz kontrolü
@@ -358,6 +395,9 @@ export default function GameClient({ game, locale }) {
               console.log('Closing auth modal...');
               setShowAuthModal(false);
               // Eğer iOS'ta isek ve fullscreen'den çıkılmışsa tekrar fullscreen'e dön
+              const isIOS =
+                /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+                !window.MSStream;
               if (isIOS && isFullscreen) {
                 const gameContainer = document.querySelector('#game-container');
                 if (gameContainer) {
@@ -460,7 +500,7 @@ export default function GameClient({ game, locale }) {
               >
                 {/* Fullscreen Control Bar */}
                 {isFullscreen && (
-                  <div className='absolute top-0 left-0 right-0 h-12 bg-black/75 backdrop-blur-sm flex items-center justify-between px-4 z-[99999]'>
+                  <div className='absolute top-0 left-0 right-0 h-12 bg-black/75 backdrop-blur-sm flex items-center justify-between px-4 pt-8 z-[99999]'>
                     <div className='flex items-center gap-4'>
                       <button
                         onClick={() => {
@@ -469,23 +509,10 @@ export default function GameClient({ game, locale }) {
                           }
                           window.location.href = '/';
                         }}
-                        className='text-white hover:text-brand-orange flex items-center gap-2 transition-colors'
+                        className='bg-brand-orange hover:bg-brand-orange/90 text-white px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors text-sm'
                       >
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth={1.5}
-                          stroke='currentColor'
-                          className='w-6 h-6'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25'
-                          />
-                        </svg>
-                        {locale === 'tr' ? 'Anasayfa' : 'Home'}
+                        <RiLogoutBoxLine className='size-4' />
+                        {locale === 'tr' ? 'Çıkış' : 'Exit'}
                       </button>
                     </div>
 
@@ -533,34 +560,22 @@ export default function GameClient({ game, locale }) {
                             }
                           }
                         }}
-                        className='text-white hover:text-brand-orange flex items-center gap-2 transition-colors'
+                        className='bg-brand-orange hover:bg-brand-orange/90 text-white px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors text-sm'
                       >
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth={1.5}
-                          stroke='currentColor'
-                          className='w-6 h-6'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9'
-                          />
-                        </svg>
+                        <RiLoginBoxLine className='size-4' />
                         {locale === 'tr' ? 'Giriş Yap' : 'Login'}
                       </button>
                     ) : (
                       <div className='text-white flex items-center gap-2'>
-                        <Image
-                          src={user?.avatar || '/images/avatar.png'}
-                          alt={user?.username || 'User'}
-                          width={24}
-                          height={24}
-                          className='rounded-full'
+                        <img
+                          src={
+                            userProfile?.avatar ||
+                            'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
+                          }
+                          alt={user?.name}
+                          className='w-8 h-8 rounded-full object-cover'
                         />
-                        <span>{user?.username}</span>
+                        {user?.username && <span>{user.username}</span>}
                       </div>
                     )}
                   </div>
