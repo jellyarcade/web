@@ -12,6 +12,21 @@ export default function GameDetail({ game, locale }) {
   const { user, token } = useAuth();
   const t = useTranslations('game');
 
+  const handlePlayGame = () => {
+    const gameWindow = window.open(game.instantLink, '_blank');
+    if (gameWindow) {
+      gameWindow.addEventListener('load', () => {
+        try {
+          if (document.fullscreenEnabled) {
+            gameWindow.document.documentElement.requestFullscreen();
+          }
+        } catch (error) {
+          console.error('Fullscreen error:', error);
+        }
+      });
+    }
+  };
+
   const toggleFavorite = async () => {
     if (!token) {
       setShowAuthModal(true);
@@ -95,7 +110,7 @@ export default function GameDetail({ game, locale }) {
           </div>
 
           <button
-            onClick={() => (window.location.href = game.instantLink)}
+            onClick={handlePlayGame}
             className='w-full md:w-auto px-8 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600'
           >
             {locale === 'tr' ? 'Şimdi Oyna' : 'Play Now'}
