@@ -140,7 +140,7 @@ const RecentlyPlayed = () => {
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={16}
-          slidesPerView={2}
+          slidesPerView={2.25}
           pagination={{
             clickable: true,
             el: '.swiper-pagination',
