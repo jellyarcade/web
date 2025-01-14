@@ -38,7 +38,7 @@ export default function ProfilePage() {
 
       try {
         const response = await fetch(
-          `https://api.jellyarcade.com/api/users/profile?lang=${locale}`,
+          `http://localhost:5001/api/users/profile?lang=${locale}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -85,16 +85,13 @@ export default function ProfilePage() {
 
     try {
       setIsLoading(true);
-      const response = await fetch(
-        'https://api.jellyarcade.com/api/users/avatar',
-        {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
+      const response = await fetch('http://localhost:5001/api/users/avatar', {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
       if (!response.ok) {
         throw new Error('Avatar güncellenemedi');
@@ -129,20 +126,17 @@ export default function ProfilePage() {
 
     try {
       setIsLoading(true);
-      const response = await fetch(
-        'https://api.jellyarcade.com/api/users/password',
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            oldPassword: passwordForm.oldPassword,
-            newPassword: passwordForm.newPassword,
-          }),
-        }
-      );
+      const response = await fetch('http://localhost:5001/api/users/password', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          oldPassword: passwordForm.oldPassword,
+          newPassword: passwordForm.newPassword,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error('Şifre güncellenemedi');

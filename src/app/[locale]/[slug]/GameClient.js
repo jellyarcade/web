@@ -23,6 +23,24 @@ export default function GameClient({ game, locale }) {
     type: 'success',
   });
   const { token, user } = useAuth();
+  const [favoriteCount, setFavoriteCount] = useState(game.favoriteCount || 0);
+
+  // Log game data
+  useEffect(() => {
+    console.log('Game Data:', {
+      id: game._id,
+      title: game.title,
+      description: game.description,
+      categories: game.categories,
+      keywords: game.keywords,
+      playCount: game.playCount,
+      instantLink: game.instantLink,
+      orientation: game.orientation,
+      isNew: game.isNew,
+      isPopular: game.isPopular,
+      fullGameData: game,
+    });
+  }, [game]);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -30,7 +48,7 @@ export default function GameClient({ game, locale }) {
 
       try {
         const response = await fetch(
-          `https://api.jellyarcade.com/api/users/profile?lang=${locale}`,
+          `http://localhost:5001/api/users/profile?lang=${locale}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -54,10 +72,6 @@ export default function GameClient({ game, locale }) {
     }
   }, [token, locale, user]);
 
-  useEffect(() => {
-    console.log('Auth Data:', { token, user, userProfile });
-  }, [token, user, userProfile]);
-
   const t = useTranslations();
 
   // Mobil cihaz kontrolü
@@ -77,16 +91,10 @@ export default function GameClient({ game, locale }) {
     checkMobile();
   }, []);
 
-  // isMobile değerini izle
-  useEffect(() => {
-    console.log('isMobile value changed:', isMobile);
-  }, [isMobile]);
-
   // Fullscreen değişikliklerini izle
   useEffect(() => {
     const handleFullscreenChange = () => {
       const newIsFullscreen = !!document.fullscreenElement;
-      console.log('Fullscreen state changed:', newIsFullscreen);
       setIsFullscreen(newIsFullscreen);
     };
 
@@ -119,7 +127,7 @@ export default function GameClient({ game, locale }) {
 
       try {
         const response = await fetch(
-          'https://api.jellyarcade.com/api/users/favorites',
+          'http://localhost:5001/api/users/favorites',
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -160,7 +168,7 @@ export default function GameClient({ game, locale }) {
       setIsLoading(true);
       const method = isFavorite ? 'DELETE' : 'POST';
       const response = await fetch(
-        `https://api.jellyarcade.com/api/users/favorites/${game._id}`,
+        `http://localhost:5001/api/users/favorites/${game._id}`,
         {
           method,
           headers: {
@@ -176,13 +184,14 @@ export default function GameClient({ game, locale }) {
 
       const data = await response.json();
       setIsFavorite(!isFavorite);
+      // Favori sayısını güncelle
+      setFavoriteCount(prev => (isFavorite ? prev - 1 : prev + 1));
 
       // AuthContext'teki user state'ini güncelle
       if (user) {
         user.favorites = data;
       }
 
-      // Başarılı işlem sonrası snackbar göster
       showSnackbar(
         isFavorite
           ? t('game.removedFromFavorites')
@@ -198,21 +207,14 @@ export default function GameClient({ game, locale }) {
   };
 
   const handlePlay = () => {
-    console.log('handlePlay called');
-    console.log('isMobile value in handlePlay:', isMobile);
-
     // Sadece mobilde oryantasyon kontrolü yap
     if (isMobile) {
       // Şu anki ekran oryantasyonunu kontrol et
       const currentOrientation =
         window.innerHeight > window.innerWidth ? 'vertical' : 'horizontal';
 
-      console.log('Current orientation:', currentOrientation);
-      console.log('Game orientation:', game.orientation);
-
       // Oyunun oryantasyonu ile karşılaştır
       if (currentOrientation !== game.orientation) {
-        console.log('Wrong orientation, showing modal');
         setShowOrientationModal(true);
         return;
       }
@@ -262,7 +264,7 @@ export default function GameClient({ game, locale }) {
 
     // Her durumda oyun sayısını artır
     try {
-      fetch(`https://api.jellyarcade.com/api/games/${game._id}/play`, {
+      fetch(`http://localhost:5001/api/games/${game._id}/play`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -373,6 +375,17 @@ export default function GameClient({ game, locale }) {
 
   return (
     <div className='mt-[72px]'>
+      {/* Snackbar */}
+      {snackbar.show && (
+        <div
+          className={`fixed bottom-4 right-4 px-4 py-2 rounded-lg text-white z-[999999] ${
+            snackbar.type === 'success' ? 'bg-green-500' : 'bg-red-500'
+          }`}
+        >
+          {snackbar.message}
+        </div>
+      )}
+
       {/* Auth Modal */}
       {showAuthModal && (
         <div
@@ -392,8 +405,6 @@ export default function GameClient({ game, locale }) {
           <AuthModal
             isOpen={true}
             onClose={() => {
-              console.log('Closing auth modal...');
-              setShowAuthModal(false);
               // Eğer iOS'ta isek ve fullscreen'den çıkılmışsa tekrar fullscreen'e dön
               const isIOS =
                 /iPad|iPhone|iPod/.test(navigator.userAgent) &&
@@ -473,21 +484,24 @@ export default function GameClient({ game, locale }) {
                       {locale === 'tr' ? 'kez oynandı' : 'times played'}
                     </div>
                   </div>
-                  <button
-                    onClick={toggleFavorite}
-                    className={`p-1.5 rounded-full transition-colors hover:bg-white/10 ${
-                      isFavorite ? 'text-red-500' : 'text-white'
-                    }`}
-                  >
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 24 24'
-                      fill='currentColor'
-                      className='w-5 h-5'
+                  <div className='flex items-center gap-1'>
+                    <button
+                      onClick={toggleFavorite}
+                      className={`p-1.5 rounded-full transition-colors hover:bg-white/10 ${
+                        isFavorite ? 'text-red-500' : 'text-white'
+                      }`}
                     >
-                      <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
-                    </svg>
-                  </button>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        viewBox='0 0 24 24'
+                        fill='currentColor'
+                        className='w-5 h-5'
+                      >
+                        <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
+                      </svg>
+                    </button>
+                    <span className='text-sm text-white'>{favoriteCount}</span>
+                  </div>
                 </div>
               </div>
             ) : (

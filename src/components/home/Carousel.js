@@ -71,7 +71,12 @@ const Carousel = ({ items }) => {
                   />
                 </div>
                 {renderBadges(item)}
-                <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg' />
+                <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent rounded-lg' />
+                <div className='absolute bottom-0 left-0 right-0 bg-black/30 backdrop-blur-[2px] p-2'>
+                  <h3 className='text-white text-sm font-medium truncate'>
+                    {item.title}
+                  </h3>
+                </div>
               </div>
             </Link>
           ))}
@@ -116,8 +121,12 @@ const Carousel = ({ items }) => {
                     />
                   </div>
                   {renderBadges(item)}
-
-                  <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg' />
+                  <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent rounded-lg' />
+                  <div className='absolute bottom-0 left-0 right-0 bg-black/30 backdrop-blur-[2px] p-2'>
+                    <h3 className='text-white text-sm font-medium truncate'>
+                      {item.title}
+                    </h3>
+                  </div>
                 </div>
               </Link>
             </SwiperSlide>
