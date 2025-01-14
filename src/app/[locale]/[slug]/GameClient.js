@@ -48,7 +48,9 @@ export default function GameClient({ game, locale }) {
   // Fullscreen değişikliklerini izle
   useEffect(() => {
     const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
+      const newIsFullscreen = !!document.fullscreenElement;
+      console.log('Fullscreen state changed:', newIsFullscreen);
+      setIsFullscreen(newIsFullscreen);
     };
 
     document.addEventListener('fullscreenchange', handleFullscreenChange);
@@ -189,28 +191,29 @@ export default function GameClient({ game, locale }) {
     // Mobilde oyun başladığında otomatik olarak fullscreen yap
     if (isMobile) {
       setTimeout(() => {
-        const iframe = document.querySelector('iframe');
-        if (iframe) {
+        const gameContainer = document.querySelector('#game-container');
+        if (gameContainer) {
           try {
             if (isIOS) {
               // iOS için özel tam ekran yöntemi
-              iframe.style.position = 'fixed';
-              iframe.style.top = '0';
-              iframe.style.left = '0';
-              iframe.style.width = '100%';
-              iframe.style.height = '100%';
-              iframe.style.zIndex = '9999';
+              gameContainer.style.position = 'fixed';
+              gameContainer.style.top = '0';
+              gameContainer.style.left = '0';
+              gameContainer.style.width = '100%';
+              gameContainer.style.height = '100%';
+              gameContainer.style.zIndex = '9999';
               document.body.style.overflow = 'hidden';
+              setIsFullscreen(true);
             } else {
               // Diğer mobil cihazlar için normal tam ekran
-              if (iframe.requestFullscreen) {
-                iframe.requestFullscreen();
-              } else if (iframe.webkitRequestFullscreen) {
-                iframe.webkitRequestFullscreen();
-              } else if (iframe.mozRequestFullScreen) {
-                iframe.mozRequestFullScreen();
-              } else if (iframe.msRequestFullscreen) {
-                iframe.msRequestFullscreen();
+              if (gameContainer.requestFullscreen) {
+                gameContainer.requestFullscreen();
+              } else if (gameContainer.webkitRequestFullscreen) {
+                gameContainer.webkitRequestFullscreen();
+              } else if (gameContainer.mozRequestFullScreen) {
+                gameContainer.mozRequestFullScreen();
+              } else if (gameContainer.msRequestFullscreen) {
+                gameContainer.msRequestFullscreen();
               }
             }
           } catch (error) {
@@ -426,8 +429,77 @@ export default function GameClient({ game, locale }) {
                 </div>
               </div>
             ) : (
-              // iframe
-              <div className='relative aspect-video w-full rounded-lg overflow-hidden shadow-lg'>
+              // Game Container
+              <div
+                id='game-container'
+                className='relative aspect-video w-full rounded-lg overflow-hidden shadow-lg'
+              >
+                {/* Fullscreen Control Bar */}
+                {isFullscreen && (
+                  <div className='absolute top-0 left-0 right-0 h-12 bg-black/75 backdrop-blur-sm flex items-center justify-between px-4 z-[99999]'>
+                    <div className='flex items-center gap-4'>
+                      <button
+                        onClick={() => {
+                          if (document.fullscreenElement) {
+                            document.exitFullscreen();
+                          }
+                          window.location.href = '/';
+                        }}
+                        className='text-white hover:text-brand-orange flex items-center gap-2 transition-colors'
+                      >
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          fill='none'
+                          viewBox='0 0 24 24'
+                          strokeWidth={1.5}
+                          stroke='currentColor'
+                          className='w-6 h-6'
+                        >
+                          <path
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            d='M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25'
+                          />
+                        </svg>
+                        {locale === 'tr' ? 'Anasayfa' : 'Home'}
+                      </button>
+                    </div>
+
+                    {!token ? (
+                      <button
+                        onClick={() => setShowAuthModal(true)}
+                        className='text-white hover:text-brand-orange flex items-center gap-2 transition-colors'
+                      >
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          fill='none'
+                          viewBox='0 0 24 24'
+                          strokeWidth={1.5}
+                          stroke='currentColor'
+                          className='w-6 h-6'
+                        >
+                          <path
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            d='M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9'
+                          />
+                        </svg>
+                        {locale === 'tr' ? 'Giriş Yap' : 'Login'}
+                      </button>
+                    ) : (
+                      <div className='text-white flex items-center gap-2'>
+                        <Image
+                          src={user?.avatar || '/images/avatar.png'}
+                          alt={user?.username || 'User'}
+                          width={24}
+                          height={24}
+                          className='rounded-full'
+                        />
+                        <span>{user?.username}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
                 <iframe
                   src={game.instantLink}
                   className='w-full h-full border-0'
@@ -438,75 +510,6 @@ export default function GameClient({ game, locale }) {
                   referrerPolicy='origin'
                   title={game.title[locale]}
                 />
-
-                {/* Alt Bar */}
-                <div className='absolute bottom-0 left-0 right-0 h-10 bg-black/75 backdrop-blur-sm flex items-center justify-between px-4'>
-                  <div className='flex items-center gap-2'>
-                    <Image
-                      src='/images/avatar.png'
-                      alt='Jelly Arcade'
-                      width={24}
-                      height={24}
-                      className='rounded'
-                    />
-                    <div className='text-sm text-white'>
-                      {game.playCount || 0}{' '}
-                      {locale === 'tr' ? 'kez oynandı' : 'times played'}
-                    </div>
-                  </div>
-                  <button
-                    onClick={toggleFavorite}
-                    className={`p-1.5 rounded-full transition-colors hover:bg-white/10 ${
-                      isFavorite ? 'text-red-500' : 'text-white'
-                    }`}
-                  >
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 24 24'
-                      fill='currentColor'
-                      className='w-5 h-5'
-                    >
-                      <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
-                    </svg>
-                  </button>
-                </div>
-
-                {/* Full Screen Butonu - Masaüstü için */}
-                {!isMobile && (
-                  <button
-                    onClick={() => {
-                      const iframe = document.querySelector('iframe');
-                      if (iframe) {
-                        if (iframe.requestFullscreen) {
-                          iframe.requestFullscreen();
-                        } else if (iframe.webkitRequestFullscreen) {
-                          iframe.webkitRequestFullscreen();
-                        } else if (iframe.mozRequestFullScreen) {
-                          iframe.mozRequestFullScreen();
-                        } else if (iframe.msRequestFullscreen) {
-                          iframe.msRequestFullscreen();
-                        }
-                      }
-                    }}
-                    className='absolute bottom-12 right-4 bg-black/50 hover:bg-black/70 text-white p-2 rounded-lg transition-colors'
-                    title='Full Screen'
-                  >
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      strokeWidth={1.5}
-                      stroke='currentColor'
-                      className='w-6 h-6'
-                    >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        d='M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15'
-                      />
-                    </svg>
-                  </button>
-                )}
               </div>
             )}
 
