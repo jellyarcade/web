@@ -31,7 +31,7 @@ const UserMenu = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:5001/api/users/profile?lang=${locale}`,
+          `https://api.jellyarcade.com/api/users/profile?lang=${locale}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -61,7 +61,7 @@ const UserMenu = () => {
 
       try {
         const response = await fetch(
-          'http://localhost:5001/api/notifications/unread-count',
+          'https://api.jellyarcade.com/api/notifications/unread-count',
           {
             headers: {
               Authorization: `Bearer ${token}`,

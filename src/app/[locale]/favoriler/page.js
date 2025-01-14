@@ -37,7 +37,7 @@ export default function FavoritesPage() {
       try {
         setIsLoading(true);
         const response = await fetch(
-          'http://localhost:5001/api/users/favorites',
+          'https://api.jellyarcade.com/api/users/favorites',
           {
             headers: {
               Authorization: `Bearer ${token}`,

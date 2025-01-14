@@ -49,7 +49,7 @@ export default function GameClient({ game, locale }) {
 
       try {
         const response = await fetch(
-          `http://localhost:5001/api/users/profile?lang=${locale}`,
+          `https://api.jellyarcade.com/api/users/profile?lang=${locale}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -128,7 +128,7 @@ export default function GameClient({ game, locale }) {
 
       try {
         const response = await fetch(
-          'http://localhost:5001/api/users/favorites',
+          'https://api.jellyarcade.com/api/users/favorites',
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -169,7 +169,7 @@ export default function GameClient({ game, locale }) {
       setIsLoading(true);
       const method = isFavorite ? 'DELETE' : 'POST';
       const response = await fetch(
-        `http://localhost:5001/api/users/favorites/${game._id}`,
+        `https://api.jellyarcade.com/api/users/favorites/${game._id}`,
         {
           method,
           headers: {
@@ -265,7 +265,7 @@ export default function GameClient({ game, locale }) {
 
     // Her durumda oyun sayısını artır
     try {
-      fetch(`http://localhost:5001/api/games/${game._id}/play`, {
+      fetch(`https://api.jellyarcade.com/api/games/${game._id}/play`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

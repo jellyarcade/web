@@ -29,7 +29,7 @@ const RecentlyPlayed = () => {
       if (token) {
         try {
           const response = await fetch(
-            'http://localhost:5001/api/users/recent-games',
+            'https://api.jellyarcade.com/api/users/recent-games',
             {
               headers: {
                 Authorization: `Bearer ${token}`,

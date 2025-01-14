@@ -4,7 +4,7 @@ import GameGrid from '@/components/category/GameGrid';
 import HeroSection from '@/components/home/HeroSection';
 import RecentlyPlayed from '@/components/home/RecentlyPlayed';
 
-const API_URL = 'http://localhost:5001/api';
+const API_URL = 'https://api.jellyarcade.com/api';
 
 async function getCategory(slug) {
   try {
