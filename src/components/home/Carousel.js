@@ -86,7 +86,7 @@ const Carousel = ({ items }) => {
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={24}
-          slidesPerView={1}
+          slidesPerView={1.2}
           breakpoints={{
             640: {
               slidesPerView: 2,
