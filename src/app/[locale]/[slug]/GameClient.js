@@ -270,19 +270,32 @@ export default function GameClient({ game, locale }) {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` }),
         },
       })
-        .then(response => {
+        .then(async response => {
+          const data = await response.text();
           if (!response.ok) {
-            console.error('Play count increment failed:', response.status);
+            throw new Error(
+              `Play count increment failed: ${response.status} - ${data}`
+            );
+          }
+          try {
+            return data ? JSON.parse(data) : null;
+          } catch (e) {
+            console.log('Response was not JSON:', data);
+            return null;
+          }
+        })
+        .then(data => {
+          if (data) {
+            console.log('Play count updated:', data);
           }
         })
         .catch(error => {
-          console.error('Play count increment error:', error);
+          console.error('Play count increment error:', error.message);
         });
     } catch (error) {
-      console.error('Play count increment error:', error);
+      console.error('Play count increment error:', error.message);
     }
 
     // Eğer kullanıcı giriş yapmamışsa localStorage'a kaydet
@@ -526,7 +539,7 @@ export default function GameClient({ game, locale }) {
               >
                 {/* Fullscreen Control Bar */}
                 {isFullscreen && (
-                  <div className='absolute top-0 left-0 right-0 h-12 bg-black/75 backdrop-blur-sm flex items-center justify-between px-4 pt-8 z-[99999]'>
+                  <div className='absolute top-0 left-0 right-0 h-12 bg-black backdrop-blur-sm flex items-center justify-between px-4 z-[99999]'>
                     <div className='flex items-center gap-4'>
                       <button
                         onClick={() => {
@@ -535,10 +548,17 @@ export default function GameClient({ game, locale }) {
                           }
                           window.location.href = '/';
                         }}
-                        className='bg-brand-orange hover:bg-brand-orange/90 text-white px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors text-sm'
+                        className='bg-brand-orange hover:bg-brand-orange/90 text-white p-2 rounded flex items-center justify-center transition-colors'
                       >
-                        <RiLogoutBoxLine className='size-4' />
-                        {locale === 'tr' ? 'Çıkış' : 'Exit'}
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          viewBox='0 0 24 24'
+                          fill='currentColor'
+                          className='size-4'
+                        >
+                          <path d='M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z' />
+                          <path d='M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z' />
+                        </svg>
                       </button>
                     </div>
 
@@ -617,7 +637,7 @@ export default function GameClient({ game, locale }) {
                         gameContainer.requestFullscreen();
                       }
                     }}
-                    className='absolute top-4 right-4 bg-black/75 hover:bg-black/90 text-white p-2 rounded transition-colors z-[99999]'
+                    className='absolute top-4 right-4 bg-black hover:bg-black/90 text-white p-2 rounded transition-colors z-[99999]'
                     title={locale === 'tr' ? 'Tam Ekran' : 'Fullscreen'}
                   >
                     <svg
@@ -637,16 +657,23 @@ export default function GameClient({ game, locale }) {
                   </button>
                 )}
 
-                <iframe
-                  src={game.instantLink}
-                  className='w-full h-full border-0'
-                  allow='fullscreen; autoplay; clipboard-write; encrypted-media; picture-in-picture'
-                  allowFullScreen
-                  sandbox='allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation'
-                  loading='lazy'
-                  referrerPolicy='origin'
-                  title={game.title[locale]}
-                />
+                <div
+                  className={`w-full h-full ${
+                    isFullscreen ? 'pt-12' : ''
+                  } relative`}
+                >
+                  <iframe
+                    src={game.instantLink}
+                    className='w-full h-full border-0'
+                    style={{ backgroundColor: '#000000' }}
+                    allow='fullscreen; autoplay; clipboard-write; encrypted-media; picture-in-picture'
+                    allowFullScreen
+                    sandbox='allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation'
+                    loading='lazy'
+                    referrerPolicy='origin'
+                    title={game.title[locale]}
+                  />
+                </div>
               </div>
             )}
 
