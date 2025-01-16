@@ -428,7 +428,7 @@ export default function GameClient({ game, locale }) {
   );
 
   return (
-    <div className='mt-[72px]'>
+    <div className='mt-[52px]'>
       {/* Snackbar */}
       {snackbar.show && (
         <div
@@ -485,11 +485,11 @@ export default function GameClient({ game, locale }) {
 
         <div>
           {/* Oyun alanı ve Game Details */}
-          <div className='max-w-3xl mr-auto space-y-4'>
+          <div className='max-w-5xl mr-auto space-y-2'>
             {/* Oyun alanı */}
             {!isPlaying ? (
               // Preview image ve play butonu
-              <div className='relative w-full h-[70vh] rounded-lg overflow-hidden shadow-lg'>
+              <div className='relative w-full h-[73vh] rounded-lg overflow-hidden shadow-lg'>
                 <Image
                   src={game.image || '/images/game-placeholder.jpg'}
                   alt={game.title[locale]}

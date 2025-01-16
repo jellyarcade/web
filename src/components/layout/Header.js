@@ -38,7 +38,7 @@ const Header = ({ children }) => {
       <header className='fixed top-0 left-0 right-0 z-40 transition-all duration-300'>
         <div className='absolute inset-0 bg-gradient-to-r from-[#b6e18a] to-[#16bf36]' />
 
-        <div className='relative px-4 sm:px-6 py-3'>
+        <div className='relative px-4 sm:px-6 py-1'>
           <div className='flex items-center justify-between'>
             <div className='flex items-center gap-4 sm:gap-8'>
               <button
