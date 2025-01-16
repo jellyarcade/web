@@ -1,10 +1,10 @@
 import { notFound, redirect } from 'next/navigation';
 import Container from '@/components/layout/Container';
 import GameGrid from '@/components/category/GameGrid';
-import HeroSection from '@/components/home/HeroSection';
+import HeroSection from '@/components/category/HeroSection';
 import RecentlyPlayed from '@/components/home/RecentlyPlayed';
 
-const API_URL = 'https://api.jellyarcade.com/api';
+const API_URL = 'http://localhost:5001/api';
 
 async function getCategory(slug) {
   try {
@@ -81,7 +81,7 @@ export default async function CategoryPage({ params: { locale, slug } }) {
 
   return (
     <div className='mt-24'>
-      <HeroSection />
+      <HeroSection categoryId={category._id} />
       <RecentlyPlayed />
       <div className='mb-8'></div>
       <GameGrid

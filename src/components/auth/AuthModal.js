@@ -68,7 +68,7 @@ export default function AuthModal({ isOpen, onClose }) {
     const top = window.screenY + (window.outerHeight - height) / 2;
 
     // Her zaman API URL'ini kullan
-    const url = `https://api.jellyarcade.com/api/auth/${provider}`;
+    const url = `http://localhost:5001/api/auth/${provider}`;
     console.log('Opening social login URL:', url);
 
     const popup = window.open(

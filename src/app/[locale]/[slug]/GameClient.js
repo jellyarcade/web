@@ -49,7 +49,7 @@ export default function GameClient({ game, locale }) {
 
       try {
         const response = await fetch(
-          `https://api.jellyarcade.com/api/users/profile?lang=${locale}`,
+          `http://localhost:5001/api/users/profile?lang=${locale}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -99,10 +99,20 @@ export default function GameClient({ game, locale }) {
       setIsFullscreen(newIsFullscreen);
     };
 
+    const handleKeyDown = e => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return false;
+      }
+    };
+
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
     document.addEventListener('mozfullscreenchange', handleFullscreenChange);
     document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+    window.addEventListener('keydown', handleKeyDown, { capture: true });
 
     return () => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
@@ -118,6 +128,7 @@ export default function GameClient({ game, locale }) {
         'MSFullscreenChange',
         handleFullscreenChange
       );
+      window.removeEventListener('keydown', handleKeyDown, { capture: true });
     };
   }, []);
 
@@ -128,7 +139,7 @@ export default function GameClient({ game, locale }) {
 
       try {
         const response = await fetch(
-          'https://api.jellyarcade.com/api/users/favorites',
+          'http://localhost:5001/api/users/favorites',
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -169,7 +180,7 @@ export default function GameClient({ game, locale }) {
       setIsLoading(true);
       const method = isFavorite ? 'DELETE' : 'POST';
       const response = await fetch(
-        `https://api.jellyarcade.com/api/users/favorites/${game._id}`,
+        `http://localhost:5001/api/users/favorites/${game._id}`,
         {
           method,
           headers: {
@@ -207,7 +218,7 @@ export default function GameClient({ game, locale }) {
     }
   };
 
-  const handlePlay = () => {
+  const handlePlay = async () => {
     // Sadece mobilde oryantasyon kontrolü yap
     if (isMobile) {
       // Şu anki ekran oryantasyonunu kontrol et
@@ -221,52 +232,28 @@ export default function GameClient({ game, locale }) {
       }
     }
 
-    // iOS kontrolü
-    const isIOS =
-      /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
     // Oyunu başlat
     setIsPlaying(true);
 
-    // Mobilde oyun başladığında otomatik olarak fullscreen yap
-    if (isMobile) {
-      setTimeout(() => {
-        const gameContainer = document.querySelector('#game-container');
-        if (gameContainer) {
-          try {
-            if (isIOS) {
-              // iOS için özel tam ekran yöntemi
-              gameContainer.style.position = 'fixed';
-              gameContainer.style.top = '0';
-              gameContainer.style.left = '0';
-              gameContainer.style.width = '100%';
-              gameContainer.style.height = '100%';
-              gameContainer.style.zIndex = '9999';
-              document.body.style.overflow = 'hidden';
-              setIsFullscreen(true);
-            } else {
-              // Diğer mobil cihazlar için normal tam ekran
-              if (gameContainer.requestFullscreen) {
-                gameContainer.requestFullscreen();
-              } else if (gameContainer.webkitRequestFullscreen) {
-                gameContainer.webkitRequestFullscreen();
-              } else if (gameContainer.mozRequestFullScreen) {
-                gameContainer.mozRequestFullScreen();
-              } else if (gameContainer.msRequestFullscreen) {
-                gameContainer.msRequestFullscreen();
-              }
-            }
-          } catch (error) {
-            console.error('Fullscreen error:', error);
-          }
-        }
-      }, 1000);
+    // 1. Oyun oynama kaydını API'ye gönder (giriş yapmış kullanıcılar için)
+    if (token) {
+      try {
+        await fetch(`http://localhost:5001/api/games/${game._id}/play`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } catch (error) {
+        console.error('Error recording game play:', error);
+      }
     }
 
-    // Her durumda oyun sayısını artır
+    // 2. Oyun sayacını artır (tüm kullanıcılar için)
     try {
-      fetch(`https://api.jellyarcade.com/api/games/${game._id}/play`, {
-        method: 'POST',
+      fetch(`http://localhost:5001/api/games/${game._id}/increment-play`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
@@ -297,6 +284,59 @@ export default function GameClient({ game, locale }) {
     } catch (error) {
       console.error('Play count increment error:', error.message);
     }
+
+    // Fullscreen'e geç
+    setTimeout(() => {
+      const gameContainer = document.querySelector('#game-container');
+      if (gameContainer) {
+        try {
+          if (isMobile) {
+            // iOS kontrolü
+            const isIOS =
+              /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            if (isIOS) {
+              // iOS için özel tam ekran yöntemi
+              gameContainer.style.position = 'fixed';
+              gameContainer.style.top = '0';
+              gameContainer.style.left = '0';
+              gameContainer.style.right = '0';
+              gameContainer.style.bottom = '0';
+              gameContainer.style.width = '100vw';
+              gameContainer.style.height = '100vh';
+              gameContainer.style.maxWidth = '100%';
+              gameContainer.style.maxHeight = '100%';
+              gameContainer.style.zIndex = '9999';
+              document.body.style.overflow = 'hidden';
+              setIsFullscreen(true);
+            } else {
+              // Diğer mobil cihazlar için normal tam ekran
+              if (gameContainer.requestFullscreen) {
+                gameContainer.requestFullscreen();
+              } else if (gameContainer.webkitRequestFullscreen) {
+                gameContainer.webkitRequestFullscreen();
+              } else if (gameContainer.mozRequestFullScreen) {
+                gameContainer.mozRequestFullScreen();
+              } else if (gameContainer.msRequestFullscreen) {
+                gameContainer.msRequestFullscreen();
+              }
+            }
+          } else {
+            // Desktop için normal tam ekran
+            if (gameContainer.requestFullscreen) {
+              gameContainer.requestFullscreen();
+            } else if (gameContainer.webkitRequestFullscreen) {
+              gameContainer.webkitRequestFullscreen();
+            } else if (gameContainer.mozRequestFullScreen) {
+              gameContainer.mozRequestFullScreen();
+            } else if (gameContainer.msRequestFullscreen) {
+              gameContainer.msRequestFullscreen();
+            }
+          }
+        } catch (error) {
+          console.error('Fullscreen error:', error);
+        }
+      }
+    }, 1000);
 
     // Eğer kullanıcı giriş yapmamışsa localStorage'a kaydet
     if (!token) {
@@ -455,7 +495,7 @@ export default function GameClient({ game, locale }) {
             {/* Oyun alanı */}
             {!isPlaying ? (
               // Preview image ve play butonu
-              <div className='relative aspect-video w-full rounded-lg overflow-hidden shadow-lg'>
+              <div className='relative w-full h-[70vh] rounded-lg overflow-hidden shadow-lg'>
                 <Image
                   src={game.image || '/images/game-placeholder.jpg'}
                   alt={game.title[locale]}
@@ -507,24 +547,126 @@ export default function GameClient({ game, locale }) {
                       </span>
                     </div>
                     <div className='flex items-center gap-1'>
-                      <button
-                        onClick={toggleFavorite}
-                        className={`p-1.5 rounded-full transition-colors hover:bg-white/10 ${
-                          isFavorite ? 'text-red-500' : 'text-white'
-                        }`}
-                      >
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          viewBox='0 0 24 24'
-                          fill='currentColor'
-                          className='w-5 h-5'
-                        >
-                          <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
-                        </svg>
-                      </button>
-                      <span className='text-sm text-white'>
-                        {favoriteCount}
-                      </span>
+                      {!token ? (
+                        <div className='flex items-center gap-2'>
+                          <div
+                            className={`${
+                              !isMobile ? 'flex' : 'hidden'
+                            } items-center gap-1.5`}
+                          >
+                            <button
+                              onClick={() => {
+                                if (document.fullscreenElement) {
+                                  document.exitFullscreen().then(() => {
+                                    setTimeout(() => {
+                                      setShowAuthModal(true);
+                                    }, 100);
+                                  });
+                                } else {
+                                  setShowAuthModal(true);
+                                }
+                              }}
+                              className='p-1.5 rounded-full transition-colors hover:bg-white/10 text-white'
+                            >
+                              <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                viewBox='0 0 24 24'
+                                fill='currentColor'
+                                className='w-5 h-5'
+                              >
+                                <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
+                              </svg>
+                            </button>
+                            <span className='text-white text-sm'>
+                              {favoriteCount}
+                            </span>
+                          </div>
+                          <button
+                            onClick={() => {
+                              const isIOS =
+                                /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+                                !window.MSStream;
+
+                              if (isMobile) {
+                                if (isIOS) {
+                                  // iOS için özel işlem
+                                  const gameContainer =
+                                    document.querySelector('#game-container');
+                                  if (gameContainer) {
+                                    gameContainer.style.position = 'static';
+                                    gameContainer.style.width = '100%';
+                                    gameContainer.style.height = 'auto';
+                                    document.body.style.overflow = 'auto';
+                                  }
+                                  setShowAuthModal(true);
+                                } else {
+                                  // Diğer mobil cihazlar için
+                                  if (document.fullscreenElement) {
+                                    document.exitFullscreen().then(() => {
+                                      setTimeout(() => {
+                                        setShowAuthModal(true);
+                                      }, 100);
+                                    });
+                                  } else {
+                                    setShowAuthModal(true);
+                                  }
+                                }
+                              } else {
+                                // Web için normal işlem
+                                if (document.fullscreenElement) {
+                                  document.exitFullscreen().then(() => {
+                                    setTimeout(() => {
+                                      setShowAuthModal(true);
+                                    }, 100);
+                                  });
+                                } else {
+                                  setShowAuthModal(true);
+                                }
+                              }
+                            }}
+                            className='bg-brand-orange hover:bg-brand-orange/90 text-white px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors text-sm'
+                          >
+                            <RiLoginBoxLine className='size-4' />
+                            {locale === 'tr' ? 'Giriş Yap' : 'Login'}
+                          </button>
+                        </div>
+                      ) : (
+                        <div className='text-white flex items-center gap-4'>
+                          <div
+                            className={`${
+                              !isMobile ? 'flex' : 'hidden'
+                            } items-center gap-1.5`}
+                          >
+                            <button
+                              onClick={toggleFavorite}
+                              className={`p-1.5 rounded-full transition-colors hover:bg-white/10 ${
+                                isFavorite ? 'text-red-500' : 'text-white'
+                              }`}
+                            >
+                              <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                viewBox='0 0 24 24'
+                                fill='currentColor'
+                                className='w-5 h-5'
+                              >
+                                <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
+                              </svg>
+                            </button>
+                            <span className='text-sm'>{favoriteCount}</span>
+                          </div>
+                          <div className='flex items-center gap-2'>
+                            <img
+                              src={
+                                userProfile?.avatar ||
+                                'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
+                              }
+                              alt={user?.name}
+                              className='w-8 h-8 rounded-full object-cover'
+                            />
+                            {user?.username && <span>{user.username}</span>}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -533,8 +675,10 @@ export default function GameClient({ game, locale }) {
               // Game Container
               <div
                 id='game-container'
-                className={`relative aspect-video w-full ${
-                  isFullscreen ? '' : 'rounded-lg'
+                className={`relative w-full h-[70vh] ${
+                  isFullscreen
+                    ? 'fixed inset-0 w-screen h-screen'
+                    : 'rounded-lg'
                 } overflow-hidden shadow-lg`}
               >
                 {/* Fullscreen Control Bar */}
@@ -543,6 +687,7 @@ export default function GameClient({ game, locale }) {
                     <div className='flex items-center gap-4'>
                       <button
                         onClick={() => {
+                          setIsPlaying(false); // Önce oyun durumunu kapat
                           if (document.fullscreenElement) {
                             document.exitFullscreen();
                           }
@@ -563,26 +708,71 @@ export default function GameClient({ game, locale }) {
                     </div>
 
                     {!token ? (
-                      <button
-                        onClick={() => {
-                          const isIOS =
-                            /iPad|iPhone|iPod/.test(navigator.userAgent) &&
-                            !window.MSStream;
-
-                          if (isMobile) {
-                            if (isIOS) {
-                              // iOS için özel işlem
-                              const gameContainer =
-                                document.querySelector('#game-container');
-                              if (gameContainer) {
-                                gameContainer.style.position = 'static';
-                                gameContainer.style.width = '100%';
-                                gameContainer.style.height = 'auto';
-                                document.body.style.overflow = 'auto';
+                      <div className='flex items-center gap-2'>
+                        <div
+                          className={`${
+                            !isMobile ? 'flex' : 'hidden'
+                          } items-center gap-1.5`}
+                        >
+                          <button
+                            onClick={() => {
+                              if (document.fullscreenElement) {
+                                document.exitFullscreen().then(() => {
+                                  setTimeout(() => {
+                                    setShowAuthModal(true);
+                                  }, 100);
+                                });
+                              } else {
+                                setShowAuthModal(true);
                               }
-                              setShowAuthModal(true);
+                            }}
+                            className='p-1.5 rounded-full transition-colors hover:bg-white/10 text-white'
+                          >
+                            <svg
+                              xmlns='http://www.w3.org/2000/svg'
+                              viewBox='0 0 24 24'
+                              fill='currentColor'
+                              className='w-5 h-5'
+                            >
+                              <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
+                            </svg>
+                          </button>
+                          <span className='text-white text-sm'>
+                            {favoriteCount}
+                          </span>
+                        </div>
+                        <button
+                          onClick={() => {
+                            const isIOS =
+                              /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+                              !window.MSStream;
+
+                            if (isMobile) {
+                              if (isIOS) {
+                                // iOS için özel işlem
+                                const gameContainer =
+                                  document.querySelector('#game-container');
+                                if (gameContainer) {
+                                  gameContainer.style.position = 'static';
+                                  gameContainer.style.width = '100%';
+                                  gameContainer.style.height = 'auto';
+                                  document.body.style.overflow = 'auto';
+                                }
+                                setShowAuthModal(true);
+                              } else {
+                                // Diğer mobil cihazlar için
+                                if (document.fullscreenElement) {
+                                  document.exitFullscreen().then(() => {
+                                    setTimeout(() => {
+                                      setShowAuthModal(true);
+                                    }, 100);
+                                  });
+                                } else {
+                                  setShowAuthModal(true);
+                                }
+                              }
                             } else {
-                              // Diğer mobil cihazlar için
+                              // Web için normal işlem
                               if (document.fullscreenElement) {
                                 document.exitFullscreen().then(() => {
                                   setTimeout(() => {
@@ -593,35 +783,48 @@ export default function GameClient({ game, locale }) {
                                 setShowAuthModal(true);
                               }
                             }
-                          } else {
-                            // Web için normal işlem
-                            if (document.fullscreenElement) {
-                              document.exitFullscreen().then(() => {
-                                setTimeout(() => {
-                                  setShowAuthModal(true);
-                                }, 100);
-                              });
-                            } else {
-                              setShowAuthModal(true);
-                            }
-                          }
-                        }}
-                        className='bg-brand-orange hover:bg-brand-orange/90 text-white px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors text-sm'
-                      >
-                        <RiLoginBoxLine className='size-4' />
-                        {locale === 'tr' ? 'Giriş Yap' : 'Login'}
-                      </button>
+                          }}
+                          className='bg-brand-orange hover:bg-brand-orange/90 text-white px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors text-sm'
+                        >
+                          <RiLoginBoxLine className='size-4' />
+                          {locale === 'tr' ? 'Giriş Yap' : 'Login'}
+                        </button>
+                      </div>
                     ) : (
-                      <div className='text-white flex items-center gap-2'>
-                        <img
-                          src={
-                            userProfile?.avatar ||
-                            'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
-                          }
-                          alt={user?.name}
-                          className='w-8 h-8 rounded-full object-cover'
-                        />
-                        {user?.username && <span>{user.username}</span>}
+                      <div className='text-white flex items-center gap-4'>
+                        <div
+                          className={`${
+                            !isMobile ? 'flex' : 'hidden'
+                          } items-center gap-1.5`}
+                        >
+                          <button
+                            onClick={toggleFavorite}
+                            className={`p-1.5 rounded-full transition-colors hover:bg-white/10 ${
+                              isFavorite ? 'text-red-500' : 'text-white'
+                            }`}
+                          >
+                            <svg
+                              xmlns='http://www.w3.org/2000/svg'
+                              viewBox='0 0 24 24'
+                              fill='currentColor'
+                              className='w-5 h-5'
+                            >
+                              <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
+                            </svg>
+                          </button>
+                          <span className='text-sm'>{favoriteCount}</span>
+                        </div>
+                        <div className='flex items-center gap-2'>
+                          <img
+                            src={
+                              userProfile?.avatar ||
+                              'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
+                            }
+                            alt={user?.name}
+                            className='w-8 h-8 rounded-full object-cover'
+                          />
+                          {user?.username && <span>{user.username}</span>}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -659,15 +862,19 @@ export default function GameClient({ game, locale }) {
 
                 <div
                   className={`w-full h-full ${
-                    isFullscreen ? 'pt-12' : ''
+                    isFullscreen ? 'fixed inset-0 pt-12' : ''
                   } relative`}
                 >
                   <iframe
                     src={game.instantLink}
-                    className='w-full h-full border-0'
+                    className={`w-full h-full border-0 ${
+                      isFullscreen
+                        ? 'fixed inset-0 h-[calc(100%-48px)] top-12'
+                        : ''
+                    }`}
                     style={{ backgroundColor: '#000000' }}
-                    allow='fullscreen; autoplay; clipboard-write; encrypted-media; picture-in-picture'
-                    allowFullScreen
+                    allow='clipboard-write; encrypted-media; picture-in-picture'
+                    allowFullScreen={false}
                     sandbox='allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation'
                     loading='lazy'
                     referrerPolicy='origin'

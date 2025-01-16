@@ -3,6 +3,10 @@
     "gameGrid": {
       "title": "Tüm Oyunlar",
       "subtitle": "En yeni ve en popüler oyunları keşfet"
+    },
+    "recentlyPlayed": {
+      "title": "Son Oynananlar",
+      "subtitle": "Son oynadığın oyunlara hızlı erişim"
     }
   },
   "category": {

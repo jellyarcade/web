@@ -17,7 +17,7 @@ const HeroSection = () => {
     const fetchGames = async () => {
       try {
         const res = await fetch(
-          `https://api.jellyarcade.com/api/games?lang=${params.locale}`,
+          'http://localhost:5001/api/games/homepage-showcased',
           {
             cache: 'no-store',
             method: 'GET',
@@ -32,10 +32,8 @@ const HeroSection = () => {
         }
 
         const data = await res.json();
-        console.log('data', data);
-        const featuredGames = data.filter(game => game.isNew || game.isPopular);
         setGames(
-          featuredGames.map(game => ({
+          data.map(game => ({
             id: game._id,
             image: game.image,
             title: game.title[locale],
@@ -50,7 +48,7 @@ const HeroSection = () => {
     };
 
     fetchGames();
-  }, []);
+  }, [locale]);
 
   return (
     <section className='relative mt-[72px] bg-gray-50'>

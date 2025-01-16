@@ -36,7 +36,7 @@ export default function GameDetail({ game, locale }) {
     try {
       const method = isFavorite ? 'DELETE' : 'POST';
       const response = await fetch(
-        `https://api.jellyarcade.com/api/users/favorites/${game._id}`,
+        `http://localhost:5001/api/users/favorites/${game._id}`,
         {
           method,
           headers: {

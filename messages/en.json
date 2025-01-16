@@ -3,6 +3,10 @@
     "gameGrid": {
       "title": "All Games",
       "subtitle": "Discover the newest and most popular games"
+    },
+    "recentlyPlayed": {
+      "title": "Recently Played",
+      "subtitle": "Quick access to your recent games"
     }
   },
   "category": {

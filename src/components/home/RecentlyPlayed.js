@@ -29,7 +29,7 @@ const RecentlyPlayed = () => {
       if (token) {
         try {
           const response = await fetch(
-            'https://api.jellyarcade.com/api/users/recent-games',
+            'http://localhost:5001/api/users/recent-games',
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -43,18 +43,16 @@ const RecentlyPlayed = () => {
 
           const data = await response.json();
 
-          // Oyunları unique hale getir
+          // Unique oyunları al (son oynanma sırasını koruyarak)
           const uniqueGames = data.reduce((acc, current) => {
-            const gameExists = acc.find(
-              item => item.game._id === current.game._id
-            );
-            if (!gameExists) {
+            const exists = acc.find(item => item.game._id === current.game._id);
+            if (!exists) {
               acc.push(current);
             }
             return acc;
           }, []);
 
-          setRecentGames(uniqueGames);
+          setRecentGames(uniqueGames.slice(0, 5));
         } catch (error) {
           console.error('Error loading recent games:', error);
         }
@@ -64,7 +62,15 @@ const RecentlyPlayed = () => {
           const localGames = JSON.parse(
             localStorage.getItem('recentGames') || '[]'
           );
-          setRecentGames(localGames);
+          // Unique oyunları al
+          const uniqueGames = localGames.reduce((acc, current) => {
+            const exists = acc.find(item => item.game._id === current.game._id);
+            if (!exists) {
+              acc.push(current);
+            }
+            return acc;
+          }, []);
+          setRecentGames(uniqueGames.slice(0, 5));
         } catch (error) {
           console.error('Error loading local recent games:', error);
         }

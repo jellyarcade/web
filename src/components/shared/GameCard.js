@@ -18,19 +18,23 @@ export default function GameCard({ game }) {
 
     try {
       await playGame(game._id);
-      window.location.href = game.url;
+      window.location.href = game.instantLink;
     } catch (error) {
       console.error('Error playing game:', error);
     }
   };
 
+  if (!game) {
+    return null;
+  }
+
   return (
-    <Link href={`/games/${game.slug}`}>
+    <Link href={`/games/${game.slug.tr}`}>
       <div className='group relative bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105'>
         <div className='aspect-[4/3] relative'>
           <Image
             src={game.image}
-            alt={game.title}
+            alt={game.title.tr}
             fill
             className='object-cover'
             sizes='(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw'
@@ -47,7 +51,9 @@ export default function GameCard({ game }) {
           </div>
         </div>
         <div className='p-4'>
-          <h3 className='font-semibold text-gray-900 truncate'>{game.title}</h3>
+          <h3 className='font-semibold text-gray-900 truncate'>
+            {game.title.tr}
+          </h3>
           <div className='flex items-center justify-between mt-2'>
             <div className='flex items-center text-sm text-gray-600'>
               <HiPlay className='w-4 h-4 mr-1' />
