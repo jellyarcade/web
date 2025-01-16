@@ -539,7 +539,7 @@ export default function GameClient({ game, locale }) {
                       {game.title[locale]}
                     </h1>
                   </div>
-                  <div className='flex items-center gap-1'>
+                  <div className='flex items-center gap-4'>
                     <div className='flex items-center gap-1'>
                       <BiSolidJoystick className='w-5 h-5 text-white' />
                       <span className='text-sm text-white'>
@@ -547,126 +547,17 @@ export default function GameClient({ game, locale }) {
                       </span>
                     </div>
                     <div className='flex items-center gap-1'>
-                      {!token ? (
-                        <div className='flex items-center gap-2'>
-                          <div
-                            className={`${
-                              !isMobile ? 'flex' : 'hidden'
-                            } items-center gap-1.5`}
-                          >
-                            <button
-                              onClick={() => {
-                                if (document.fullscreenElement) {
-                                  document.exitFullscreen().then(() => {
-                                    setTimeout(() => {
-                                      setShowAuthModal(true);
-                                    }, 100);
-                                  });
-                                } else {
-                                  setShowAuthModal(true);
-                                }
-                              }}
-                              className='p-1.5 rounded-full transition-colors hover:bg-white/10 text-white'
-                            >
-                              <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                viewBox='0 0 24 24'
-                                fill='currentColor'
-                                className='w-5 h-5'
-                              >
-                                <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
-                              </svg>
-                            </button>
-                            <span className='text-white text-sm'>
-                              {favoriteCount}
-                            </span>
-                          </div>
-                          <button
-                            onClick={() => {
-                              const isIOS =
-                                /iPad|iPhone|iPod/.test(navigator.userAgent) &&
-                                !window.MSStream;
-
-                              if (isMobile) {
-                                if (isIOS) {
-                                  // iOS için özel işlem
-                                  const gameContainer =
-                                    document.querySelector('#game-container');
-                                  if (gameContainer) {
-                                    gameContainer.style.position = 'static';
-                                    gameContainer.style.width = '100%';
-                                    gameContainer.style.height = 'auto';
-                                    document.body.style.overflow = 'auto';
-                                  }
-                                  setShowAuthModal(true);
-                                } else {
-                                  // Diğer mobil cihazlar için
-                                  if (document.fullscreenElement) {
-                                    document.exitFullscreen().then(() => {
-                                      setTimeout(() => {
-                                        setShowAuthModal(true);
-                                      }, 100);
-                                    });
-                                  } else {
-                                    setShowAuthModal(true);
-                                  }
-                                }
-                              } else {
-                                // Web için normal işlem
-                                if (document.fullscreenElement) {
-                                  document.exitFullscreen().then(() => {
-                                    setTimeout(() => {
-                                      setShowAuthModal(true);
-                                    }, 100);
-                                  });
-                                } else {
-                                  setShowAuthModal(true);
-                                }
-                              }
-                            }}
-                            className='bg-brand-orange hover:bg-brand-orange/90 text-white px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors text-sm'
-                          >
-                            <RiLoginBoxLine className='size-4' />
-                            {locale === 'tr' ? 'Giriş Yap' : 'Login'}
-                          </button>
-                        </div>
-                      ) : (
-                        <div className='text-white flex items-center gap-4'>
-                          <div
-                            className={`${
-                              !isMobile ? 'flex' : 'hidden'
-                            } items-center gap-1.5`}
-                          >
-                            <button
-                              onClick={toggleFavorite}
-                              className={`p-1.5 rounded-full transition-colors hover:bg-white/10 ${
-                                isFavorite ? 'text-red-500' : 'text-white'
-                              }`}
-                            >
-                              <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                viewBox='0 0 24 24'
-                                fill='currentColor'
-                                className='w-5 h-5'
-                              >
-                                <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
-                              </svg>
-                            </button>
-                            <span className='text-sm'>{favoriteCount}</span>
-                          </div>
-                          <div className='flex items-center gap-2'>
-                            <img
-                              src={
-                                userProfile?.avatar ||
-                                'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
-                              }
-                              alt={user?.name}
-                              className='w-8 h-8 rounded-full object-cover'
-                            />
-                            {user?.username && <span>{user.username}</span>}
-                          </div>
-                        </div>
-                      )}
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        viewBox='0 0 24 24'
+                        fill='currentColor'
+                        className='w-5 h-5 text-white'
+                      >
+                        <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
+                      </svg>
+                      <span className='text-sm text-white'>
+                        {favoriteCount}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -687,7 +578,7 @@ export default function GameClient({ game, locale }) {
                     <div className='flex items-center gap-4'>
                       <button
                         onClick={() => {
-                          setIsPlaying(false); // Önce oyun durumunu kapat
+                          setIsPlaying(false);
                           if (document.fullscreenElement) {
                             document.exitFullscreen();
                           }
@@ -709,11 +600,7 @@ export default function GameClient({ game, locale }) {
 
                     {!token ? (
                       <div className='flex items-center gap-2'>
-                        <div
-                          className={`${
-                            !isMobile ? 'flex' : 'hidden'
-                          } items-center gap-1.5`}
-                        >
+                        {!isMobile && (
                           <button
                             onClick={() => {
                               if (document.fullscreenElement) {
@@ -726,69 +613,12 @@ export default function GameClient({ game, locale }) {
                                 setShowAuthModal(true);
                               }
                             }}
-                            className='p-1.5 rounded-full transition-colors hover:bg-white/10 text-white'
+                            className='bg-brand-orange hover:bg-brand-orange/90 text-white px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors text-sm'
                           >
-                            <svg
-                              xmlns='http://www.w3.org/2000/svg'
-                              viewBox='0 0 24 24'
-                              fill='currentColor'
-                              className='w-5 h-5'
-                            >
-                              <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
-                            </svg>
+                            <RiLoginBoxLine className='size-4' />
+                            {locale === 'tr' ? 'Giriş Yap' : 'Login'}
                           </button>
-                          <span className='text-white text-sm'>
-                            {favoriteCount}
-                          </span>
-                        </div>
-                        <button
-                          onClick={() => {
-                            const isIOS =
-                              /iPad|iPhone|iPod/.test(navigator.userAgent) &&
-                              !window.MSStream;
-
-                            if (isMobile) {
-                              if (isIOS) {
-                                // iOS için özel işlem
-                                const gameContainer =
-                                  document.querySelector('#game-container');
-                                if (gameContainer) {
-                                  gameContainer.style.position = 'static';
-                                  gameContainer.style.width = '100%';
-                                  gameContainer.style.height = 'auto';
-                                  document.body.style.overflow = 'auto';
-                                }
-                                setShowAuthModal(true);
-                              } else {
-                                // Diğer mobil cihazlar için
-                                if (document.fullscreenElement) {
-                                  document.exitFullscreen().then(() => {
-                                    setTimeout(() => {
-                                      setShowAuthModal(true);
-                                    }, 100);
-                                  });
-                                } else {
-                                  setShowAuthModal(true);
-                                }
-                              }
-                            } else {
-                              // Web için normal işlem
-                              if (document.fullscreenElement) {
-                                document.exitFullscreen().then(() => {
-                                  setTimeout(() => {
-                                    setShowAuthModal(true);
-                                  }, 100);
-                                });
-                              } else {
-                                setShowAuthModal(true);
-                              }
-                            }
-                          }}
-                          className='bg-brand-orange hover:bg-brand-orange/90 text-white px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors text-sm'
-                        >
-                          <RiLoginBoxLine className='size-4' />
-                          {locale === 'tr' ? 'Giriş Yap' : 'Login'}
-                        </button>
+                        )}
                       </div>
                     ) : (
                       <div className='text-white flex items-center gap-4'>
