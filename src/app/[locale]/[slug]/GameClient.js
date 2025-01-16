@@ -107,12 +107,21 @@ export default function GameClient({ game, locale }) {
       }
     };
 
+    const handlePopState = () => {
+      // Overflow'ları temizle
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.style.position = '';
+      document.documentElement.style.position = '';
+      setIsFullscreen(false);
+    };
+
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
     document.addEventListener('mozfullscreenchange', handleFullscreenChange);
     document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-
     window.addEventListener('keydown', handleKeyDown, { capture: true });
+    window.addEventListener('popstate', handlePopState);
 
     return () => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
@@ -129,6 +138,12 @@ export default function GameClient({ game, locale }) {
         handleFullscreenChange
       );
       window.removeEventListener('keydown', handleKeyDown, { capture: true });
+      window.removeEventListener('popstate', handlePopState);
+      // Cleanup yaparken de overflow'ları temizle
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.style.position = '';
+      document.documentElement.style.position = '';
     };
   }, []);
 
