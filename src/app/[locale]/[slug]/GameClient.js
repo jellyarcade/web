@@ -570,7 +570,7 @@ export default function GameClient({ game, locale }) {
               >
                 {/* Fullscreen Control Bar */}
                 {isFullscreen && (
-                  <div className='absolute top-0 left-0 right-0 h-12 bg-black backdrop-blur-sm flex items-center justify-between px-4 z-[99999]'>
+                  <div className='absolute top-0 left-0 right-0 h-6 bg-black backdrop-blur-sm flex items-center justify-between px-4 z-[99999]'>
                     <div className='flex items-center gap-4'>
                       <button
                         onClick={() => {
@@ -580,13 +580,13 @@ export default function GameClient({ game, locale }) {
                           }
                           window.location.href = '/';
                         }}
-                        className='bg-brand-orange hover:bg-brand-orange/90 text-white p-2 rounded flex items-center justify-center transition-colors'
+                        className='bg-brand-orange hover:bg-brand-orange/90 text-white p-1 rounded flex items-center justify-center transition-colors'
                       >
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
                           viewBox='0 0 24 24'
                           fill='currentColor'
-                          className='size-4'
+                          className='size-3'
                         >
                           <path d='M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z' />
                           <path d='M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z' />
@@ -596,61 +596,53 @@ export default function GameClient({ game, locale }) {
 
                     {!token ? (
                       <div className='flex items-center gap-2'>
-                        {!isMobile && (
-                          <>
-                            <button
-                              onClick={() => {
-                                if (document.fullscreenElement) {
-                                  document.exitFullscreen().then(() => {
-                                    setTimeout(() => {
-                                      setShowAuthModal(true);
-                                    }, 100);
-                                  });
-                                } else {
+                        <button
+                          onClick={() => {
+                            if (document.fullscreenElement) {
+                              document.exitFullscreen().then(() => {
+                                setTimeout(() => {
                                   setShowAuthModal(true);
-                                }
-                              }}
-                              className='p-1.5 rounded-full transition-colors hover:bg-white/10 text-white'
-                            >
-                              <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                viewBox='0 0 24 24'
-                                fill='currentColor'
-                                className='w-5 h-5'
-                              >
-                                <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
-                              </svg>
-                            </button>
-                            <button
-                              onClick={() => {
-                                if (document.fullscreenElement) {
-                                  document.exitFullscreen().then(() => {
-                                    setTimeout(() => {
-                                      setShowAuthModal(true);
-                                    }, 100);
-                                  });
-                                } else {
+                                }, 100);
+                              });
+                            } else {
+                              setShowAuthModal(true);
+                            }
+                          }}
+                          className='p-1 rounded-full transition-colors hover:bg-white/10 text-white'
+                        >
+                          <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            viewBox='0 0 24 24'
+                            fill='currentColor'
+                            className='w-4 h-4'
+                          >
+                            <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
+                          </svg>
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (document.fullscreenElement) {
+                              document.exitFullscreen().then(() => {
+                                setTimeout(() => {
                                   setShowAuthModal(true);
-                                }
-                              }}
-                              className='bg-brand-orange hover:bg-brand-orange/90 text-white px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors text-sm'
-                            >
-                              <RiLoginBoxLine className='size-4' />
-                              {locale === 'tr' ? 'Giriş Yap' : 'Login'}
-                            </button>
-                          </>
-                        )}
+                                }, 100);
+                              });
+                            } else {
+                              setShowAuthModal(true);
+                            }
+                          }}
+                          className='bg-brand-orange hover:bg-brand-orange/90 text-white px-2 py-1 rounded flex items-center gap-1 transition-colors text-xs'
+                        >
+                          <RiLoginBoxLine className='size-3' />
+                          {locale === 'tr' ? 'Giriş Yap' : 'Login'}
+                        </button>
                       </div>
                     ) : (
                       <div className='text-white flex items-center gap-4'>
-                        <div
-                          className={`${
-                            !isMobile ? 'flex' : 'hidden'
-                          } items-center gap-1.5`}
-                        >
+                        <div className='flex items-center gap-1.5'>
                           <button
                             onClick={toggleFavorite}
-                            className={`p-1.5 rounded-full transition-colors hover:bg-white/10 ${
+                            className={`p-1 rounded-full transition-colors hover:bg-white/10 ${
                               isFavorite ? 'text-red-500' : 'text-white'
                             }`}
                           >
@@ -658,12 +650,12 @@ export default function GameClient({ game, locale }) {
                               xmlns='http://www.w3.org/2000/svg'
                               viewBox='0 0 24 24'
                               fill='currentColor'
-                              className='w-5 h-5'
+                              className='w-4 h-4'
                             >
                               <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
                             </svg>
                           </button>
-                          <span className='text-sm'>{favoriteCount}</span>
+                          <span className='text-xs'>{favoriteCount}</span>
                         </div>
                         <div className='flex items-center gap-2'>
                           <img
@@ -672,9 +664,11 @@ export default function GameClient({ game, locale }) {
                               'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
                             }
                             alt={user?.name}
-                            className='w-8 h-8 rounded-full object-cover'
+                            className='w-6 h-6 rounded-full object-cover'
                           />
-                          {user?.username && <span>{user.username}</span>}
+                          {user?.username && (
+                            <span className='text-xs'>{user.username}</span>
+                          )}
                         </div>
                       </div>
                     )}
@@ -713,14 +707,14 @@ export default function GameClient({ game, locale }) {
 
                 <div
                   className={`w-full h-full ${
-                    isFullscreen ? 'fixed inset-0 pt-8' : ''
+                    isFullscreen ? 'fixed inset-0 pt-6' : ''
                   } relative`}
                 >
                   <iframe
                     src={game.instantLink}
                     className={`w-full h-full border-0 ${
                       isFullscreen
-                        ? 'fixed inset-0 h-[calc(100%-24px)] top-6'
+                        ? 'fixed inset-0 h-[calc(100%-18px)] top-[18px]'
                         : ''
                     }`}
                     style={{ backgroundColor: '#000000' }}
