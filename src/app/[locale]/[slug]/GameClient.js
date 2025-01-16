@@ -480,12 +480,6 @@ export default function GameClient({ game, locale }) {
       {showOrientationModal && <OrientationModal />}
 
       <div className='max-w-5xl w-full mx-auto px-4 py-4'>
-        <div className='mb-4'>
-          {isMobile && (
-            <h1 className='text-3xl font-bold'>{game.title[locale]}</h1>
-          )}
-        </div>
-
         <div>
           {/* Oyun alanı ve Game Details */}
           <div className='max-w-5xl mr-auto space-y-2'>
@@ -719,14 +713,14 @@ export default function GameClient({ game, locale }) {
 
                 <div
                   className={`w-full h-full ${
-                    isFullscreen ? 'fixed inset-0 pt-12' : ''
+                    isFullscreen ? 'fixed inset-0 pt-8' : ''
                   } relative`}
                 >
                   <iframe
                     src={game.instantLink}
                     className={`w-full h-full border-0 ${
                       isFullscreen
-                        ? 'fixed inset-0 h-[calc(100%-48px)] top-12'
+                        ? 'fixed inset-0 h-[calc(100%-24px)] top-6'
                         : ''
                     }`}
                     style={{ backgroundColor: '#000000' }}
