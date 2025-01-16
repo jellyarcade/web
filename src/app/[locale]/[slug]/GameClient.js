@@ -49,7 +49,7 @@ export default function GameClient({ game, locale }) {
 
       try {
         const response = await fetch(
-          `http://localhost:5001/api/users/profile?lang=${locale}`,
+          `https://api.jellyarcade.com/api/users/profile?lang=${locale}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -139,7 +139,7 @@ export default function GameClient({ game, locale }) {
 
       try {
         const response = await fetch(
-          'http://localhost:5001/api/users/favorites',
+          'https://api.jellyarcade.com/api/users/favorites',
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -180,7 +180,7 @@ export default function GameClient({ game, locale }) {
       setIsLoading(true);
       const method = isFavorite ? 'DELETE' : 'POST';
       const response = await fetch(
-        `http://localhost:5001/api/users/favorites/${game._id}`,
+        `https://api.jellyarcade.com/api/users/favorites/${game._id}`,
         {
           method,
           headers: {
@@ -238,7 +238,7 @@ export default function GameClient({ game, locale }) {
     // 1. Oyun oynama kaydını API'ye gönder (giriş yapmış kullanıcılar için)
     if (token) {
       try {
-        await fetch(`http://localhost:5001/api/games/${game._id}/play`, {
+        await fetch(`https://api.jellyarcade.com/api/games/${game._id}/play`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -252,13 +252,16 @@ export default function GameClient({ game, locale }) {
 
     // 2. Oyun sayacını artır (tüm kullanıcılar için)
     try {
-      fetch(`http://localhost:5001/api/games/${game._id}/increment-play`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-      })
+      fetch(
+        `https://api.jellyarcade.com/api/games/${game._id}/increment-play`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+        }
+      )
         .then(async response => {
           const data = await response.text();
           if (!response.ok) {

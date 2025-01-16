@@ -16,7 +16,7 @@ const HeroSection = ({ categoryId }) => {
       try {
         console.log('Fetching games for category:', categoryId);
         const res = await fetch(
-          `http://localhost:5001/api/games/showcased/category/${categoryId}`,
+          `https://api.jellyarcade.com/api/games/showcased/category/${categoryId}`,
           {
             cache: 'no-store',
             method: 'GET',

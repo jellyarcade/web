@@ -17,7 +17,7 @@ const HeroSection = () => {
     const fetchGames = async () => {
       try {
         const res = await fetch(
-          'http://localhost:5001/api/games/homepage-showcased',
+          'https://api.jellyarcade.com/api/games/homepage-showcased',
           {
             cache: 'no-store',
             method: 'GET',
