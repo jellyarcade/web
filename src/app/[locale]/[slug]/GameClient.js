@@ -442,23 +442,11 @@ export default function GameClient({ game, locale }) {
 
       {/* Auth Modal */}
       {showAuthModal && (
-        <div
-          className='fixed inset-0 z-[999999]'
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+        <div className='fixed inset-0 z-[999999]'>
           <AuthModal
-            isOpen={true}
+            isOpen={showAuthModal}
             onClose={() => {
+              setShowAuthModal(false);
               // Eğer iOS'ta isek ve fullscreen'den çıkılmışsa tekrar fullscreen'e dön
               const isIOS =
                 /iPad|iPhone|iPod/.test(navigator.userAgent) &&
@@ -473,6 +461,12 @@ export default function GameClient({ game, locale }) {
                   gameContainer.style.height = '100%';
                   gameContainer.style.zIndex = '9999';
                   document.body.style.overflow = 'hidden';
+                }
+              } else if (isFullscreen) {
+                // Desktop için fullscreen'e dön
+                const gameContainer = document.querySelector('#game-container');
+                if (gameContainer && gameContainer.requestFullscreen) {
+                  gameContainer.requestFullscreen();
                 }
               }
             }}
@@ -601,23 +595,48 @@ export default function GameClient({ game, locale }) {
                     {!token ? (
                       <div className='flex items-center gap-2'>
                         {!isMobile && (
-                          <button
-                            onClick={() => {
-                              if (document.fullscreenElement) {
-                                document.exitFullscreen().then(() => {
-                                  setTimeout(() => {
-                                    setShowAuthModal(true);
-                                  }, 100);
-                                });
-                              } else {
-                                setShowAuthModal(true);
-                              }
-                            }}
-                            className='bg-brand-orange hover:bg-brand-orange/90 text-white px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors text-sm'
-                          >
-                            <RiLoginBoxLine className='size-4' />
-                            {locale === 'tr' ? 'Giriş Yap' : 'Login'}
-                          </button>
+                          <>
+                            <button
+                              onClick={() => {
+                                if (document.fullscreenElement) {
+                                  document.exitFullscreen().then(() => {
+                                    setTimeout(() => {
+                                      setShowAuthModal(true);
+                                    }, 100);
+                                  });
+                                } else {
+                                  setShowAuthModal(true);
+                                }
+                              }}
+                              className='p-1.5 rounded-full transition-colors hover:bg-white/10 text-white'
+                            >
+                              <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                viewBox='0 0 24 24'
+                                fill='currentColor'
+                                className='w-5 h-5'
+                              >
+                                <path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
+                              </svg>
+                            </button>
+                            <button
+                              onClick={() => {
+                                if (document.fullscreenElement) {
+                                  document.exitFullscreen().then(() => {
+                                    setTimeout(() => {
+                                      setShowAuthModal(true);
+                                    }, 100);
+                                  });
+                                } else {
+                                  setShowAuthModal(true);
+                                }
+                              }}
+                              className='bg-brand-orange hover:bg-brand-orange/90 text-white px-3 py-1.5 rounded flex items-center gap-1.5 transition-colors text-sm'
+                            >
+                              <RiLoginBoxLine className='size-4' />
+                              {locale === 'tr' ? 'Giriş Yap' : 'Login'}
+                            </button>
+                          </>
                         )}
                       </div>
                     ) : (

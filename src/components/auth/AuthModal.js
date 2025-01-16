@@ -27,13 +27,7 @@ export default function AuthModal({ isOpen, onClose }) {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
       const body = isLogin ? { email, password } : { name, email, password };
 
-      console.log(
-        'Sending auth request to:',
-        `https://api.jellyarcade.com${endpoint}`
-      );
-      console.log('Request body:', body);
-
-      const response = await fetch(`https://api.jellyarcade.com${endpoint}`, {
+      const response = await fetch(`http://localhost:5001${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -41,7 +35,6 @@ export default function AuthModal({ isOpen, onClose }) {
       });
 
       const data = await response.json();
-      console.log('Auth response:', data);
 
       if (!response.ok) {
         throw new Error(data.message || data.msg || t('error'));
@@ -67,7 +60,6 @@ export default function AuthModal({ isOpen, onClose }) {
     const left = window.screenX + (window.outerWidth - width) / 2;
     const top = window.screenY + (window.outerHeight - height) / 2;
 
-    // Her zaman API URL'ini kullan
     const url = `http://localhost:5001/api/auth/${provider}`;
     console.log('Opening social login URL:', url);
 
@@ -77,7 +69,6 @@ export default function AuthModal({ isOpen, onClose }) {
       `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,toolbar=no,menubar=no,location=no,status=no`
     );
 
-    // Popup blocker check
     if (!popup || popup.closed || typeof popup.closed === 'undefined') {
       setError('Please disable your popup blocker and try again.');
       return;
@@ -90,13 +81,9 @@ export default function AuthModal({ isOpen, onClose }) {
     }, 1000);
 
     window.addEventListener('message', async function handleMessage(event) {
-      console.log('Received message:', event.data);
-      console.log('Message origin:', event.origin);
-
-      if (event.origin === 'https://api.jellyarcade.com') {
+      if (event.origin === 'http://localhost:5001') {
         const { token, error } = event.data;
         if (token) {
-          console.log('Received token:', token);
           await login(null, token);
           popup.close();
           onClose();
