@@ -8,6 +8,7 @@ import AuthModal from '@/components/auth/AuthModal';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { RiLoginBoxLine, RiLogoutBoxLine } from 'react-icons/ri';
 import { BiSolidJoystick } from 'react-icons/bi';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 export default function GameClient({ game, locale }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -25,6 +26,7 @@ export default function GameClient({ game, locale }) {
   });
   const { token, user } = useAuth();
   const [favoriteCount, setFavoriteCount] = useState(game.favoriteCount || 0);
+  const { sendEvent } = useAnalytics();
 
   // Log game data
   useEffect(() => {
@@ -290,6 +292,13 @@ export default function GameClient({ game, locale }) {
 
     // Oyunu başlat
     setIsPlaying(true);
+
+    // Oyun başlatma eventi gönder
+    sendEvent('game_play', {
+      game_id: game._id,
+      game_title: game.title[locale],
+      game_category: game.categories?.[0]?.name[locale] || 'Uncategorized',
+    });
 
     // 1. Oyun oynama kaydını API'ye gönder (giriş yapmış kullanıcılar için)
     if (token) {
