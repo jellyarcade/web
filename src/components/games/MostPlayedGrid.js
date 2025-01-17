@@ -22,8 +22,8 @@ const MostPlayedGrid = ({ games = [] }) => {
   return (
     <section className='pb-8'>
       <div className='max-w-[95%] mx-auto'>
-        <div className='mb-3'>
-          <h2 className='text-xl font-cocogoose font-medium uppercase mb-0 text-[#2cd284]'>
+        <div className>
+          <h2 className='text-lg font-cocogoose font-medium uppercase mb-0 text-[#2cd284]'>
             {params.locale === 'tr' ? 'En İYİ Oyunlar' : 'Most Played Games'}
           </h2>
           {/* <p className='text-gray-600'>

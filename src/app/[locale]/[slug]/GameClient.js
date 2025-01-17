@@ -92,7 +92,38 @@ export default function GameClient({ game, locale }) {
     checkMobile();
   }, []);
 
-  // Fullscreen değişikliklerini izle
+  // Ekran yönüne göre arka plan rengini ayarla
+  useEffect(() => {
+    const handleOrientation = () => {
+      const isLandscape = window.innerWidth > window.innerHeight;
+      const mainElement = document.querySelector('main');
+      if (mainElement) {
+        if (isLandscape) {
+          mainElement.style.backgroundColor = '#000000';
+        } else {
+          mainElement.style.backgroundColor = '';
+        }
+      }
+    };
+
+    // Event listener'ları ekle
+    window.addEventListener('resize', handleOrientation);
+    window.addEventListener('orientationchange', handleOrientation);
+
+    // İlk yüklemede kontrol et
+    handleOrientation();
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleOrientation);
+      window.removeEventListener('orientationchange', handleOrientation);
+      const mainElement = document.querySelector('main');
+      if (mainElement) {
+        mainElement.style.backgroundColor = '';
+      }
+    };
+  }, []); // Boş dependency array ile sadece mount/unmount'ta çalışsın
+
   useEffect(() => {
     const handleFullscreenChange = () => {
       const newIsFullscreen = !!document.fullscreenElement;
@@ -139,7 +170,7 @@ export default function GameClient({ game, locale }) {
       );
       window.removeEventListener('keydown', handleKeyDown, { capture: true });
       window.removeEventListener('popstate', handlePopState);
-      // Cleanup yaparken de overflow'ları temizle
+      // Cleanup yaparken stilleri temizle
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
       document.body.style.position = '';

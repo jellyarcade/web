@@ -61,8 +61,8 @@ const HeroSection = ({ categoryId }) => {
   }
 
   return (
-    <section className='relative mt-[72px] bg-gray-50'>
-      <Container className='pt-6 sm:pt-8'>
+    <section className='relative mt-[72px]'>
+      <Container className='pt-6 sm:pt-4'>
         <Carousel items={games} />
       </Container>
     </section>

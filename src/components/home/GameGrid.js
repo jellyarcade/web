@@ -55,7 +55,7 @@ const GameGrid = () => {
 
   if (error && games.length === 0) {
     return (
-      <section className='md:pt-8 pb-8'>
+      <section className='pb-8'>
         <Container>
           <div className='text-center'>
             <p className='text-red-600 mb-4'>{error}</p>
@@ -72,10 +72,10 @@ const GameGrid = () => {
   }
 
   return (
-    <section className='md:pt-8 pb-8'>
+    <section className='pb-8'>
       <Container>
-        <div className='mb-3'>
-          <h2 className='text-xl font-cocogoose font-medium uppercase mb-0 text-[#2cd284]'>
+        <div className='mt-3'>
+          <h2 className='text-lg font-cocogoose font-medium uppercase mb-0 text-[#2cd284]'>
             {t('title')}
           </h2>
           {/* <p className='text-gray-600'>{t('subtitle')}</p> */}
@@ -115,15 +115,15 @@ const GameGrid = () => {
                   />
                   <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent' />
                   <div className='absolute bottom-2 left-2 right-2'>
-                    <h3 className='text-white font-medium truncate text-sm'>
-                      {game.title[params.locale]}
-                    </h3>
                     <div className='flex items-center gap-1 mt-1'>
                       <BiSolidJoystick className='w-4 h-4 text-gray-300' />
                       <span className='text-xs text-gray-300'>
                         {game.playCount || 0}
                       </span>
                     </div>
+                    <h3 className='text-white font-medium truncate text-sm'>
+                      {game.title[params.locale]}
+                    </h3>
                   </div>
                 </div>
               </Link>

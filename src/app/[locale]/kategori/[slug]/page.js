@@ -80,10 +80,10 @@ export default async function CategoryPage({ params: { locale, slug } }) {
     })) || [];
 
   return (
-    <div className='mt-24'>
+    <div className='mt-12'>
       <HeroSection categoryId={category._id} />
       <RecentlyPlayed />
-      <div className='mb-8'></div>
+      <div className='mb-3'></div>
       <GameGrid
         games={games}
         title={category.name[locale]}

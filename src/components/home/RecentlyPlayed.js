@@ -93,11 +93,11 @@ const RecentlyPlayed = () => {
 
   if (!isMobile) {
     return (
-      <section className='sm:mt-4 md:mt-8'>
+      <section>
         <Container>
           {/* Title Section */}
-          <div className='mb-3'>
-            <h2 className='text-xl font-cocogoose font-medium uppercase mb-0 text-[#2cd284]'>
+          <div className='mt-3'>
+            <h2 className='text-lg font-cocogoose font-medium uppercase mb-0 text-[#2cd284]'>
               {t('title')}
             </h2>
             {/* <p className='text-gray-600'>{t('subtitle')}</p> */}
@@ -134,10 +134,10 @@ const RecentlyPlayed = () => {
 
   return (
     <section className='relative'>
-      <Container>
+      <Container className='mt-3'>
         {/* Title for Mobile */}
-        <div className='mb-3'>
-          <h2 className='text-xl font-cocogoose font-medium uppercase mb-0 text-[#2cd284]'>
+        <div className='mb-0'>
+          <h2 className='text-lg font-cocogoose font-medium uppercase mb-0 text-[#2cd284]'>
             {t('title')}
           </h2>
           {/* <p className='text-gray-600'>{t('subtitle')}</p> */}
@@ -156,7 +156,7 @@ const RecentlyPlayed = () => {
             disableOnInteraction: false,
           }}
           loop={recentGames.length > 2}
-          className='!pb-10'
+          className='!pb-5'
         >
           {recentGames.map(({ game }) => (
             <SwiperSlide key={game._id}>
@@ -179,8 +179,6 @@ const RecentlyPlayed = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-
-        <div className='swiper-pagination !bottom-0' />
       </Container>
     </section>
   );
