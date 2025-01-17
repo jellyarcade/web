@@ -97,12 +97,21 @@ export default function GameClient({ game, locale }) {
     const handleOrientation = () => {
       const isLandscape = window.innerWidth > window.innerHeight;
       const mainElement = document.querySelector('main');
-      if (mainElement) {
-        if (isLandscape) {
+
+      if (isLandscape) {
+        // Main elementinin arka planını değiştir
+        if (mainElement) {
           mainElement.style.backgroundColor = '#000000';
-        } else {
+        }
+        // Body'nin arka planını değiştir
+        document.body.style.backgroundColor = '#000000';
+      } else {
+        // Main elementinin arka planını sıfırla
+        if (mainElement) {
           mainElement.style.backgroundColor = '';
         }
+        // Body'nin arka planını sıfırla
+        document.body.style.backgroundColor = '';
       }
     };
 
@@ -121,6 +130,7 @@ export default function GameClient({ game, locale }) {
       if (mainElement) {
         mainElement.style.backgroundColor = '';
       }
+      document.body.style.backgroundColor = '';
     };
   }, []); // Boş dependency array ile sadece mount/unmount'ta çalışsın
 
