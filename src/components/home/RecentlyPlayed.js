@@ -33,27 +33,27 @@ const RecentlyPlayed = () => {
 
       try {
         const response = await fetch(
-          "http://localhost:5001/api/users/recent-games",
+          "https://api.jellyarcade.com/api/users/recent-games",
           {
             headers: {
               Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json'
+              "Content-Type": "application/json",
             },
           }
         );
 
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(errorData.message || "Recent games could not be loaded");
+          throw new Error(
+            errorData.message || "Recent games could not be loaded"
+          );
         }
 
         const data = await response.json();
 
         // Unique oyunları al (son oynanma sırasını koruyarak)
         const uniqueGames = data.reduce((acc, current) => {
-          const exists = acc.find(
-            (item) => item.game._id === current.game._id
-          );
+          const exists = acc.find((item) => item.game._id === current.game._id);
           if (!exists) {
             acc.push(current);
           }

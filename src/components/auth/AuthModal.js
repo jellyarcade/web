@@ -27,12 +27,15 @@ export default function AuthModal({ isOpen, onClose }) {
       const endpoint = isLogin ? "/auth/login" : "/auth/register";
       const body = isLogin ? { email, password } : { name, email, password };
 
-      const response = await fetch(`http://localhost:5001/api${endpoint}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-        credentials: "include",
-      });
+      const response = await fetch(
+        `https://api.jellyarcade.com/api${endpoint}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+          credentials: "include",
+        }
+      );
 
       const data = await response.json();
 
@@ -55,7 +58,7 @@ export default function AuthModal({ isOpen, onClose }) {
   };
 
   const handleSocialLogin = (provider) => {
-    window.location.href = `http://localhost:5001/api/auth/google`;
+    window.location.href = `https://api.jellyarcade.com/api/auth/google`;
   };
 
   return (

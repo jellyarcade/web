@@ -25,11 +25,11 @@ const UserMenu = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:5001/api/users/profile?lang=${locale}`,
+          `https://api.jellyarcade.com/api/users/profile?lang=${locale}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json'
+              "Content-Type": "application/json",
             },
           }
         );
@@ -44,7 +44,10 @@ const UserMenu = () => {
       } catch (error) {
         console.error("Profil bilgileri getirme hatası:", error);
         // Token geçersizse logout yap
-        if (error.message.includes('unauthorized') || error.message.includes('invalid token')) {
+        if (
+          error.message.includes("unauthorized") ||
+          error.message.includes("invalid token")
+        ) {
           logout();
         }
       }

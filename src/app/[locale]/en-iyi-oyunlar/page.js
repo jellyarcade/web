@@ -3,7 +3,7 @@ import HeroSection from "@/components/home/HeroSection";
 import RecentlyPlayed from "@/components/home/RecentlyPlayed";
 import { redirect } from "next/navigation";
 
-const API_URL = "http://localhost:5001/api";
+const API_URL = "https://api.jellyarcade.com/api";
 
 async function getMostPlayedGames() {
   try {
@@ -31,7 +31,6 @@ export default async function MostPlayedPage({ params: { locale } }) {
   // İngilizce URL'ye yönlendir
   if (locale === "en") {
     redirect("/en/top-games");
-    return null;
   }
 
   const mostPlayedData = await getMostPlayedGames();
