@@ -1,16 +1,16 @@
-import { notFound, redirect } from 'next/navigation';
-import GameClient from './GameClient';
+import { notFound, redirect } from "next/navigation";
+import GameClient from "./GameClient";
 
-const API_URL = 'https://api.jellyarcade.com/api';
+const API_URL = "http://localhost:5001/api";
 
 async function getGame(slug) {
   try {
     // Slug ile oyunu bul
     const res = await fetch(`${API_URL}/games/by-slug/${slug}`, {
-      cache: 'no-store',
-      method: 'GET',
+      cache: "no-store",
+      method: "GET",
       headers: {
-        Accept: 'application/json',
+        Accept: "application/json",
       },
     });
 
@@ -26,7 +26,7 @@ async function getGame(slug) {
 
     return game;
   } catch (error) {
-    console.error('Error fetching game:', error);
+    console.error("Error fetching game:", error);
     return null;
   }
 }
@@ -37,7 +37,7 @@ export async function generateMetadata({ params: { locale, slug } }) {
 
   if (!game) {
     return {
-      title: locale === 'tr' ? 'Oyun Bulunamadı' : 'Game Not Found',
+      title: locale === "tr" ? "Oyun Bulunamadı" : "Game Not Found",
     };
   }
 
@@ -45,21 +45,21 @@ export async function generateMetadata({ params: { locale, slug } }) {
     title: game.title[locale],
     description:
       game.description?.[locale] ||
-      (locale === 'tr'
+      (locale === "tr"
         ? "Ücretsiz online oyunlar oyna. Yükleme yapmadan en iyi ücretsiz oyunlar Jelly Arcade'de."
-        : 'Play free online games without downloading. Best free online games on Jelly Arcade.'),
+        : "Play free online games without downloading. Best free online games on Jelly Arcade."),
   };
 }
 
 export default async function GamePage({ params: { locale, slug } }) {
   // Check if this is a game slug or a special page
   const specialPages = [
-    'notifications',
-    'favorites',
-    'account',
-    'hesabim',
-    'bildirimler',
-    'favoriler',
+    "notifications",
+    "favorites",
+    "account",
+    "hesabim",
+    "bildirimler",
+    "favoriler",
   ];
   if (specialPages.includes(slug)) {
     return notFound();
@@ -73,7 +73,7 @@ export default async function GamePage({ params: { locale, slug } }) {
 
   // Gelen slug'ı kontrol et
   const currentSlug = slug;
-  const correctSlug = locale === 'tr' ? game.slug.tr : game.slug.en;
+  const correctSlug = locale === "tr" ? game.slug.tr : game.slug.en;
 
   // Eğer yanlış dildeki slug ile gelindiyse, doğru dildeki slug'a yönlendir
   if (currentSlug !== correctSlug) {

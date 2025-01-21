@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import { useTranslations } from 'next-intl';
-import Carousel from './Carousel';
-import Container from '../layout/Container';
-import { useEffect, useState } from 'react';
-import { useLocale } from 'next-intl';
-import { useParams } from 'next/navigation';
+import { useLocale, useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import Container from "../layout/Container";
+import Carousel from "./Carousel";
 
 const HeroSection = () => {
-  const t = useTranslations('home.hero');
+  const t = useTranslations("home.hero");
   const [games, setGames] = useState([]);
   const locale = useLocale();
   const params = useParams();
@@ -17,23 +16,23 @@ const HeroSection = () => {
     const fetchGames = async () => {
       try {
         const res = await fetch(
-          'https://api.jellyarcade.com/api/games/homepage-showcased',
+          "http://localhost:5001/api/games/homepage-showcased",
           {
-            cache: 'no-store',
-            method: 'GET',
+            cache: "no-store",
+            method: "GET",
             headers: {
-              Accept: 'application/json',
+              Accept: "application/json",
             },
           }
         );
 
         if (!res.ok) {
-          throw new Error('Failed to fetch games');
+          throw new Error("Failed to fetch games");
         }
 
         const data = await res.json();
         setGames(
-          data.map(game => ({
+          data.map((game) => ({
             id: game._id,
             image: game.image,
             title: game.title[locale],
@@ -43,7 +42,7 @@ const HeroSection = () => {
           }))
         );
       } catch (error) {
-        console.error('Error fetching games:', error);
+        console.error("Error fetching games:", error);
       }
     };
 
@@ -51,8 +50,8 @@ const HeroSection = () => {
   }, [locale]);
 
   return (
-    <section className='relative mt-[72px]'>
-      <Container className='pt-6 sm:pt-4'>
+    <section className="relative mt-[72px]">
+      <Container className="pt-6 sm:pt-4">
         <Carousel items={games} />
       </Container>
     </section>

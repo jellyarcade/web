@@ -1,18 +1,17 @@
-import { notFound, redirect } from 'next/navigation';
-import Container from '@/components/layout/Container';
-import GameGrid from '@/components/category/GameGrid';
-import HeroSection from '@/components/category/HeroSection';
-import RecentlyPlayed from '@/components/home/RecentlyPlayed';
+import GameGrid from "@/components/category/GameGrid";
+import HeroSection from "@/components/category/HeroSection";
+import RecentlyPlayed from "@/components/home/RecentlyPlayed";
+import { notFound, redirect } from "next/navigation";
 
-const API_URL = 'https://api.jellyarcade.com/api';
+const API_URL = "http://localhost:5001/api";
 
 async function getCategory(slug) {
   try {
     const res = await fetch(`${API_URL}/categories/slug/${slug}`, {
-      cache: 'no-store',
-      method: 'GET',
+      cache: "no-store",
+      method: "GET",
       headers: {
-        Accept: 'application/json',
+        Accept: "application/json",
       },
     });
 
@@ -23,7 +22,7 @@ async function getCategory(slug) {
     const data = await res.json();
     return data;
   } catch (error) {
-    console.error('Error fetching category:', error);
+    console.error("Error fetching category:", error);
     return null;
   }
 }
@@ -34,7 +33,7 @@ export async function generateMetadata({ params: { locale, slug } }) {
 
   if (!category || !category.name || !category.name[locale]) {
     return {
-      title: locale === 'tr' ? 'Kategori Bulunamadı' : 'Category Not Found',
+      title: locale === "tr" ? "Kategori Bulunamadı" : "Category Not Found",
     };
   }
 
@@ -43,9 +42,9 @@ export async function generateMetadata({ params: { locale, slug } }) {
 
   return {
     title:
-      locale === 'tr' ? `${categoryName} Oyunları` : `${categoryName} Games`,
+      locale === "tr" ? `${categoryName} Oyunları` : `${categoryName} Games`,
     description:
-      locale === 'tr'
+      locale === "tr"
         ? `${categoryName} kategorisindeki en iyi ücretsiz oyunları oyna. Yükleme yapmadan ${categoryNameLower} oyunlarını Jelly Arcade'de oynayabilirsin.`
         : `Play the best free ${categoryNameLower} games. You can play ${categoryName} games on Jelly Arcade without downloading.`,
   };
@@ -53,7 +52,7 @@ export async function generateMetadata({ params: { locale, slug } }) {
 
 export default async function CategoryPage({ params: { locale, slug } }) {
   // İngilizce URL'ye yönlendir
-  if (locale === 'en') {
+  if (locale === "en") {
     redirect(`/en/category/${slug}`);
     return null;
   }
@@ -66,13 +65,13 @@ export default async function CategoryPage({ params: { locale, slug } }) {
 
   // API'den gelen veriyi GameGrid formatına dönüştür
   const games =
-    category?.games?.map(game => ({
+    category?.games?.map((game) => ({
       _id: game._id,
       title: {
-        [locale]: game.title?.[locale] || game.title?.en || '',
+        [locale]: game.title?.[locale] || game.title?.en || "",
       },
       slug: {
-        [locale]: game.slug?.[locale] || game.slug?.en || '',
+        [locale]: game.slug?.[locale] || game.slug?.en || "",
       },
       instantLink: game.instantLink,
       playCount: game.playCount,
@@ -80,14 +79,14 @@ export default async function CategoryPage({ params: { locale, slug } }) {
     })) || [];
 
   return (
-    <div className='mt-12'>
+    <div className="mt-12">
       <HeroSection categoryId={category._id} />
       <RecentlyPlayed />
-      <div className='mb-3'></div>
+      <div className="mb-3"></div>
       <GameGrid
         games={games}
         title={category.name[locale]}
-        description={category.description?.[locale] || ''}
+        description={category.description?.[locale] || ""}
       />
     </div>
   );

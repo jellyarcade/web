@@ -1,18 +1,17 @@
-import { redirect } from 'next/navigation';
-import Container from '@/components/layout/Container';
-import MostPlayedGrid from '@/components/games/MostPlayedGrid';
-import HeroSection from '@/components/home/HeroSection';
-import RecentlyPlayed from '@/components/home/RecentlyPlayed';
+import MostPlayedGrid from "@/components/games/MostPlayedGrid";
+import HeroSection from "@/components/home/HeroSection";
+import RecentlyPlayed from "@/components/home/RecentlyPlayed";
+import { redirect } from "next/navigation";
 
-const API_URL = 'https://api.jellyarcade.com/api';
+const API_URL = "http://localhost:5001/api";
 
 async function getMostPlayedGames() {
   try {
     const res = await fetch(`${API_URL}/games/most-played`, {
-      cache: 'no-store',
-      method: 'GET',
+      cache: "no-store",
+      method: "GET",
       headers: {
-        Accept: 'application/json',
+        Accept: "application/json",
       },
     });
 
@@ -23,15 +22,15 @@ async function getMostPlayedGames() {
     const data = await res.json();
     return data;
   } catch (error) {
-    console.error('Error fetching most played games:', error);
+    console.error("Error fetching most played games:", error);
     return null;
   }
 }
 
 export default async function MostPlayedPage({ params: { locale } }) {
   // Türkçe URL'ye yönlendir
-  if (locale === 'tr') {
-    redirect('/tr/en-iyi-oyunlar');
+  if (locale === "tr") {
+    redirect("/tr/en-iyi-oyunlar");
     return null;
   }
 
@@ -39,7 +38,7 @@ export default async function MostPlayedPage({ params: { locale } }) {
 
   // API'den gelen veriyi GameGrid formatına dönüştür
   const games =
-    mostPlayedData?.map(game => ({
+    mostPlayedData?.map((game) => ({
       _id: game._id,
       title: {
         [locale]: game.title[locale] || game.title.en,
@@ -53,10 +52,10 @@ export default async function MostPlayedPage({ params: { locale } }) {
     })) || [];
 
   return (
-    <div className='mt-24'>
+    <div className="mt-24">
       <HeroSection />
       <RecentlyPlayed />
-      <div className='mb-8'></div>
+      <div className="mb-8"></div>
       <MostPlayedGrid games={games} />
     </div>
   );
