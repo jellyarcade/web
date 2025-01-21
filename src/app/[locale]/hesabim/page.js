@@ -34,7 +34,7 @@ export default function ProfilePage() {
   // Kullanıcı bilgilerini getir
   useEffect(() => {
     const fetchUserData = async () => {
-      if (!token) return;
+      if (!token || !user) return;
 
       try {
         const response = await fetch(
@@ -42,23 +42,28 @@ export default function ProfilePage() {
           {
             headers: {
               Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
             },
           }
         );
 
         if (!response.ok) {
-          throw new Error("Kullanıcı bilgileri alınamadı");
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Kullanıcı bilgileri alınamadı");
         }
 
         const data = await response.json();
         setUserData(data);
       } catch (error) {
         console.error("Kullanıcı bilgileri getirme hatası:", error);
+        if (error.message.includes('unauthorized') || error.message.includes('invalid token')) {
+          router.push('/');
+        }
       }
     };
 
     fetchUserData();
-  }, [token, locale]);
+  }, [token, locale, user, router]);
 
   // İngilizce için account sayfasına yönlendir
   useEffect(() => {

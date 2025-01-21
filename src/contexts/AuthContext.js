@@ -12,44 +12,67 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const initAuth = async () => {
-      const storedToken = localStorage.getItem('token');
+      try {
+        // URL'den token'ı kontrol et
+        if (typeof window !== 'undefined') {
+          const urlParams = new URLSearchParams(window.location.search);
+          const urlToken = urlParams.get('token');
+          
+          if (urlToken) {
+            await handleToken(urlToken);
+            // Token'ı URL'den temizle
+            window.history.replaceState({}, document.title, window.location.pathname);
+            return;
+          }
 
-      if (storedToken) {
-        try {
-          // Token'dan user bilgilerini çıkar
-          const decoded = jwtDecode(storedToken);
-          const userData = {
-            id: decoded.userId,
-            role: decoded.role,
-          };
-          setUser(userData);
-          setToken(storedToken);
-        } catch (error) {
-          console.error('Auth init error:', error);
-          localStorage.removeItem('token');
+          // Normal localStorage kontrolü
+          const storedToken = localStorage.getItem('token');
+          if (storedToken) {
+            await handleToken(storedToken);
+          }
         }
+      } catch (error) {
+        console.error('Auth init error:', error);
+        localStorage.removeItem('token');
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     initAuth();
   }, []);
 
-  const login = async (userData, newToken) => {
+  // Token işleme fonksiyonu
+  const handleToken = async (token) => {
     try {
-      localStorage.setItem('token', newToken);
-      // Token'dan user bilgilerini çıkar
-      const decoded = jwtDecode(newToken);
-      const userInfo = {
+      const decoded = jwtDecode(token);
+      
+      // Token'ın gerekli alanları içerdiğinden emin olalım
+      if (!decoded.userId) {
+        throw new Error('Invalid token: missing userId');
+      }
+      
+      const userData = {
         id: decoded.userId,
-        role: decoded.role,
+        role: decoded.role || 'user',
       };
-      setUser(userInfo);
-      setToken(newToken);
+
+      setUser(userData);
+      setToken(token);
+      localStorage.setItem('token', token);
+      
+      return true;
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('Token handling error:', error);
       localStorage.removeItem('token');
+      setUser(null);
+      setToken(null);
+      return false;
     }
+  };
+
+  const login = async (userData, newToken) => {
+    return handleToken(newToken);
   };
 
   const logout = () => {

@@ -26,66 +26,52 @@ const RecentlyPlayed = () => {
   // Son oynanan oyunları getir
   useEffect(() => {
     const fetchRecentGames = async () => {
-      if (token) {
-        try {
-          const response = await fetch(
-            "http://localhost:5001/api/users/recent-games",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          if (!response.ok) {
-            throw new Error("Recent games could not be loaded");
-          }
-
-          const data = await response.json();
-
-          // Unique oyunları al (son oynanma sırasını koruyarak)
-          const uniqueGames = data.reduce((acc, current) => {
-            const exists = acc.find(
-              (item) => item.game._id === current.game._id
-            );
-            if (!exists) {
-              acc.push(current);
-            }
-            return acc;
-          }, []);
-
-          setRecentGames(uniqueGames.slice(0, 5));
-        } catch (error) {
-          console.error("Error loading recent games:", error);
-        }
-      } else {
-        // Giriş yapmamış kullanıcılar için localStorage'dan oku
-        try {
-          const localGames = JSON.parse(
-            localStorage.getItem("recentGames") || "[]"
-          );
-          // Unique oyunları al
-          const uniqueGames = localGames.reduce((acc, current) => {
-            const exists = acc.find(
-              (item) => item.game._id === current.game._id
-            );
-            if (!exists) {
-              acc.push(current);
-            }
-            return acc;
-          }, []);
-          setRecentGames(uniqueGames.slice(0, 5));
-        } catch (error) {
-          console.error("Error loading local recent games:", error);
-        }
+      if (!token) {
+        setIsLoading(false);
+        return;
       }
-      setIsLoading(false);
+
+      try {
+        const response = await fetch(
+          "http://localhost:5001/api/users/recent-games",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Recent games could not be loaded");
+        }
+
+        const data = await response.json();
+
+        // Unique oyunları al (son oynanma sırasını koruyarak)
+        const uniqueGames = data.reduce((acc, current) => {
+          const exists = acc.find(
+            (item) => item.game._id === current.game._id
+          );
+          if (!exists) {
+            acc.push(current);
+          }
+          return acc;
+        }, []);
+
+        setRecentGames(uniqueGames.slice(0, 10)); // Son 10 oyun
+      } catch (error) {
+        console.error("Recent games fetch error:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchRecentGames();
   }, [token]);
 
-  // Yükleme durumunda veya oyun yoksa gösterme
+  // Eğer yükleme durumunda veya oyun yoksa bileşeni gösterme
   if (isLoading || recentGames.length === 0) {
     return null;
   }

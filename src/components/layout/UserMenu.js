@@ -13,7 +13,6 @@ const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
-  const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
   const menuRef = useRef(null);
   const t = useTranslations("navigation");
   const tUser = useTranslations("user");
@@ -22,7 +21,7 @@ const UserMenu = () => {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      if (!token) return;
+      if (!token || !user) return;
 
       try {
         const response = await fetch(
@@ -30,55 +29,29 @@ const UserMenu = () => {
           {
             headers: {
               Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
             },
           }
         );
 
         if (!response.ok) {
-          throw new Error("Profil bilgileri alınamadı");
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Profil bilgileri alınamadı");
         }
 
         const data = await response.json();
         setUserProfile(data);
       } catch (error) {
         console.error("Profil bilgileri getirme hatası:", error);
-      }
-    };
-
-    if (user) {
-      fetchUserProfile();
-    }
-  }, [token, locale, user]);
-
-  useEffect(() => {
-    const checkUnreadNotifications = async () => {
-      if (!token) return;
-
-      try {
-        const response = await fetch(
-          "http://localhost:5001/api/notifications/unread-count",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Bildirim sayısı alınamadı");
+        // Token geçersizse logout yap
+        if (error.message.includes('unauthorized') || error.message.includes('invalid token')) {
+          logout();
         }
-
-        const { count } = await response.json();
-        setHasUnreadNotifications(count > 0);
-      } catch (error) {
-        console.error("Bildirim kontrolü hatası:", error);
       }
     };
 
-    if (user) {
-      checkUnreadNotifications();
-    }
-  }, [token, user]);
+    fetchUserProfile();
+  }, [token, locale, user, logout]);
 
   const getLocalizedPath = (path) => {
     if (locale === "tr") {
@@ -163,26 +136,6 @@ const UserMenu = () => {
                   <HiHeart className="w-7 h-7 text-white" />
                 </button>
               )}
-              {/* <div className='relative'>
-                {user ? (
-                  <Link
-                    href={`/${locale}/${getLocalizedPath('notifications')}`}
-                    className='text-white hover:text-white/90'
-                  >
-                    <HiBell className='w-6 h-6 mt-0' />
-                  </Link>
-                ) : (
-                  <button
-                    onClick={() => setShowAuthModal(true)}
-                    className='text-white hover:text-white/90'
-                  >
-                    <HiBell className='w-6 h-6 mt-2' />
-                  </button>
-                )}
-                {user && hasUnreadNotifications && (
-                  <span className='absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full' />
-                )}
-              </div> */}
             </div>
           </div>
 
@@ -202,26 +155,6 @@ const UserMenu = () => {
                 <HiHeart className="w-7 h-7 text-red-500" />
               </button>
             )}
-            {/* <div className='relative mr-1'>
-              {user ? (
-                <Link
-                  href={`/${locale}/${getLocalizedPath('notifications')}`}
-                  className='text-white hover:text-white/90'
-                >
-                  <HiBell className='w-6 h-6 mt-0' />
-                </Link>
-              ) : (
-                <button
-                  onClick={() => setShowAuthModal(true)}
-                  className='text-white mt-2 hover:text-white/90'
-                >
-                  <HiBell className='w-6 h-6 mt-0' />
-                </button>
-              )}
-              {user && hasUnreadNotifications && (
-                <span className='absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full' />
-              )}
-            </div> */}
           </div>
         </div>
 
