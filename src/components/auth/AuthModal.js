@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
@@ -15,6 +15,35 @@ export default function AuthModal({ isOpen, onClose }) {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const t = useTranslations("auth");
+
+  useEffect(() => {
+    // URL'den token kontrolü
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlToken = urlParams.get('token');
+    const urlError = urlParams.get('error');
+    
+    if (urlError) {
+      setError(urlError);
+      // Hata parametresini URL'den temizle
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    
+    if (urlToken) {
+      handleSocialLoginCallback(urlToken);
+    }
+  }, []);
+
+  const handleSocialLoginCallback = async (token) => {
+    try {
+      await login(null, token);
+      onClose();
+      // Token parametresini URL'den temizle
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } catch (error) {
+      console.error("Social login error:", error);
+      setError(t("socialLoginError"));
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -58,7 +87,14 @@ export default function AuthModal({ isOpen, onClose }) {
   };
 
   const handleSocialLogin = (provider) => {
-    window.location.href = `https://api.jellyarcade.com/api/auth/${provider}`;
+    setLoading(true);
+    try {
+      window.location.href = `https://api.jellyarcade.com/api/auth/${provider}`;
+    } catch (error) {
+      console.error(`${provider} login error:`, error);
+      setError(t("socialLoginError"));
+      setLoading(false);
+    }
   };
 
   return (
