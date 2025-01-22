@@ -38,7 +38,7 @@ export default function ProfilePage() {
 
       try {
         const response = await fetch(
-          `https://api.jellyarcade.com/api/users/profile?lang=${locale}`,
+          `https://api.jellyarcade.com//api/users/profile?lang=${locale}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -94,7 +94,7 @@ export default function ProfilePage() {
     try {
       setIsLoading(true);
       const response = await fetch(
-        "https://api.jellyarcade.com/api/users/avatar",
+        "https://api.jellyarcade.com//api/users/avatar",
         {
           method: "PUT",
           headers: {
@@ -138,7 +138,7 @@ export default function ProfilePage() {
     try {
       setIsLoading(true);
       const response = await fetch(
-        "https://api.jellyarcade.com/api/users/password",
+        "https://api.jellyarcade.com//api/users/password",
         {
           method: "PUT",
           headers: {

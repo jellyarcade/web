@@ -28,7 +28,7 @@ export default function AuthModal({ isOpen, onClose }) {
       const body = isLogin ? { email, password } : { name, email, password };
 
       const response = await fetch(
-        `https://api.jellyarcade.com/api${endpoint}`,
+        `https://api.jellyarcade.com//api${endpoint}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -58,110 +58,42 @@ export default function AuthModal({ isOpen, onClose }) {
   };
 
   const handleSocialLogin = (provider) => {
-    window.location.href = `https://api.jellyarcade.com/api/auth/google`;
+    window.location.href = `https://api.jellyarcade.com//api/auth/${provider}`;
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">
-            {isLogin ? t("login") : t("signup")}
-          </h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+    <div className="fixed inset-0 bg-black bg-opacity-50 md:flex md:items-center md:justify-center z-[9999]">
+      <div className="fixed inset-0 bg-[#ff4f00] text-white md:static md:rounded-lg md:h-auto md:max-w-md md:mx-4 flex flex-col justify-center items-center p-4 md:p-8">
+        <div className="w-full max-w-md">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-white">
+              {isLogin ? t("login") : t("signup")}
+            </h2>
+            <button
+              onClick={onClose}
+              className="text-white hover:text-white/90"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
-
-        {error && (
-          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {!isLogin && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                {t("name")}
-              </label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-                required={!isLogin}
-              />
-            </div>
-          )}
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              {t("email")}
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-              required
-            />
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              {t("password")}
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? t("processing") : isLogin ? t("login") : t("signup")}
-          </button>
-        </form>
-
-        <div className="mt-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">
-                {t("continueWith")}
-              </span>
-            </div>
-          </div>
-
-          <div className="mt-6 grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 mb-6">
             <button
               onClick={() => handleSocialLogin("google")}
               disabled={loading}
-              className="w-full inline-flex justify-center items-center py-2.5 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full inline-flex justify-center items-center py-2.5 px-4 border border-white/20 rounded-md shadow-sm bg-white/10 text-sm font-medium text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <FcGoogle className="h-5 w-5" />
               <span className="ml-2">Google</span>
@@ -169,22 +101,90 @@ export default function AuthModal({ isOpen, onClose }) {
             <button
               onClick={() => handleSocialLogin("facebook")}
               disabled={loading}
-              className="w-full inline-flex justify-center items-center py-2.5 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full inline-flex justify-center items-center py-2.5 px-4 border border-white/20 rounded-md shadow-sm bg-white/10 text-sm font-medium text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <FaFacebook className="h-5 w-5 text-blue-600" />
               <span className="ml-2">Facebook</span>
             </button>
           </div>
-        </div>
 
-        <div className="mt-6 text-center text-sm">
-          <button
-            onClick={() => setIsLogin(!isLogin)}
-            disabled={loading}
-            className="text-orange-600 hover:text-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isLogin ? t("noAccount") : t("haveAccount")}
-          </button>
+          <div className="relative mb-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-white/20" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-[#ff4f00] text-white">
+                {t("continueWith")}
+              </span>
+            </div>
+          </div>
+
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {!isLogin && (
+              <div>
+                <label className="block text-sm font-medium text-white">
+                  {t("name")}
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="mt-1 block w-full px-3 py-2 border border-white/20 rounded-md shadow-sm bg-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-[#16bf36] focus:border-[#16bf36]"
+                  required={!isLogin}
+                />
+              </div>
+            )}
+
+            <div>
+              <label className="block text-sm font-medium text-white">
+                {t("email")}
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 border border-white/20 rounded-md shadow-sm bg-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-[#16bf36] focus:border-[#16bf36]"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-white">
+                {t("password")}
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 border border-white/20 rounded-md shadow-sm bg-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-[#16bf36] focus:border-[#16bf36]"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-2.5 px-4 border border-transparent rounded-md shadow-sm text-white text-base font-medium bg-[#16bf36] hover:bg-[#16bf36]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#16bf36] disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? t("processing") : isLogin ? t("login") : t("signup")}
+            </button>
+          </form>
+
+          <div className="mt-6">
+            <button
+              onClick={() => setIsLogin(!isLogin)}
+              disabled={loading}
+              className="w-full py-2.5 px-4 border border-transparent rounded-md shadow-sm text-white text-base font-medium bg-[#16bf36] hover:bg-[#16bf36]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#16bf36] disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLogin ? "Kayıt ol" : "Giriş yap"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

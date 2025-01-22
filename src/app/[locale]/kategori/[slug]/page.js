@@ -3,7 +3,7 @@ import HeroSection from "@/components/category/HeroSection";
 import RecentlyPlayed from "@/components/home/RecentlyPlayed";
 import { notFound, redirect } from "next/navigation";
 
-const API_URL = "https://api.jellyarcade.com/api";
+const API_URL = "https://api.jellyarcade.com//api";
 
 async function getCategory(slug) {
   try {

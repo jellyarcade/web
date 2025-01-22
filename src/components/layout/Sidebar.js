@@ -44,7 +44,7 @@ const Sidebar = ({ isOpen, onClose, children }) => {
     const fetchCategories = async () => {
       try {
         const response = await fetch(
-          "https://api.jellyarcade.com/api/categories"
+          "https://api.jellyarcade.com//api/categories"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
@@ -107,7 +107,7 @@ const Sidebar = ({ isOpen, onClose, children }) => {
       >
         <div className="text-white h-full flex flex-col overflow-hidden">
           {/* UserMenu Container */}
-          <div className="md:hidden p-4 pt-28">
+          <div className="md:hidden p-4 pt-20">
             {children}
             <div className="h-px bg-white/20 mt-4 mb-2" />
           </div>

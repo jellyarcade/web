@@ -4,6 +4,7 @@ import Analytics from "@/components/analytics/Analytics";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthModalProvider } from "@/contexts/AuthModalContext"; // Import AuthModalProvider
 import QueryProvider from "@/providers/QueryProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { Inter } from "next/font/google";
@@ -80,15 +81,16 @@ export default async function LocaleLayout({ children, params }) {
         <NextIntlClientProvider messages={messages} locale={locale}>
           <QueryProvider>
             <AuthProvider>
-              {/* Burada ClientLayout ile wrap ediyoruz */}
-              <ClientLayout>
-                <div className="min-h-screen flex flex-col bg-white">
-                  <Analytics />
-                  <Header />
-                  <main className="flex-1">{children}</main>
-                  <Footer />
-                </div>
-              </ClientLayout>
+              <AuthModalProvider> // Wrap everything with AuthModalProvider
+                <ClientLayout>
+                  <div className="min-h-screen flex flex-col bg-white">
+                    <Analytics />
+                    <Header />
+                    <main className="flex-1">{children}</main>
+                    <Footer />
+                  </div>
+                </ClientLayout>
+              </AuthModalProvider>
             </AuthProvider>
           </QueryProvider>
         </NextIntlClientProvider>

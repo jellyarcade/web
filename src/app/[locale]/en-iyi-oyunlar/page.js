@@ -3,7 +3,7 @@ import HeroSection from "@/components/home/HeroSection";
 import RecentlyPlayed from "@/components/home/RecentlyPlayed";
 import { redirect } from "next/navigation";
 
-const API_URL = "https://api.jellyarcade.com/api";
+const API_URL = "https://api.jellyarcade.com//api";
 
 async function getMostPlayedGames() {
   try {

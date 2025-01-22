@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@/contexts/AuthContext";
+import { useAuthModal } from "@/contexts/AuthModalContext";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -11,13 +12,13 @@ import LanguageSwitcher from "./LanguageSwitcher";
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
   const menuRef = useRef(null);
   const t = useTranslations("navigation");
   const tUser = useTranslations("user");
   const locale = useLocale();
   const { user, logout, token } = useAuth();
+  const { openAuthModal } = useAuthModal();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -25,7 +26,7 @@ const UserMenu = () => {
 
       try {
         const response = await fetch(
-          `https://api.jellyarcade.com/api/users/profile?lang=${locale}`,
+          `https://api.jellyarcade.com//api/users/profile?lang=${locale}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -81,7 +82,7 @@ const UserMenu = () => {
 
   const handleAuthAction = () => {
     if (!user) {
-      setShowAuthModal(true);
+      openAuthModal();
     } else {
       setIsOpen(!isOpen);
     }
@@ -133,7 +134,7 @@ const UserMenu = () => {
                 </Link>
               ) : (
                 <button
-                  onClick={() => setShowAuthModal(true)}
+                  onClick={openAuthModal}
                   className="text-white hover:text-white/90"
                 >
                   <HiHeart className="w-7 h-7 text-white" />
@@ -152,7 +153,7 @@ const UserMenu = () => {
               </Link>
             ) : (
               <button
-                onClick={() => setShowAuthModal(true)}
+                onClick={openAuthModal}
                 className="text-white hover:text-white/90"
               >
                 <HiHeart className="w-7 h-7 text-red-500" />
@@ -186,10 +187,7 @@ const UserMenu = () => {
         )}
       </div>
 
-      <AuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-      />
+      <AuthModal />
     </>
   );
 };

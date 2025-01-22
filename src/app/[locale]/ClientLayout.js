@@ -2,6 +2,14 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { AuthModalProvider } from "@/contexts/AuthModalContext";
+import AuthModal from "@/components/auth/AuthModal";
+import { useAuthModal } from "@/contexts/AuthModalContext";
+
+function AuthModalWrapper() {
+  const { isOpen, closeAuthModal } = useAuthModal();
+  return <AuthModal isOpen={isOpen} onClose={closeAuthModal} />;
+}
 
 export default function ClientLayout({ children }) {
   const searchParams = useSearchParams();
@@ -27,5 +35,10 @@ export default function ClientLayout({ children }) {
     // veya router.replace("/tr");
   }, [searchParams, router, authToken, login]);
 
-  return children;
+  return (
+    <AuthModalProvider>
+      <AuthModalWrapper />
+      {children}
+    </AuthModalProvider>
+  );
 }

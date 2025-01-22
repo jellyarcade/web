@@ -55,6 +55,8 @@ export function AuthProvider({ children }) {
       const userData = {
         id: decoded.userId,
         role: decoded.role || 'user',
+        email: decoded.email,
+        name: decoded.name
       };
 
       setUser(userData);
