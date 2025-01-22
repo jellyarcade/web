@@ -29,7 +29,7 @@ const SearchModal = ({ isOpen, onClose, searchQuery: initialQuery = "" }) => {
       setLoading(true);
       try {
         const response = await fetch(
-          `https://api.jellyarcade.com//api/games/search?q=${encodeURIComponent(
+          `https://api.jellyarcade.com/api/games/search?q=${encodeURIComponent(
             searchQuery
           )}`
         );

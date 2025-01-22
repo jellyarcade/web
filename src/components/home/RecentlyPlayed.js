@@ -33,7 +33,7 @@ const RecentlyPlayed = () => {
 
       try {
         const response = await fetch(
-          "https://api.jellyarcade.com//api/users/recent-games",
+          "https://api.jellyarcade.com/api/users/recent-games",
           {
             headers: {
               Authorization: `Bearer ${token}`,

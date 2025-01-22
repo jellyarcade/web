@@ -26,7 +26,7 @@ const UserMenu = () => {
 
       try {
         const response = await fetch(
-          `https://api.jellyarcade.com//api/users/profile?lang=${locale}`,
+          `https://api.jellyarcade.com/api/users/profile?lang=${locale}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -37,7 +37,7 @@ export default function SearchBar() {
       setLoading(true);
       try {
         const response = await fetch(
-          `https://api.jellyarcade.com//api/games/search?q=${encodeURIComponent(
+          `https://api.jellyarcade.com/api/games/search?q=${encodeURIComponent(
             query
           )}`
         );

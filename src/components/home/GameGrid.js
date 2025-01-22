@@ -24,7 +24,7 @@ const GameGrid = () => {
         setError(null);
 
         const response = await fetch(
-          `https://api.jellyarcade.com//api/games?lang=${params.locale}`
+          `https://api.jellyarcade.com/api/games?lang=${params.locale}`
         );
 
         const data = await response.json();

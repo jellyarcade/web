@@ -28,7 +28,7 @@ export default function AuthModal({ isOpen, onClose }) {
       const body = isLogin ? { email, password } : { name, email, password };
 
       const response = await fetch(
-        `https://api.jellyarcade.com//api${endpoint}`,
+        `https://api.jellyarcade.com/api${endpoint}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -58,7 +58,7 @@ export default function AuthModal({ isOpen, onClose }) {
   };
 
   const handleSocialLogin = (provider) => {
-    window.location.href = `https://api.jellyarcade.com//api/auth/${provider}`;
+    window.location.href = `https://api.jellyarcade.com/api/auth/${provider}`;
   };
 
   return (

@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import GameClient from "./GameClient";
 
-const API_URL = "https://api.jellyarcade.com//api";
+const API_URL = "https://api.jellyarcade.com/api";
 
 async function getGame(slug) {
   try {
