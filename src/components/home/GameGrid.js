@@ -71,9 +71,9 @@ const GameGrid = () => {
   }
 
   return (
-    <section className="pb-8">
+    <section className="pb-2">
       <Container>
-        <div className="mt-3">
+        <div className="mt-0">
           <h2 className="text-lg font-cocogoose font-medium uppercase mb-0 text-[#2cd284]">
             {t("title")}
           </h2>

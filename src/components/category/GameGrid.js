@@ -1,31 +1,30 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { useParams } from 'next/navigation';
-import { BiSolidJoystick } from 'react-icons/bi';
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import Image from "next/image";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { BiSolidJoystick } from "react-icons/bi";
 
 const GameGrid = ({ games = [], title, description }) => {
-  const isMobile = useMediaQuery('(max-width: 1024px)');
+  const isMobile = useMediaQuery("(max-width: 1024px)");
   const params = useParams();
 
   if (!games || games.length === 0) {
     return (
-      <div className='flex justify-center items-center py-8'>
-        <div className='w-8 h-8 border-4 border-brand-orange border-t-transparent rounded-full animate-spin' />
+      <div className="flex justify-center items-center py-8">
+        <div className="w-8 h-8 border-4 border-brand-orange border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <section className='pb-8'>
-      <div className='max-w-[95%] mx-auto'>
+    <section className="pb-2">
+      <div className="max-w-[95%] mx-auto">
         <div>
-          <h2 className='text-lg font-cocogoose font-medium uppercase mb-0 text-[#2cd284]'>
+          <h2 className="text-lg font-cocogoose font-medium uppercase mb-0 text-[#2cd284]">
             {title ||
-              (params.locale === 'tr' ? 'En İyi Oyunlar' : 'Most Played Games')}
+              (params.locale === "tr" ? "En İyi Oyunlar" : "Most Played Games")}
           </h2>
           {/* <p className='text-gray-600'>
             {description ||
@@ -37,31 +36,31 @@ const GameGrid = ({ games = [], title, description }) => {
 
         <div
           className={`grid ${
-            isMobile ? 'grid-cols-3 gap-2' : 'grid-cols-10 gap-4'
+            isMobile ? "grid-cols-3 gap-2" : "grid-cols-10 gap-4"
           }`}
         >
-          {games.map(game => (
+          {games.map((game) => (
             <Link
               key={game._id}
               href={`/${params.locale}/${game.slug[params.locale]}`}
-              className='block'
+              className="block"
             >
-              <div className='relative aspect-square rounded-lg overflow-hidden shadow-lg group'>
+              <div className="relative aspect-square rounded-lg overflow-hidden shadow-lg group">
                 <Image
-                  src={game.image || '/images/game-placeholder.jpg'}
+                  src={game.image || "/images/game-placeholder.jpg"}
                   alt={game.title[params.locale]}
                   fill
-                  sizes='(max-width: 1024px) 20vw, 10vw'
-                  className='object-cover transition-transform duration-300 group-hover:scale-110'
+                  sizes="(max-width: 1024px) 20vw, 10vw"
+                  className="object-cover transition-transform duration-300 group-hover:scale-110"
                 />
-                <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent' />
-                <div className='absolute bottom-2 left-2 right-2'>
-                  <h3 className='text-white font-medium truncate text-sm'>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-2 left-2 right-2">
+                  <h3 className="text-white font-medium truncate text-sm">
                     {game.title[params.locale]}
                   </h3>
-                  <div className='flex items-center gap-1 mt-1'>
-                    <BiSolidJoystick className='w-4 h-4 text-gray-300' />
-                    <span className='text-xs text-gray-300'>
+                  <div className="flex items-center gap-1 mt-1">
+                    <BiSolidJoystick className="w-4 h-4 text-gray-300" />
+                    <span className="text-xs text-gray-300">
                       {game.playCount || 0}
                     </span>
                   </div>

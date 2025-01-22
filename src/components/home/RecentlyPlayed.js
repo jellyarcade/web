@@ -26,11 +26,25 @@ const RecentlyPlayed = () => {
   // Son oynanan oyunları getir
   useEffect(() => {
     const fetchRecentGames = async () => {
+      setIsLoading(true);
+
       if (!token) {
+        // Eğer kullanıcı giriş yapmamışsa localStorage'dan al
+        try {
+          const localGames = JSON.parse(
+            localStorage.getItem("recentGames") || "[]"
+          );
+          if (localGames.length > 0) {
+            setRecentGames(localGames);
+          }
+        } catch (error) {
+          console.error("LocalStorage read error:", error);
+        }
         setIsLoading(false);
         return;
       }
 
+      // Kullanıcı giriş yapmışsa API'den al
       try {
         const response = await fetch(
           "https://api.jellyarcade.com/api/users/recent-games",
@@ -86,7 +100,7 @@ const RecentlyPlayed = () => {
       <section>
         <Container>
           {/* Title Section */}
-          <div className="mt-3">
+          <div className="mt-0">
             <h2 className="text-lg font-cocogoose font-medium uppercase mb-0 text-[#2cd284]">
               {t("title")}
             </h2>
@@ -124,7 +138,7 @@ const RecentlyPlayed = () => {
 
   return (
     <section className="relative">
-      <Container className="mt-3">
+      <Container className="mt-0">
         {/* Title for Mobile */}
         <div className="mb-0">
           <h2 className="text-lg font-cocogoose font-medium uppercase mb-0 text-[#2cd284]">
@@ -146,7 +160,7 @@ const RecentlyPlayed = () => {
             disableOnInteraction: false,
           }}
           loop={recentGames.length > 2}
-          className="!pb-5"
+          className="!pb-3"
         >
           {recentGames.map(({ game }) => (
             <SwiperSlide key={game._id}>
