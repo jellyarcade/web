@@ -99,7 +99,7 @@ export default function AuthModal({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 md:flex md:items-center md:justify-center z-[9999]">
-      <div className="fixed inset-0 bg-[#212233] text-white md:static md:rounded-lg md:w-full md:h-auto md:max-w-md md:mx-4 flex flex-col justify-center items-center p-4 md:p-8">
+      <div className="fixed inset-0 bg-[#ff4f00] text-white md:static md:rounded-lg md:w-full md:h-auto md:max-w-md md:mx-4 flex flex-col justify-center items-center p-4 md:p-8">
         <div className="w-full max-w-3xl">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-white">
@@ -149,7 +149,7 @@ export default function AuthModal({ isOpen, onClose }) {
               <div className="w-full border-t border-white/20" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-[#212233] text-white">
+              <span className="px-2 bg-[#ff4f00] text-white">
                 {t("continueWith")}
               </span>
             </div>
