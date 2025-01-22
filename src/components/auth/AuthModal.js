@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslations } from "next-intl";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
@@ -19,15 +19,15 @@ export default function AuthModal({ isOpen, onClose }) {
   useEffect(() => {
     // URL'den token kontrolü
     const urlParams = new URLSearchParams(window.location.search);
-    const urlToken = urlParams.get('token');
-    const urlError = urlParams.get('error');
-    
+    const urlToken = urlParams.get("token");
+    const urlError = urlParams.get("error");
+
     if (urlError) {
       setError(urlError);
       // Hata parametresini URL'den temizle
       window.history.replaceState({}, document.title, window.location.pathname);
     }
-    
+
     if (urlToken) {
       handleSocialLoginCallback(urlToken);
     }
@@ -99,8 +99,8 @@ export default function AuthModal({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 md:flex md:items-center md:justify-center z-[9999]">
-      <div className="fixed inset-0 bg-[#ff4f00] text-white md:static md:rounded-lg md:h-auto md:max-w-md md:mx-4 flex flex-col justify-center items-center p-4 md:p-8">
-        <div className="w-full max-w-md">
+      <div className="fixed inset-0 bg-[#212233] text-white md:static md:rounded-lg md:w-full md:h-auto md:max-w-md md:mx-4 flex flex-col justify-center items-center p-4 md:p-8">
+        <div className="w-full max-w-3xl">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-white">
               {isLogin ? t("login") : t("signup")}
@@ -125,22 +125,22 @@ export default function AuthModal({ isOpen, onClose }) {
             </button>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="flex flex-col gap-3 mb-6">
             <button
               onClick={() => handleSocialLogin("google")}
               disabled={loading}
-              className="w-full inline-flex justify-center items-center py-2.5 px-4 border border-white/20 rounded-md shadow-sm bg-white/10 text-sm font-medium text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full inline-flex justify-center items-center py-2.5 px-4  rounded-3xl shadow-sm bg-white text-gray-700 text-sm font-medium hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <FcGoogle className="h-5 w-5" />
-              <span className="ml-2">Google</span>
+              <span className="ml-2">Google ile Devam Et</span>
             </button>
             <button
               onClick={() => handleSocialLogin("facebook")}
               disabled={loading}
-              className="w-full inline-flex justify-center items-center py-2.5 px-4 border border-white/20 rounded-md shadow-sm bg-white/10 text-sm font-medium text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full inline-flex justify-center items-center py-2.5 px-4  rounded-3xl shadow-sm bg-[#4267B2] text-white text-sm font-medium hover:bg-[#4267B2]/90 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <FaFacebook className="h-5 w-5 text-blue-600" />
-              <span className="ml-2">Facebook</span>
+              <FaFacebook className="h-5 w-5" />
+              <span className="ml-2">Facebook ile Devam Et</span>
             </button>
           </div>
 
@@ -149,7 +149,7 @@ export default function AuthModal({ isOpen, onClose }) {
               <div className="w-full border-t border-white/20" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-[#ff4f00] text-white">
+              <span className="px-2 bg-[#212233] text-white">
                 {t("continueWith")}
               </span>
             </div>
@@ -171,7 +171,7 @@ export default function AuthModal({ isOpen, onClose }) {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="mt-1 block w-full px-3 py-2 border border-white/20 rounded-md shadow-sm bg-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-[#16bf36] focus:border-[#16bf36]"
+                  className="mt-1 block w-full px-3 py-2 border border-white/20 rounded-md shadow-sm bg-white text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-[#16bf36] focus:border-[#16bf36]"
                   required={!isLogin}
                 />
               </div>
@@ -185,7 +185,7 @@ export default function AuthModal({ isOpen, onClose }) {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-white/20 rounded-md shadow-sm bg-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-[#16bf36] focus:border-[#16bf36]"
+                className="mt-1 block w-full px-3 py-2 border border-white/20 rounded-md shadow-sm bg-white text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-[#16bf36] focus:border-[#16bf36]"
                 required
               />
             </div>
@@ -198,7 +198,7 @@ export default function AuthModal({ isOpen, onClose }) {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-white/20 rounded-md shadow-sm bg-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-[#16bf36] focus:border-[#16bf36]"
+                className="mt-1 block w-full px-3 py-2 border border-white/20 rounded-md shadow-sm bg-white text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-[#16bf36] focus:border-[#16bf36]"
                 required
               />
             </div>

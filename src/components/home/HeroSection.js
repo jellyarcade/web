@@ -50,8 +50,8 @@ const HeroSection = () => {
   }, [locale]);
 
   return (
-    <section className="relative mt-[72px]">
-      <Container className="pt-6 sm:pt-4">
+    <section className="relative mt-[52px]">
+      <Container className="pt-4 sm:pt-4">
         <Carousel items={games} />
       </Container>
     </section>
