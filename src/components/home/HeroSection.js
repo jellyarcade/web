@@ -31,6 +31,7 @@ const HeroSection = () => {
         }
 
         const data = await res.json();
+        console.log("data", data);
         setGames(
           data.map((game) => ({
             id: game._id,
