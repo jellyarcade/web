@@ -1,36 +1,35 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { useLocale } from 'next-intl';
-import { useTranslations } from 'next-intl';
-import Link from 'next/link';
+import { useLocale, useTranslations } from "next-intl";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function PrivacyPolicy() {
   const router = useRouter();
   const locale = useLocale();
-  const t = useTranslations('legal');
+  const t = useTranslations("legal");
 
   useEffect(() => {
-    if (locale === 'en') {
+    if (locale === "en") {
       router.replace(`/${locale}/privacy-policy`);
       return;
     }
   }, [router, locale]);
 
-  if (locale === 'en') {
+  if (locale === "en") {
     return null;
   }
 
   return (
-    <div className='container mx-auto px-4 mt-24 md:px-20 lg:px-24 py-8'>
-      <h1 className='text-3xl font-bold mb-6'>{t('privacyTitle')}</h1>
-      <p className='text-sm text-gray-600 mb-8'>
-        {t('lastUpdated')}: {t('privacyLastUpdated')}
+    <div className="container mx-auto px-4 mt-24 md:px-20 lg:px-24 py-8">
+      <h1 className="text-3xl font-bold mb-6">{t("privacyTitle")}</h1>
+      <p className="text-sm text-gray-600 mb-8">
+        {t("lastUpdated")}: {t("privacyLastUpdated")}
       </p>
-      <div className='prose max-w-none space-y-4'>
+      <div className="prose max-w-none space-y-4">
         <p>
-          JellyArcade is the intant (browser) gaming project of CB CONS d.o.o.
+          JellyArcade is the intant (browser) gaming project of D.O.O "CB Cons".
           registration no. 03588360 organized and existing under the laws of
           Montenegro], having its principial place of business at Palih Boraca
           14, Tivat - Montenegro. (hereinafter referred to as “Company”);
@@ -59,7 +58,7 @@ export default function PrivacyPolicy() {
         </p>
         <p>
           For information about the terms upon which Company do business, you
-          should also read our{' '}
+          should also read our{" "}
           <Link href={`/${locale}/kullanim-kosullari`}>Kullanım Koşulları</Link>
           .
         </p>
@@ -69,7 +68,7 @@ export default function PrivacyPolicy() {
           equally data about the games you played if Company can link it to your
           account on our Platform (“Account”) .
         </p>
-        <p className='font-bold'>
+        <p className="font-bold">
           Company strongly recommends not to use your real name or share any
           other personal data in any of the games provided on our Platform
           including, without limitation, when engaging in multiplayer.
@@ -84,10 +83,10 @@ export default function PrivacyPolicy() {
           your country.
         </p>
         <p>Company may collect the following Personal Data of you:</p>
-        <p className='font-bold'>
+        <p className="font-bold">
           To register and authenticate your Account of the Platform
         </p>
-        <ul className='list-disc list-inside'>
+        <ul className="list-disc list-inside">
           <li>
             Which personal data: email address, name, age, gender external
             account, username and password
@@ -97,10 +96,10 @@ export default function PrivacyPolicy() {
             consent of you
           </li>
         </ul>
-        <p className='font-bold'>
+        <p className="font-bold">
           Personalisation of your game experience (Account)
         </p>
-        <ul className='list-disc list-inside'>
+        <ul className="list-disc list-inside">
           <li>
             Which personal data: username, device and connection data, selected
             interests, gaming behaviour and feedback
@@ -110,11 +109,11 @@ export default function PrivacyPolicy() {
             consent of you
           </li>
         </ul>
-        <p className='font-bold'>
+        <p className="font-bold">
           To respond to your question or complaint, or to help you with
           technical problems
         </p>
-        <ul className='list-disc list-inside'>
+        <ul className="list-disc list-inside">
           <li>
             Which personal data: name, e-mail address and other information that
             you provide to us
@@ -124,10 +123,10 @@ export default function PrivacyPolicy() {
             interests, in particular to enhance the quality of our Platform
           </li>
         </ul>
-        <p className='font-bold'>
+        <p className="font-bold">
           To inform you of new functionalities of our Platform
         </p>
-        <ul className='list-disc list-inside'>
+        <ul className="list-disc list-inside">
           <li>Which personal data: username and email address</li>
           <li>
             On what basis: Necessary for the exercise of our legitimate
@@ -135,11 +134,11 @@ export default function PrivacyPolicy() {
             our Platform
           </li>
         </ul>
-        <p className='font-bold'>
+        <p className="font-bold">
           To analyse statistics about visitors to our Platform and games in
           order to improve the Platform, the games and user experience
         </p>
-        <ul className='list-disc list-inside'>
+        <ul className="list-disc list-inside">
           <li>
             Which personal data: data on visitors' behaviour (usage & device
             data) and in-game statistics
@@ -150,16 +149,16 @@ export default function PrivacyPolicy() {
             performance of our Platform and the games
           </li>
         </ul>
-        <p className='font-bold'>To comply with legal obligations</p>
-        <ul className='list-disc list-inside'>
+        <p className="font-bold">To comply with legal obligations</p>
+        <ul className="list-disc list-inside">
           <li>Which personal data: data required by applicable law</li>
           <li>On what basis: Necessary to comply with a legal obligation</li>
         </ul>
-        <p className='font-bold'>
+        <p className="font-bold">
           To prevent, detect and combat fraud and other illegal or unauthorised
           activities
         </p>
-        <ul className='list-disc list-inside'>
+        <ul className="list-disc list-inside">
           <li>
             Which personal data: data required for detection of fraud and
             illegal activities
@@ -170,18 +169,18 @@ export default function PrivacyPolicy() {
             activities
           </li>
         </ul>
-        <p className='font-bold'>
+        <p className="font-bold">
           For marketing of CrazyGames (for example newsletters)
         </p>
-        <ul className='list-disc list-inside'>
+        <ul className="list-disc list-inside">
           <li>Which personal data: username and email address</li>
           <li>
             On what basis: The prior, express, free, specific and informed
             consent of you
           </li>
         </ul>
-        <p className='font-bold'>To enable advertising on our Platform</p>
-        <ul className='list-disc list-inside'>
+        <p className="font-bold">To enable advertising on our Platform</p>
+        <ul className="list-disc list-inside">
           <li>
             Which personal data: data gathered by the use cookies, Companyb
             beacons or similar technologies such as IP address, user ID’s,
@@ -195,18 +194,18 @@ export default function PrivacyPolicy() {
             Ad Preferences’ and our Cookie Policy.
           </li>
         </ul>
-        <p className='font-bold'>
+        <p className="font-bold">
           To fulfil our obligations to game developers
         </p>
-        <ul className='list-disc list-inside'>
+        <ul className="list-disc list-inside">
           <li>
             Which personal data: e-mail, tax identification number, bank account
             identification, Paypal Account, preferred payment method
           </li>
           <li>On what basis: Necessary for the performance of a contract</li>
         </ul>
-        <p className='font-bold'>To enable in-game purchases</p>
-        <ul className='list-disc list-inside'>
+        <p className="font-bold">To enable in-game purchases</p>
+        <ul className="list-disc list-inside">
           <li>Which personal data: data related to the in-game purchase</li>
         </ul>
         <p>
@@ -366,7 +365,7 @@ export default function PrivacyPolicy() {
           it is your personal data. You therefore have some rights that you can
           use. You can do the following with your data:
         </p>
-        <ul className='list-disc list-inside'>
+        <ul className="list-disc list-inside">
           <li>View: to see what personal data Company keeps about you;</li>
           <li>
             Edit: to let you to edit your personal data of your Account (email
@@ -498,15 +497,15 @@ export default function PrivacyPolicy() {
           processing of personal data by them, for example in the context of a
           game, complies with applicable legislation.
         </p>
-        <p className='font-bold'>
+        <p className="font-bold">
           Please note that if you choose to play a third-party game, you are
           playing that game in the environment of that game's third-party
           developer, over which Company have no control. Company, therefore,
           recommend that you read the privacy statement of that game distributor
           before playing the game.
         </p>
-        <ul className='list-disc list-inside'>
-          <li className='font-bold'>
+        <ul className="list-disc list-inside">
+          <li className="font-bold">
             Residents of certain US states are granted specific legal rights
             regarding their personal information. These rights are not absolute
             and may be subject to exceptions and exemptions. For the purposes of
@@ -517,7 +516,7 @@ export default function PrivacyPolicy() {
             indirectly, with a particular consumer or household.
           </li>
         </ul>
-        <p className='font-bold'>
+        <p className="font-bold">
           In these states, individuals have enhanced rights concerning their
           Personal Information, including the ability to access, confirm,
           correct, obtain a copy of, delete, and opt-out of the sale or sharing
@@ -554,7 +553,7 @@ export default function PrivacyPolicy() {
           Company Keep Your Personal Data."
         </p>
         <p>Depending on your state of residence, your rights may include:</p>
-        <ul className='list-disc list-inside'>
+        <ul className="list-disc list-inside">
           <li>
             Right to Know and Delete: You may have the right to delete personal
             information Company have collected about you and to know certain
@@ -593,8 +592,8 @@ export default function PrivacyPolicy() {
           </li>
         </ul>
         <p>
-          To exercise any of these rights, please contact us via email{' '}
-          <a href='mailto:info@jellyarcade.com'>info@jellyarcade.com</a>
+          To exercise any of these rights, please contact us via email{" "}
+          <a href="mailto:info@jellyarcade.com">info@jellyarcade.com</a>
         </p>
         <p>
           From time to time, it may be necessary to amend this Privacy Policy.
@@ -696,16 +695,16 @@ export default function PrivacyPolicy() {
           Company will provide you with an explicit notice when you click to
           play such a game.
         </p>
-        <p className='font-bold'>
+        <p className="font-bold">
           Please note that if you choose to play a third-party game, you are
           playing that game in the environment of that game's third-party
           developer, over which Company have no control. Company, therefore,
           recommend that you read the privacy statement of that game distributor
           before playing the game. Below are Company’s main gaming partners:
         </p>
-        <ul className='list-disc list-inside'>
+        <ul className="list-disc list-inside">
           <li>
-            <a href='https://www.nothing2install.com/'>
+            <a href="https://www.nothing2install.com/">
               https://www.nothing2install.com/
             </a>
           </li>

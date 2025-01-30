@@ -1,38 +1,37 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { useLocale } from 'next-intl';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function TermsOfServicePage() {
   const router = useRouter();
   const locale = useLocale();
-  const t = useTranslations('legal');
+  const t = useTranslations("legal");
 
   useEffect(() => {
-    if (locale === 'en') {
+    if (locale === "en") {
       router.replace(`/${locale}/terms-of-service`);
       return;
     }
   }, [router, locale]);
 
-  if (locale === 'en') {
+  if (locale === "en") {
     return null;
   }
 
   return (
-    <div className='container mx-auto px-4 mt-24 md:px-20 lg:px-24 py-8'>
-      <h1 className='text-3xl font-bold mb-6'>{t('termsTitle')}</h1>
-      <p className='text-sm text-gray-600 mb-8'>
-        {t('lastUpdated')}: {t('termsLastUpdated')}
+    <div className="container mx-auto px-4 mt-24 md:px-20 lg:px-24 py-8">
+      <h1 className="text-3xl font-bold mb-6">{t("termsTitle")}</h1>
+      <p className="text-sm text-gray-600 mb-8">
+        {t("lastUpdated")}: {t("termsLastUpdated")}
       </p>
-      <div className='prose max-w-none space-y-4'>
+      <div className="prose max-w-none space-y-4">
         <p>
-          JellyArcade is an instant (browser) game project of CB CONS d.o.o., a
-          company incorporated and operating under the laws of Montenegro, with
-          registration number 03588360, having its registered office at Palih
-          Boraca 14, Tivat - Montenegro (hereinafter referred to as the
+          JellyArcade is an instant (browser) game project of D.O.O "CB Cons".,
+          a company incorporated and operating under the laws of Montenegro,
+          with registration number 03588360, having its registered office at
+          Palih Boraca 14, Tivat - Montenegro (hereinafter referred to as the
           "Company"). The Company aims to make games accessible online
           (hereinafter referred to as the "Platform"). Players can access the
           Platform with or without an account (hereinafter referred to as
@@ -50,7 +49,7 @@ export default function TermsOfServicePage() {
           Platform.
         </p>
 
-        <p className='font-bold'>
+        <p className="font-bold">
           THESE TERMS OUTLINE OUR RELATIONSHIP WITH YOU, AS SUPPLEMENTED BY OUR
           PRIVACY & COOKIE POLICY BY PLAYING WEB GAMES ON OUR PLATFORM OR
           OTHERWISE USING THE WEBSITE OR PLATFORM, YOU AGREE TO BE BOUND BY THE
@@ -185,8 +184,8 @@ export default function TermsOfServicePage() {
           that:
         </p>
 
-        <ul className='list-disc pl-6 space-y-2'>
-          <li className='font-bold'>
+        <ul className="list-disc pl-6 space-y-2">
+          <li className="font-bold">
             You are either (a) of age to give legal consent or (b) you are a
             minor over thirteen (13) years old or the applicable minimum age in
             your country, state, or province or (c) have the consent of your
@@ -244,7 +243,7 @@ export default function TermsOfServicePage() {
           <li>
             You agree to use the Website and/or the Platform only for its
             intended purpose, and You will not:
-            <ul className='list-disc mt-2 pl-6 space-y-2'>
+            <ul className="list-disc mt-2 pl-6 space-y-2">
               <li>
                 sublicense, lease, rent, lend, distribute or otherwise transfer
                 the Website and Platform to any third party;
@@ -324,7 +323,7 @@ export default function TermsOfServicePage() {
           publicity or privacy or any other proprietary right, without the
           express prior written consent of the applicable owner.
         </p>
-        <p className='font-bold'>
+        <p className="font-bold">
           Company can always check whether your information and use of the
           Platform complies with Company’s rules.
         </p>
@@ -352,7 +351,7 @@ export default function TermsOfServicePage() {
           Company's use of your personal data and our responsibilities in
           protecting your privacy are described in our Privacy Policy.
         </p>
-        <p className='font-bold'>
+        <p className="font-bold">
           Company don’t control third-party services, and Company’re not liable
           for any transactions you may perform with them, or for what they do.
           When using third-party services, your security is your responsibility.
@@ -389,7 +388,7 @@ export default function TermsOfServicePage() {
           rules as well as our Privacy Policy. If the rules for a Promotion
           conflict with these Terms, the Promotion rules will govern.
         </p>
-        <p className='font-bold'>
+        <p className="font-bold">
           Company does not sell in-game items or offer in-game services to our
           users. Company do, however, facilitate such purchases and services
           through a third party. When you purchase in-game items or services for
@@ -415,7 +414,7 @@ export default function TermsOfServicePage() {
           subject to the refund policy of the third party. For Xsolla related
           purchases please refer to https://xsolla.com/refund-policy.
         </p>
-        <p className='font-bold'>
+        <p className="font-bold">
           You are not allowed to misuse any logos or names that are available on
           the Website.
         </p>
@@ -425,7 +424,7 @@ export default function TermsOfServicePage() {
           under license by us or our business partners. The use or misuse of any
           of these marks or other information is strictly prohibited.
         </p>
-        <p className='font-bold'>
+        <p className="font-bold">
           Other websites can embed our games under the conditions below. We can
           stop embedding any game at any time without justification.
         </p>
@@ -442,7 +441,7 @@ export default function TermsOfServicePage() {
           warning or the requirement to provide justification.
         </p>
         <p>It is strictly forbidden to:</p>
-        <ul className='list-disc pl-6 space-y-2'>
+        <ul className="list-disc pl-6 space-y-2">
           <li>
             Reproduce, modify, adapt, translate, create derivative works of any
             iframed portion of the Website.
@@ -471,12 +470,12 @@ export default function TermsOfServicePage() {
             reach out to info@jellyarcade.com
           </li>
         </ul>
-        <p className='font-bold'>
+        <p className="font-bold">
           Company offer no warranties regarding our services and the Platform,
           including any regarding their quality, reliability, security, or
           compatibility.
         </p>
-        <p className='font-bold'>
+        <p className="font-bold">
           YOU WARRANT THAT YOU WILL ABIDE BY AND RESPECT THESE TERMS OF SERVICE
           AND ANY ADDITIONAL GUIDELINES OF OUR PLATFORM. IF THESE CAUSE YOU ANY
           HARM, COMPANY WILL NOT BE HELD LIABLE.
@@ -503,11 +502,11 @@ export default function TermsOfServicePage() {
           WEBSITE AND/OR OUR PLATFORM WILL BE AVAILABLE, UNINTERRUPTED,
           ERROR-FREE, OR FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS.
         </p>
-        <p className='font-bold'>
+        <p className="font-bold">
           To the extent permitted under applicable law, Company are not liable
           for user damages exceeding 25 EUR, as our Platform is free to play.
         </p>
-        <p className='font-bold'>
+        <p className="font-bold">
           TO THE EXTENT PERMITTED BY APPLICABLE LAW, UNDER NO CIRCUMSTANCES WILL
           COMPANY OR ITS DIRECTORS, EMPLOYEES, PARTNERS, LICENSORS, CONTRACTORS,
           AGENTS, SUPPLIERS OR AFFILIATES BE LIABLE FOR ANY DIRECT, INDIRECT,
@@ -543,7 +542,7 @@ export default function TermsOfServicePage() {
           NEGLIGENCE; (III) DEATH OR PERSONAL INJURY; AND/OR (IV) WILLFUL
           MISCONDUCT.
         </p>
-        <p className='font-bold'>
+        <p className="font-bold">
           If Company is sued or otherwise put in harm’s way because of something
           you did, you will bear the associated costs and damages.
         </p>
@@ -557,12 +556,12 @@ export default function TermsOfServicePage() {
           with or incidental to: (a) your use of our Platform; (b) the Website;
           or (c) other services offered through the Website.
         </p>
-        <p className='font-bold'>
+        <p className="font-bold">
           You can delete your Account at any time yourself in our Platform.
           Furthermore, Company can terminate or suspend your access to our
           Platform when Company believes that you do not follow rules.
         </p>
-        <p className='font-bold'>
+        <p className="font-bold">
           Company reserves the right to terminate these Terms and end your
           access to the Website and/or Platform, or temporarily suspend all or
           part of your access, at any time and without prior notice under the
@@ -580,7 +579,7 @@ export default function TermsOfServicePage() {
           account settings and clicking on “Delete your account”, or request
           Company to delete your Account by email.
         </p>
-        <p className='font-bold'>
+        <p className="font-bold">
           If you have any concerns or complaints, please email to Comapny
           at info@jellyarcade.com
         </p>
@@ -612,7 +611,7 @@ export default function TermsOfServicePage() {
           with the following information in writing (see 17 U.S.C 512(c)(3) for
           further detail):
         </p>
-        <ul className='list-disc pl-6 space-y-2'>
+        <ul className="list-disc pl-6 space-y-2">
           <li>
             A physical or electronic signature of a person authorized to act on
             behalf of the owner of an exclusive right that is allegedly
@@ -653,7 +652,7 @@ export default function TermsOfServicePage() {
             challenged content from the Website or Platform.
           </li>
         </ul>
-        <p className='font-bold'>
+        <p className="font-bold">
           Mindful of the high costs of legal disputes, Company want to try to
           settle any disputes with you related to the Terms by initially
           attempting to resolve the matter in good faith through written notice.
@@ -680,7 +679,7 @@ export default function TermsOfServicePage() {
           Company both agree that the parties will resolve their dispute in
           accordance with article 16 below.
         </p>
-        <p className='font-bold'>
+        <p className="font-bold">
           Summary: As a Montenegrin-based company, the law that governs these
           terms and conditions and our relationship with you is Montenegrin law.
           Any disputes need to be resolved by the competent courts of Podgorica
