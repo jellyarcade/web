@@ -3,7 +3,6 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 export default function AuthModal({ isOpen, onClose }) {
@@ -134,14 +133,14 @@ export default function AuthModal({ isOpen, onClose }) {
               <FcGoogle className="h-5 w-5" />
               <span className="ml-2">Google ile Devam Et</span>
             </button>
-            <button
+            {/* <button
               onClick={() => handleSocialLogin("facebook")}
               disabled={loading}
               className="w-full inline-flex justify-center items-center py-2.5 px-4  rounded-3xl shadow-sm bg-[#4267B2] text-white text-sm font-medium hover:bg-[#4267B2]/90 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <FaFacebook className="h-5 w-5" />
               <span className="ml-2">Facebook ile Devam Et</span>
-            </button>
+            </button> */}
           </div>
 
           <div className="relative mb-6">
