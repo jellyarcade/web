@@ -72,7 +72,7 @@ const Header = ({ children }) => {
               />
               <button
                 type="submit"
-                className="absolute right-6 top-1/2 -translate-y-1/2 text-[#16bf36] hover:text-[#16bf36]/80 transition-colors"
+                className="absolute right-6 top-1/2 -translate-y-1/2 text-[#060089] hover:text-[#16bf36]/80 transition-colors"
               >
                 <HiSearch className="text-2xl" />
               </button>
