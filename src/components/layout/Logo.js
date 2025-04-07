@@ -6,7 +6,7 @@ const Logo = ({ size = 'small' }) => {
   const dimensions = {
     small: { width: 100, height: 32 },
     medium: { width: 120, height: 38 },
-    large: { width: 200, height: 70 },
+    large: { width: 270, height: 70 },
     xlarge: { width: 160, height: 50 },
   };
 
