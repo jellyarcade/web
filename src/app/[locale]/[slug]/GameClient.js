@@ -861,7 +861,7 @@ export default function GameClient({ game, locale }) {
             <div className="border rounded-lg overflow-hidden">
               <button
                 onClick={() => setIsDetailsOpen(!isDetailsOpen)}
-                className="w-full px-4 py-3 bg-gray-50 hover:bg-gray-100 flex items-center justify-between transition-colors"
+                className="w-full px-4 py-3 bg-gray-50 hover:bg-gray-100 flex items-center justify-between transition-colors "
               >
                 <span className="font-medium">
                   {locale === "tr" ? "Oyun Detayları" : "Game Details"}
@@ -884,7 +884,7 @@ export default function GameClient({ game, locale }) {
 
               {/* Game Details İçeriği */}
               <div
-                className={`transition-all duration-300 ${
+                className={`transition-all duration-300 text-white ${
                   isDetailsOpen ? "block" : "hidden"
                 }`}
               >
@@ -895,7 +895,7 @@ export default function GameClient({ game, locale }) {
                       <h3 className="font-medium mb-2">
                         {t("game.description")}:
                       </h3>
-                      <p className="text-gray-600 text-sm">
+                      <p className="text-white text-sm">
                         {game.description[locale]}
                       </p>
                     </div>
@@ -911,7 +911,7 @@ export default function GameClient({ game, locale }) {
                         {game.categories.map((category) => (
                           <span
                             key={category._id}
-                            className="px-3 py-1 bg-green-50 text-green-600 rounded-full text-sm"
+                            className="px-3 py-1 bg-orange-50 text-[#ff7e00] rounded-full text-sm"
                           >
                             {category.name[locale]}
                           </span>

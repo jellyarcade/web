@@ -22,7 +22,7 @@ export default function PrivacyPolicy() {
   }
 
   return (
-    <div className="container mx-auto px-4 mt-24 md:px-20 lg:px-24 py-8">
+    <div className="container mx-auto px-4 mt-24 md:px-20 lg:px-24 py-8 text-white">
       <h1 className="text-3xl font-bold mb-6">Privacy & Cookie Policy</h1>
       <p className="text-sm text-gray-600 mb-8">
         {t("lastUpdated")}: {t("termsLastUpdated")}
