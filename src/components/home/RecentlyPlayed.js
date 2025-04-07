@@ -101,7 +101,7 @@ const RecentlyPlayed = () => {
         <Container>
           {/* Title Section */}
           <div className="mt-0">
-            <h2 className="text-lg font-cocogoose font-medium uppercase mb-0 text-[#2cd284]">
+            <h2 className="text-lg font-extrabold uppercase mb-0 text-[#2cd284]">
               {t("title")}
             </h2>
             {/* <p className='text-gray-600'>{t('subtitle')}</p> */}

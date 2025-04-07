@@ -22,7 +22,7 @@ const GameGrid = ({ games = [], title, description }) => {
     <section className="pb-2">
       <div className="max-w-[95%] mx-auto">
         <div>
-          <h2 className="text-lg font-cocogoose font-medium uppercase mb-0 text-[#2cd284]">
+          <h2 className="text-lg font-extrabold uppercase mb-0 text-[#2cd284]">
             {title ||
               (params.locale === "tr" ? "En İyi Oyunlar" : "Most Played Games")}
           </h2>

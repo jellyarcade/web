@@ -132,7 +132,7 @@ const Sidebar = ({ isOpen, onClose, children }) => {
                       {item.href.includes("yeni-oyunlar") ||
                       item.href.includes("new-games") ? (
                         <span className="bg-[#ff0072] text-white text-xs px-2 py-0.5 rounded-full animate-pulse">
-                          NEW
+                          {t("new")}
                         </span>
                       ) : null}
                     </span>

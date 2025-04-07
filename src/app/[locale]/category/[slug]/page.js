@@ -34,8 +34,8 @@ export async function generateMetadata({ params: { locale, slug } }) {
     return {
       title:
         locale === "tr"
-          ? "Kategori Bulunamadı - Ücretsiz Oyunlar & Yükleme Yok - Jelly Arcade"
-          : "Category Not Found - Free Games & No Install - Jelly Arcade",
+          ? "Kategori Bulunamadı - Ücretsiz Oyunlar & Yüklemeden hemen oyna! - Jelly Arcade"
+          : "Category Not Found - Free Games & Play without installing! - Jelly Arcade",
     };
   }
 

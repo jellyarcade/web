@@ -7,8 +7,8 @@ export async function generateMetadata({ params }) {
   return {
     title:
       locale === "tr"
-        ? "Ücretsiz Oyunlar & Yükleme Yok"
-        : "Free Games & No Install",
+        ? "Ücretsiz Oyunlar & Yüklemeden hemen oyna!"
+        : "Free Games & Play without installing!",
     description:
       locale === "tr"
         ? "Ücretsiz online oyunlar oyna. Yükleme yapmadan en iyi ücretsiz oyunlar Jelly Arcade'de."

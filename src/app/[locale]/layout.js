@@ -26,12 +26,12 @@ export async function generateMetadata({ params }) {
     title: {
       template:
         locale === "tr"
-          ? "%s - Ücretsiz Oyunlar & Yükleme Yok"
-          : "%s - Free Games & No Install",
+          ? "%s - Ücretsiz Oyunlar & Yüklemeden hemen oyna!"
+          : "%s - Free Games & Play without installing!",
       default:
         locale === "tr"
-          ? "Ücretsiz Oyunlar & Yükleme Yok"
-          : "Free Games & No Install",
+          ? "Ücretsiz Oyunlar & Yüklemeden hemen oyna!"
+          : "Free Games & Play without installing!",
     },
     description:
       locale === "tr"
@@ -83,7 +83,7 @@ export default async function LocaleLayout({ children, params }) {
             <AuthProvider>
               <AuthModalProvider>
                 <ClientLayout>
-                  <div className="min-h-screen flex flex-col bg-white">
+                  <div className="min-h-screen flex flex-col bg-[#060820]">
                     <Analytics />
                     <Header />
                     <main className="flex-1 mt-5">{children}</main>
