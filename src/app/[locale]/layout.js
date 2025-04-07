@@ -77,16 +77,16 @@ export default async function LocaleLayout({ children, params }) {
           `}
         </Script>
       </head>
-      <body className={inter.className}>
+      <body style={{ fontFamily: "'KarlsenRound', sans-serif" }}>
         <NextIntlClientProvider messages={messages} locale={locale}>
           <QueryProvider>
             <AuthProvider>
-              <AuthModalProvider> // Wrap everything with AuthModalProvider
+              <AuthModalProvider>
                 <ClientLayout>
                   <div className="min-h-screen flex flex-col bg-white">
                     <Analytics />
                     <Header />
-                    <main className="flex-1">{children}</main>
+                    <main className="flex-1 mt-5">{children}</main>
                     <Footer />
                   </div>
                 </ClientLayout>

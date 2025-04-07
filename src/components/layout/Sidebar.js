@@ -14,7 +14,7 @@ const MenuItem = ({ href, children, isActive }) => {
       <Link
         href={href}
         className={`block text-white transition-colors relative group ${
-          isActive ? "bg-[#16bf36]" : "hover:bg-[#16bf36]/80"
+          isActive ? "bg-[#050276]" : "hover:bg-[#050276]/80"
         }`}
       >
         {children}
@@ -101,7 +101,7 @@ const Sidebar = ({ isOpen, onClose, children }) => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 bottom-0 w-[220px] bg-brand-orange z-30 transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 bottom-0 w-[220px] bg-gradient-to-b via-[#ff6900] from-[#ff8300] to-[#fc6c04] z-30 transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-[calc(100%+1rem)]"
         }`}
       >
@@ -131,7 +131,7 @@ const Sidebar = ({ isOpen, onClose, children }) => {
                       {item.label}
                       {item.href.includes("yeni-oyunlar") ||
                       item.href.includes("new-games") ? (
-                        <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full animate-pulse">
+                        <span className="bg-[#ff0072] text-white text-xs px-2 py-0.5 rounded-full animate-pulse">
                           NEW
                         </span>
                       ) : null}
@@ -144,8 +144,8 @@ const Sidebar = ({ isOpen, onClose, children }) => {
                           ? pathname === item.href
                           : pathname.startsWith(item.href)
                       )
-                        ? "bg-[#16bf36]"
-                        : "bg-[#16bf36]/80 opacity-0 group-hover:opacity-100"
+                        ? "bg-[#050276]"
+                        : "bg-[#050276]/80 opacity-0 group-hover:opacity-100"
                     }`}
                   />
                 </MenuItem>
@@ -157,7 +157,7 @@ const Sidebar = ({ isOpen, onClose, children }) => {
           <div className="p-4 pb-12">
             <button
               onClick={() => setIsContactModalOpen(true)}
-              className="w-full flex items-center justify-center gap-2 bg-[#16bf36] text-white py-2 px-6 rounded-full text-sm font-semilight hover:bg-[#16bf36]/90 transition-colors"
+              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#040c66] to-[#000c84] text-white py-2 px-6 rounded-full text-sm font-semilight hover:bg-[#050276]/90 transition-colors"
             >
               <HiOutlineEnvelope className="text-sm" />
               {t("contactUs")}

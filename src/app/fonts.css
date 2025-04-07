@@ -1,1 +1,32 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&display=swap");
+
+@font-face {
+  font-family: "KarlsenRound";
+  src: url("/fonts/KarlsenRound-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "KarlsenRound";
+  src: url("/fonts/KarlsenRound-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "KarlsenRound";
+  src: url("/fonts/KarlsenRound-ExtraBold.ttf") format("truetype");
+  font-weight: 800; /* ExtraBold genellikle 800 ağırlığında olur */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "KarlsenRound";
+  src: url("/fonts/KarlsenRound-Medium.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 
-const Logo = ({ size = 'small' }) => {
+const HeaderIcon = ({ size = "small" }) => {
   const dimensions = {
     small: { width: 100, height: 32 },
     medium: { width: 120, height: 38 },
-    large: { width: 200, height: 70 },
+    large: { width: 170, height: 50 },
     xlarge: { width: 160, height: 50 },
   };
 
@@ -14,8 +14,8 @@ const Logo = ({ size = 'small' }) => {
 
   return (
     <Image
-      src='/images/logo.png'
-      alt='Jelly Arcade'
+      src="/images/headericon.png"
+      alt="Jelly Arcade"
       width={width}
       height={height}
       priority
@@ -23,4 +23,4 @@ const Logo = ({ size = 'small' }) => {
   );
 };
 
-export default Logo;
+export default HeaderIcon;
