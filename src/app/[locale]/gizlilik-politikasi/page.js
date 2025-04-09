@@ -703,6 +703,7 @@ export default function PrivacyPolicy() {
           before playing the game. Below are Company’s main gaming partners:
         </p>
         <ul className="list-disc list-inside">
+          <li>Playhop with 0czsjl9dpf09avz0 partner code.</li>
           <li>
             <a href="https://www.nothing2install.com/">
               https://www.nothing2install.com/
